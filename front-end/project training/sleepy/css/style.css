@@ -1,0 +1,183 @@
+/* Poppins Fonts */
+@font-face {
+  font-family: poppins-black;
+  src: url(../assets/fonts/Poppins/Poppins-Black.ttf);
+}
+@font-face {
+  font-family: poppins-bold;
+  src: url(../assets/fonts/Poppins/Poppins-Bold.ttf);
+}
+@font-face {
+  font-family: poppins-regular;
+  src: url(../assets/fonts/Poppins/Poppins-Regular.ttf);
+}
+@font-face {
+  font-family: poppins-light;
+  src: url(../assets/fonts/Poppins/Poppins-Light.ttf);
+}
+
+/* Inter Fonts */
+@font-face {
+  font-family: inter-black;
+  src: url(../assets/fonts/Inter/Inter-Black.ttf);
+}
+@font-face {
+  font-family: inter-bold;
+  src: url(../assets/fonts/Inter/Inter-Bold.ttf)
+}
+@font-face {
+  font-family: inter-medium;
+  src: url(../assets/fonts/Inter/Inter-Medium.ttf);
+}
+@font-face {
+  font-family: inter-regular;
+  src: url(../assets/fonts/Inter/Inter-Regular.ttf);
+}
+@font-face {
+  font-family: inter-light;
+  src: url(../assets/fonts/Inter/Inter-Light.ttf);
+}
+
+:root {
+  --primary: #6246fa;
+  --secondary: #f2f0ff;
+}
+
+/* Typography */
+h1 {
+  font-size: 3em;
+  font-family: poppins-bold, 'sans-serif';
+}
+h2 {
+  font-size: 1.7em;
+  font-family: poppins-bold, 'sans-serif';
+}
+p {
+  font-size: 1.12em;
+  font-family: inter-medium, 'sans-serif';
+  line-height: 1.7;
+}
+
+/* Navbar */
+.navbar .navbar-nav .nav-item .nav-link {
+  color: black;
+  font-family: inter-bold, 'sans-serif' ;
+  font-size: 1.4em;
+  margin: 0 1.2em;
+}
+/* Main */
+
+/* Hero */
+section {
+  padding: 3em 0;
+}
+
+.hero p {
+  margin-top: 1.5em;
+}
+
+.hero img {
+  width: 100%;
+}
+
+.hero a {
+  display: inline-block;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  padding: .7em 2em;
+  background-color: var(--primary);
+  color: white;
+  text-decoration: none;
+  border-radius: .7em;
+}
+
+/* About */
+.about h1 {
+  margin-bottom: 1.2em;
+}
+
+.about h2 {
+  color: var(--primary);
+  margin-bottom: .5em;
+}
+
+.about .image {
+  background-color: var(--secondary);
+  height: 20em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Blog */
+.blog {
+  background-color: var(--primary);
+  color: white;
+}
+
+.blog  a {
+  font-family: inter-bold, sans-serif;
+  font-weight: bold;
+  margin-top: 2em;
+  padding: .7em 2em;
+  background-color: white;
+  color: black;
+  text-decoration: none;
+  border-radius: .7em;
+}
+
+/* Hot Destination */
+.hot-destination .the-card a {
+  display: inline-block;
+  font-family: inter-regular, sans-serif;
+  font-weight: bold;
+  padding: .5em 1.5em;
+  background-color: white;
+  border: 1px solid black;
+  color: black;
+  text-decoration: none;
+  border-radius: .7em;
+}
+
+/* Contact */
+.contact {
+  background-color: var(--secondary);
+  padding: 6em 0;
+}
+/* Footer */
+footer {
+  background-color: var(--primary);
+  padding: 4em 0;
+  color: white;
+}
+
+.contact-info {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+}
+
+footer .contact-info img {
+  height: 100%;
+  margin-top: .5em;
+}
+footer .contact-info p {
+  margin-left: 1em;
+}
+
+@media (max-width: 992px) {
+  h1 {
+    font-size: 2em;
+  }
+  h2 {
+    font-size: 1.2em;
+  }
+  p {
+    font-size: 1em;
+  }
+
+  /* About */
+  .about img {
+    width: 50%;
+  }
+}
