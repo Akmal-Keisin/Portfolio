@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dom Selection</title>
+  <style>
+    * { 
+        border: 2px solid #dedede; 
+        padding: 15px; 
+        margin: 15px; 
+    }
+    html { 
+      margin: 0;
+      padding: 0;
+    }
+    body { 
+      max-width: 600px;
+      margin: 30px auto;
+      font-family: sans-serif;
+      color: #333;
+    }
+    .aqua {
+      color: aqua;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 id="judul">Hello World</h1>
+  <div id="container">
+      <section id="a">
+          <p class="p1">paragraf 1</p>
+          <a href="http://instagram.com/sandhikagalih">Instagram Sandhika Galih</a>
+          <p class="p2">paragraf 2</p>
+          <p class="p3">paragraf 3</p>
+      </section>
+      <section id="b">
+          <p>paragraf 4</p>
+          <ul>
+              <li>item 1</li>
+              <li>item 2</li>
+              <li>item 3</li>
+          </ul>
+      </section>
+  </div>
+
+<script> 
+  // Element manipulation
+  // element.innerHTML change all value element with given value
+
+  const heading = document.getElementById('judul')
+  heading.innerHTML = 'Judul Telah Dirubah Dengan Js'
+
+  // element.style.<propertyCss>
+  const p1 = document.getElementsByTagName('p')[0]
+  p1.style.color = 'red'
+
+  // element.setAttribute()
+  // setAttribute will overwrite value attribute with given value
+  const p2 = document.getElementsByClassName('p2')[0]
+  p2.setAttribute('class', 'attribute-class-telah-diganti-dengan-js')
+  p2.setAttribute('id', 'id-diset-dengan-js')
+
+  // element.getAttribte()
+  p2.getAttribute('id')
+  // return value of p2 id = id-diset-dengan-js
+
+  // element.removeAttribute()
+  p2.removeAttribute('id')
+  // remove id attribute from p2
+
+  // element.classList
+  // return all class of element
+  console.log(p2.classList)
+
+  // element.clastList.add()
+  // Add class to element
+  p2.classList.add('paragraf-ditambah-dengan-js')
+
+  // element.clastList.remove('')
+  // remove given class value from element
+  p2.classList.remove('paragraf-ditambah-dengan-js')
+
+  // element.clastList.toggle('')
+  // add if class doesn't exist in element and will remove the class if exist in element
+  p2.classList.toggle('aqua') // add
+  p2.classList.toggle('aqua') // remove
+
+  // element.clastList.item('')
+  // to find class by index from 0
+  const p3 = document.getElementsByClassName('p3')[0]
+  p3.classList.add('satu')
+  p3.classList.add('dua')
+  p3.classList.add('tiga')
+  p3.classList.add('empat')
+  p3.classList.item(3) // return tiga
+  p3.classList.item(0) // return p3
+
+  // element.clastList.contains('')
+  // check is class exist or not, return boolean
+  p3.classList.contains('p3') // return true
+  p3.classList.contains('lima') // return false
+
+  // element.clastList.replace('class', 'value')
+  // replacing class with given value
+  p3.classList.replace('p3', 'paragraf-3')
+
+</script>
+</body>
+</html>
