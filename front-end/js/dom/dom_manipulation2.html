@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dom Selection</title>
+  <style>
+    * { 
+        border: 2px solid #dedede; 
+        padding: 15px; 
+        margin: 15px; 
+    }
+    html { 
+      margin: 0;
+      padding: 0;
+    }
+    body { 
+      max-width: 600px;
+      margin: 30px auto;
+      font-family: sans-serif;
+      color: #333;
+    }
+    .aqua {
+      color: aqua;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 id="judul">Hello World</h1>
+  <div id="container">
+      <section id="a">
+          <p class="p1">paragraf 1</p>
+          <a href="http://instagram.com/sandhikagalih">Instagram Sandhika Galih</a>
+          <p class="p2">paragraf 2</p>
+          <p class="p3">paragraf 3</p>
+      </section>
+      <section id="b">
+          <p>paragraf 4</p>
+          <ul>
+              <li>item 1</li>
+              <li>item 2</li>
+              <li>item 3</li>
+          </ul>
+      </section>
+  </div>
+
+<script>
+  // Dom manipulation
+
+  // appendChild()
+  // Create new element
+  const newP = document.createElement('p')
+  const newText = document.createTextNode('New Paragraph')
+  // Save text to paragraph
+  newP.appendChild(newText)
+  // Save text to last section a
+  const sectionA = document.getElementById('a')
+  sectionA.appendChild(newP)
+
+  // insertBefore()
+  const newLi = document.createElement('li')
+  const newLiText = document.createTextNode('New Li Text')
+  newLi.appendChild(newLiText)
+
+  const ul = document.querySelector('section#b ul')
+  const li2 = ul.querySelector('li:nth-child(2)')
+
+  ul.insertBefore(newLi, li2)
+
+  // removeChild()
+  const link = document.getElementsByTagName('a')[0]
+  sectionA.removeChild(link)
+
+  // replaceChild()
+  const sectionB = document.getElementById('b')
+  const p4 = sectionB.querySelector('p')
+  const newP4 = document.createElement('h2')
+  const newTextp4 = document.createTextNode('new p4')
+
+  newP4.appendChild(newTextp4)
+  sectionB.replaceChild(newP4, p4)
+</script>
+</body>
+</html>
