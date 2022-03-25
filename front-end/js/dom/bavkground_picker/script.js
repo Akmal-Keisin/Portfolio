@@ -1,3 +1,8 @@
+let r = document.getElementById('r').value
+let g = document.getElementById('g').value
+let b = document.getElementById('b').value
+document.body.style.backgroundColor = 'rgb(' + r + ', ' + g + ', '+ b +')'
+
 const setColor = document.getElementsByClassName('color-pick')[0]
 setColor.addEventListener('click', function () {
   let color = randomRgb()
