@@ -1,0 +1,45 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+  font-size: 3em;
+  margin: 0;
+  padding: 0;
+}
+.container {
+  max-width: 1440px;
+  width: 50%;
+  border-radius: 2em;
+  margin: auto;
+  padding: 2em;
+  background-color: antiquewhite;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.container h1 {
+  text-align: center;
+}
+.container .input-button {
+  margin: 2em auto;
+  text-align: center;
+}
+.container .input-button button {
+  margin: 0 1em;
+}
+.container .color-range {
+  margin: auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  max-width: 200px;
+}
+.container .color-range .rgb {
+  margin: 2em auto;
+  width: 150px;
+}

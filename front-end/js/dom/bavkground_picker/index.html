@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Style CSS -->
+  <link rel="stylesheet" href="style.css">
+  <title>Background Color Picker</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Color Picker</h1>
+    <div class="input-button">
+      <button class="color-pick">Pick Color</button>
+      <button class="random-color">Random Color</button>
+    </div>
+    <div class="color-range">
+      <div class="">
+        <label for="r">R</label>
+        <input type="range" name="r" min="0" max="255" id="r">
+      </div>
+      <div class="">
+        <label for="g">G</label>
+        <input type="range" name="g" min="0" max="255" id="g">
+      </div>
+      <div class="">
+        <label for="b">B</label>
+        <input type="range" name="b" min="0" max="255" id="b">
+      </div>
+      <input type="text" id="rgb-val" class="rgb">
+    </div>
+  </div>
+ 
+<script src="script.js"></script>
+</body>
+</html>
