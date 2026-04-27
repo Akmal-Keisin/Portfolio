@@ -1,168 +1,121 @@
 ---
-const groups = [
-  {
-    icon: "⬡",
-    label: "Frontend",
-    color: "bg-mint/50 border-moss-200",
-    items: [
-      { name: "React / Next.js", pct: 96 },
-      { name: "TypeScript", pct: 92 },
-      { name: "Astro", pct: 84 },
-      { name: "CSS / Tailwind", pct: 95 },
-    ],
-  },
-  {
-    icon: "⬡",
-    label: "Backend",
-    color: "bg-sage-100/40 border-moss-200",
-    items: [
-      { name: "Node.js / Hono", pct: 90 },
-      { name: "Python / FastAPI", pct: 78 },
-      { name: "PostgreSQL", pct: 88 },
-      { name: "Redis / Queues", pct: 74 },
-    ],
-  },
-  {
-    icon: "⬡",
-    label: "Infrastructure",
-    color: "bg-moss-100/30 border-moss-200",
-    items: [
-      { name: "Docker / K8s", pct: 72 },
-      { name: "AWS / Vercel", pct: 80 },
-      { name: "CI/CD Pipelines", pct: 88 },
-      { name: "Observability", pct: 68 },
-    ],
-  },
-];
+import AstroLogo from "@assets/logos/astro-logo-light-gradient.svg";
+import PHPLogo from "@assets/logos/php-logo.svg";
+import GoLogo from "@assets/logos/go-logo.svg";
+import GoFiberLogo from "@assets/logos/go-fiber-logo.svg";
+import JavascriptLogo from "@assets/logos/javascript-logo.svg";
+import VueJSLogo from "@assets/logos/vue-js-logo.svg";
+import LaravelLogo from "@assets/logos/laravel-logo.svg";
+import PostgreSQLLogo from "@assets/logos/postgresql-logo.svg";
+import MySQLLogo from "@assets/logos/mysql-logo.svg";
+import { Image } from "astro:assets";
 
-const badges = [
-  "React",
-  "Next.js",
-  "TypeScript",
-  "Astro",
-  "Tailwind",
-  "Node.js",
-  "Python",
-  "PostgreSQL",
-  "Redis",
-  "Docker",
-  "AWS",
-  "GraphQL",
-  "Prisma",
-  "tRPC",
-  "Vitest",
-  "Playwright",
+const categories = [
+  {
+    label: "Languages",
+    items: [
+      { label: "PHP",        component: PHPLogo },
+      { label: "Go",         component: GoLogo },
+      { label: "JavaScript", component: JavascriptLogo },
+    ],
+  },
+  {
+    label: "Frameworks",
+    items: [
+      { label: "Laravel",  component: LaravelLogo },
+      { label: "Go Fiber", component: GoFiberLogo },
+      { label: "Vue.js",   component: VueJSLogo },
+      { label: "Astro",    component: AstroLogo },
+    ],
+  },
+  {
+    label: "Databases",
+    items: [
+      { label: "PostgreSQL", component: PostgreSQLLogo },
+      { label: "MySQL",      component: MySQLLogo },
+    ],
+  },
 ];
 ---
 
 <section id="skills" class="py-28 bg-moss-800 relative overflow-hidden">
-  <!-- Background texture -->
+
+  <!-- Background texture (unchanged from your original) -->
   <div class="absolute inset-0 pointer-events-none">
     <svg class="absolute inset-0 w-full h-full opacity-[.04]">
-      <defs
-        ><pattern
-          id="hex"
-          x="0"
-          y="0"
-          width="60"
-          height="52"
-          patternUnits="userSpaceOnUse"
-        >
-          <path
-            d="M30 2L56 17V47L30 62L4 47V17Z"
-            fill="none"
-            stroke="#c8f0d0"
-            stroke-width="1"></path>
-        </pattern></defs
-      >
-      <rect width="100%" height="100%" fill="url(#hex)"></rect>
+      <defs>
+        <pattern id="hex" x="0" y="0" width="60" height="52" patternUnits="userSpaceOnUse">
+          <path d="M30 2L56 17V47L30 62L4 47V17Z" fill="none" stroke="#c8f0d0" stroke-width="1" />
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#hex)" />
     </svg>
-    <div
-      class="absolute top-0 right-0 w-96 h-96 rounded-full bg-moss-600/30 blur-3xl"
-    >
-    </div>
-    <div
-      class="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-mint/10 blur-3xl"
-    >
-    </div>
+    <div class="absolute top-0 right-0 w-96 h-96 rounded-full bg-moss-600/30 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-mint/10 blur-3xl"></div>
   </div>
 
   <div class="relative max-w-6xl mx-auto px-6">
+
     <!-- Header -->
-    <div
-      class="reveal mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6"
-    >
+    <div class="reveal mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
       <div>
-        <span
-          class="accent-line mb-4"
-          style="background: linear-gradient(90deg,#c8f0d0,#3e7d32)"></span>
-        <p
-          class="font-mono text-xs text-moss-400 tracking-[.2em] uppercase mt-4"
-        >
-          Skills
-        </p>
+        <span class="accent-line mb-4" style="background: linear-gradient(90deg,#c8f0d0,#3e7d32)"></span>
+        <p class="font-mono text-xs text-fog tracking-[.2em] uppercase mt-4">Skills</p>
         <h2 class="font-display text-5xl font-semibold text-fog mt-2">
           My<br /><em class="text-mint">expertise</em>
         </h2>
       </div>
       <p class="font-body text-moss-300 max-w-xs leading-relaxed text-sm">
-        Six years of daily practice across the full web stack, from pixel to
-        pipeline.
+        Four years of daily practice across the full web stack, from pixel to pipeline.
       </p>
     </div>
 
-    <!-- Skill cards -->
-    <div class="grid md:grid-cols-3 gap-6 mb-14">
-      {
-        groups.map((g, gi) => (
-          <div
-            class={`reveal reveal-d${gi + 1} rounded-2xl border p-7 ${g.color} backdrop-blur-sm`}
-          >
-            <div class="flex items-center gap-2 mb-7">
-              <span class="text-moss-400 text-2xl leading-none">{g.icon}</span>
-              <h3 class="font-display text-xl font-semibold text-fog">
-                {g.label}
-              </h3>
-            </div>
-            <div class="space-y-6">
-              {g.items.map((s) => (
-                <div>
-                  <div class="flex justify-between mb-2">
-                    <span class="font-body text-sm text-moss-200">
-                      {s.name}
-                    </span>
-                    <span class="font-mono text-xs text-moss-400">
-                      {s.pct}%
-                    </span>
-                  </div>
-                  <div class="h-1.5 bg-moss-700/60 rounded-full overflow-hidden">
-                    <div
-                      class="bar-fill h-full rounded-full bg-linear-to-r from-mint to-moss-400"
-                      style={`--w: ${s.pct}%`}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
+    <!-- Categorised logo grid -->
+    <div class="grid md:grid-cols-3 gap-6">
+      {categories.map((cat, ci) => (
+        <div class={`reveal reveal-d${ci + 1} flex flex-col gap-5 rounded-2xl border border-moss-600/50 bg-moss-700/50 p-7 backdrop-blur-sm`}>
+
+          <!-- Category label -->
+          <div class="flex items-center gap-2.5">
+            <!-- Small decorative hexagon -->
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M7 1L13 4.5V10.5L7 14L1 10.5V4.5Z" fill="#c8f0d0" opacity="0.3" stroke="#c8f0d0" stroke-width="1"/>
+            </svg>
+            <span class="font-mono text-xs tracking-[.18em] uppercase text-mint">{cat.label}</span>
           </div>
-        ))
-      }
+
+          <!-- Logo cards -->
+          <div class="flex flex-wrap gap-3">
+            {cat.items.map((logo) => (
+              <div class="group flex flex-col items-center gap-2.5 rounded-xl border border-moss-600/60 bg-moss-800/70 px-5 py-4 transition-all duration-300 hover:border-mint/40 hover:bg-moss-700/80 hover:shadow-[0_0_20px_rgba(200,240,208,0.08)] cursor-default flex-1 min-w-20">
+                <Image
+                  src={logo.component}
+                  alt={logo.label}
+                  class="h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-110"
+                />
+                <span class="font-mono text-[10px] tracking-wider text-moss-300 group-hover:text-fog transition-colors">
+                  {logo.label}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
     </div>
 
-    <!-- Badge cloud -->
-    <div class="reveal text-center">
-      <p class="font-mono text-xs text-moss-500 tracking-widest uppercase mb-5">
-        Tools & libraries
-      </p>
-      <div class="flex flex-wrap justify-center gap-2.5">
-        {
-          badges.map((b) => (
-            <span class="font-mono text-xs text-moss-300 border border-moss-600 px-3.5 py-1.5 rounded-full hover:border-mint hover:text-mint transition-colors cursor-default">
-              {b}
-            </span>
-          ))
-        }
-      </div>
+    <!-- Bottom strip: years + approach pills -->
+    <div class="reveal mt-10 flex flex-wrap items-center justify-center gap-3">
+      {[
+        "4+ years professional",
+        "Production-grade code",
+        "REST APIs",
+        "Full-stack delivery",
+      ].map((pill) => (
+        <span class="font-mono text-xs text-moss-300 border border-moss-600/60 px-4 py-2 rounded-full hover:border-mint/50 hover:text-fog transition-colors cursor-default">
+          {pill}
+        </span>
+      ))}
     </div>
+
   </div>
 </section>
