@@ -1,0 +1,77 @@
+---
+
+---
+
+<header
+  class="fixed top-0 inset-x-0 z-50 bg-fog/90 backdrop-blur-md border-b border-moss-100/60"
+>
+  <nav class="max-w-6xl mx-auto px-6 h-17 flex items-center justify-between">
+    <a href="#hero" class="flex items-center gap-2 group">
+      <span
+        class="font-display text-xl font-semibold text-moss-700 group-hover:text-moss-500 transition-colors"
+      >
+        Keisin<span class="text-moss-400">.</span>
+      </span>
+    </a>
+
+    <ul class="hidden md:flex items-center gap-10">
+      {
+        [
+          ["About", "#about"],
+          ["Skills", "#skills"],
+          ["Projects", "#projects"],
+          ["Contact", "#contact"],
+        ].map(([l, h]) => (
+          <li>
+            <a
+              href={h}
+              class="nav-link font-body text-sm font-medium text-moss-600 hover:text-moss-800 transition-colors tracking-wide"
+            >
+              {l}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="hidden md:flex items-center gap-4">
+      <a
+        href="#contact"
+        class="font-body text-sm font-semibold bg-moss-500 text-fog px-5 py-2.5 rounded-full hover:bg-moss-600 transition-colors shadow-sm"
+      >
+        Let's Talk
+      </a>
+    </div>
+
+    <button
+      id="menu-btn"
+      class="md:hidden p-2 flex flex-col gap-1.5"
+      aria-label="Toggle menu"
+    >
+      <span class="block w-5 h-0.5 bg-moss-600 rounded"></span>
+      <span class="block w-4 h-0.5 bg-moss-600 rounded"></span>
+      <span class="block w-5 h-0.5 bg-moss-600 rounded"></span>
+    </button>
+  </nav>
+
+  <div
+    id="mobile-menu"
+    class="hidden md:hidden border-t border-moss-100 bg-fog px-6 py-5 space-y-4"
+  >
+    {
+      [
+        ["About", "#about"],
+        ["Skills", "#skills"],
+        ["Projects", "#projects"],
+        ["Contact", "#contact"],
+      ].map(([l, h]) => (
+        <a
+          href={h}
+          class="mob-link block font-body text-sm font-medium text-moss-700 hover:text-moss-500"
+        >
+          {l}
+        </a>
+      ))
+    }
+  </div>
+</header>

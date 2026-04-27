@@ -1,0 +1,104 @@
+---
+const projects = [
+  {
+    num: "01",
+    title: "Reprime ID — HRIS",
+    tag: "SaaS · Full-Stack",
+    desc: "A cloud based Human Resource Information System and field forcing monitoring platform. operations—ranging from attendance and payroll to tracking field sales teams—all through a mobile-first approach.",
+    stack: ["Laravel", "PostgreSQL", "Vue", "Lumen", "Go", "Fiber", "Python"],
+    href: "#",
+    wide: true,
+  },
+];
+---
+
+<section id="projects" class="py-28 bg-fog relative overflow-hidden">
+  <!-- Section watermark -->
+  <div
+    class="absolute top-8 left-8 font-display text-[180px] leading-none text-moss-100 select-none pointer-events-none"
+  >
+    03
+  </div>
+
+  <div class="relative max-w-6xl mx-auto px-6">
+    <!-- Header -->
+    <div
+      class="reveal mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6"
+    >
+      <div>
+        <span class="accent-line mb-4"></span>
+        <p
+          class="font-mono text-xs text-moss-400 tracking-[.2em] uppercase mt-4"
+        >
+          Selected Work
+        </p>
+        <h2
+          class="font-display text-5xl md:text-6xl font-semibold text-ink mt-2"
+        >
+          Things I've<br /><em class="text-moss-500">shipped</em>
+        </h2>
+      </div>
+      <a
+        href="#"
+        class="self-end font-body text-sm font-semibold text-moss-600 border-b-2 border-moss-200 hover:border-moss-500 transition-colors pb-0.5"
+      >
+        All projects →
+      </a>
+    </div>
+
+    <!-- Grid -->
+    <div class="grid md:grid-cols-2 gap-6">
+      {
+        projects.map((p, i) => (
+          <a
+            href={p.href}
+            class={`proj-card group relative bg-white/70 border border-moss-100 rounded-2xl p-8 flex flex-col hover:border-moss-300 reveal reveal-d${(i % 4) + 1} ${p.wide ? "md:col-span-2" : ""}`}
+          >
+            <div class="absolute top-0 right-0 w-32 h-32 rounded-full bg-mint/20 blur-2xl pointer-events-none group-hover:bg-mint/35 transition-all duration-500" />
+
+            <div class="flex items-start justify-between mb-6">
+              <span class="font-mono text-sm text-moss-400">{p.num}</span>
+              <span class="font-mono text-xs text-moss-500 bg-sage-100 border border-moss-200 px-3 py-1 rounded-full">
+                {p.tag}
+              </span>
+            </div>
+
+            <h3 class="font-display text-2xl font-semibold text-ink mb-3 group-hover:text-moss-700 transition-colors">
+              {p.title}
+            </h3>
+            <p class="font-body text-sm text-moss-600 leading-relaxed flex-1 mb-6">
+              {p.desc}
+            </p>
+
+            <div class="flex flex-wrap gap-2 mb-6">
+              {p.stack.map((t) => (
+                <span class="font-mono text-xs text-moss-600 bg-mint/40 border border-moss-200 px-3 py-1 rounded-full">
+                  {t}
+                </span>
+              ))}
+            </div>
+
+            <div class="flex items-center gap-2 text-moss-500 group-hover:text-moss-700 transition-colors">
+              <span class="font-body text-sm font-medium">View Project</span>
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 14 14"
+                fill="none"
+                class="group-hover:translate-x-1 transition-transform"
+              >
+                <path
+                  d="M2 7h10M8 3l4 4-4 4"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,304 @@
+---
+
+---
+
+<section
+  id="hero"
+  class="relative min-h-screen flex items-center pt-17 overflow-hidden"
+>
+  <!-- Organic blob backgrounds -->
+  <div class="absolute inset-0 pointer-events-none overflow-hidden">
+    <!-- Top-right large blob -->
+    <svg
+      class="absolute -top-24 -right-24 w-150 opacity-[.22]"
+      viewBox="0 0 600 600"
+      fill="none"
+    >
+      <path
+        d="M480 80 C560 160 600 280 560 380 C520 480 400 540 290 520 C180 500 80 420 60 310 C40 200 100 80 200 40 C300 0 400 0 480 80Z"
+        fill="#3e7d32"></path>
+    </svg>
+    <!-- Bottom-left circle -->
+    <div
+      class="absolute -bottom-32 -left-32 w-80 h-80 rounded-full bg-mint/40 blur-3xl"
+    >
+    </div>
+    <!-- Mid floating circle -->
+    <div
+      class="absolute top-1/3 left-1/3 w-48 h-48 rounded-full bg-sage-100/60 blur-2xl"
+    >
+    </div>
+
+    <!-- Leaf illustrations — decorative -->
+    <svg
+      class="absolute top-24 right-1/4 w-20 opacity-10 animate-float"
+      style="animation-delay:.5s"
+      viewBox="0 0 80 120"
+      fill="none"
+    >
+      <path
+        d="M40 10 C40 10 10 40 10 70 C10 88 23 100 40 100 C57 100 70 88 70 70 C70 40 40 10 40 10Z"
+        fill="#2e5f25"></path>
+      <line x1="40" y1="100" x2="40" y2="110" stroke="#2e5f25" stroke-width="2"
+      ></line>
+    </svg>
+    <svg
+      class="absolute bottom-32 right-12 w-14 opacity-10 animate-float"
+      style="animation-delay:1.5s"
+      viewBox="0 0 60 90"
+      fill="none"
+    >
+      <path
+        d="M30 5 C30 5 5 30 5 55 C5 70 16 80 30 80 C44 80 55 70 55 55 C55 30 30 5 30 5Z"
+        fill="#3e7d32"></path>
+    </svg>
+    <svg
+      class="absolute top-1/2 left-16 w-10 opacity-[.08] animate-float"
+      style="animation-delay:2.2s"
+      viewBox="0 0 50 75"
+      fill="none"
+    >
+      <path
+        d="M25 4 C25 4 4 25 4 46 C4 59 13 68 25 68 C37 68 46 59 46 46 C46 25 25 4 25 4Z"
+        fill="#1e4118"></path>
+    </svg>
+
+    <!-- Grid lines -->
+    <svg
+      class="absolute inset-0 w-full h-full opacity-[.03]"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs
+        ><pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse"
+          ><path
+            d="M60 0L0 0 0 60"
+            fill="none"
+            stroke="#1e4118"
+            stroke-width="1"></path></pattern
+        ></defs
+      >
+      <rect width="100%" height="100%" fill="url(#grid)"></rect>
+    </svg>
+  </div>
+
+  <div class="relative max-w-6xl mx-auto px-6 py-20 w-full">
+    <div class="grid lg:grid-cols-[1fr_420px] gap-16 items-center">
+      <!-- Text -->
+      <div>
+        <!-- Status badge -->
+        <div
+          class="inline-flex items-center gap-2 bg-mint/60 border border-moss-200 rounded-full px-4 py-1.5 mb-8"
+          style="animation: fadeIn .6s ease both;"
+        >
+          <span class="w-2 h-2 rounded-full bg-moss-500 animate-pulse"></span>
+          <span class="font-mono text-xs text-moss-600 tracking-wide"
+            >Open to new opportunities</span
+          >
+        </div>
+
+        <!-- Headline -->
+        <h1
+          class="font-display text-[4rem] md:text-[5.5rem] leading-[1.02] font-semibold text-ink mb-6"
+          style="animation: fadeUp .8s ease .1s both;"
+        >
+          Learn more<br />
+          <em class="not-italic text-moss-500">purposeful</em><br />
+          software
+        </h1>
+
+        <!-- Subheading -->
+        <p
+          class="font-body text-lg text-moss-700/80 leading-relaxed max-w-lg mb-10"
+          style="animation: fadeUp .8s ease .25s both;"
+        >
+          Hi, I'm <strong class="text-moss-700 font-semibold"
+            >Akmal Keisin</strong
+          > — a self-taught engineer building modern systems through continuous learning
+          and disciplined study.
+        </p>
+
+        <!-- CTAs -->
+        <div
+          class="flex flex-wrap items-center gap-4 mb-14"
+          style="animation: fadeUp .8s ease .4s both;"
+        >
+          <a
+            href="#projects"
+            class="inline-flex items-center gap-2 bg-moss-700 text-fog font-semibold text-sm px-7 py-3.5 rounded-full hover:bg-ink transition-colors shadow-md hover:shadow-lg"
+          >
+            View Projects
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+              ><path
+                d="M3 8h10M9 4l4 4-4 4"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path></svg
+            >
+          </a>
+          <a
+            href="/resume.pdf"
+            class="inline-flex items-center gap-2 font-semibold text-sm text-moss-600 border-b-2 border-moss-200 hover:border-moss-500 transition-colors pb-0.5"
+          >
+            Download CV
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
+              ><path
+                d="M7 1v8M3.5 6l3.5 3 3.5-3M2 11h10"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path></svg
+            >
+          </a>
+        </div>
+
+        <!-- Counters -->
+        <!-- <div
+          class="flex gap-10 pt-8 border-t border-moss-100"
+          style="animation: fadeUp .8s ease .55s both;"
+        >
+          {
+            [
+              ["2+", "Years exp."],
+              ["10+", "Projects"],
+              ["30k+", "GitHub stars"],
+            ].map(([n, l]) => (
+              <div>
+                <div class="font-display text-3xl font-semibold text-moss-600">
+                  {n}
+                </div>
+                <div class="font-body text-xs text-moss-400 mt-1 tracking-wide">
+                  {l}
+                </div>
+              </div>
+            ))
+          }
+        </div> -->
+      </div>
+
+      <!-- Right: Code-style card + portrait -->
+      <div
+        class="relative hidden lg:block"
+        style="animation: fadeIn .9s ease .35s both;"
+      >
+        <!-- Main card -->
+        <div
+          class="relative bg-moss-800 rounded-2xl overflow-hidden shadow-2xl"
+        >
+          <!-- Terminal bar -->
+          <div class="flex items-center gap-1.5 px-4 py-3 bg-ink">
+            <span class="w-3 h-3 rounded-full bg-red-400/70"></span>
+            <span class="w-3 h-3 rounded-full bg-yellow-400/70"></span>
+            <span class="w-3 h-3 rounded-full bg-moss-400/70"></span>
+            <span class="font-mono text-xs text-moss-400 ml-3"
+              >keisin.config.ts</span
+            >
+          </div>
+          <!-- Code display -->
+          <div class="p-6 font-mono text-sm leading-7">
+            <div>
+              <span class="text-sage-300">const</span>
+              <span class="text-mint">developer</span>
+              <span class="text-moss-300">=</span>
+              <span class="text-moss-400">{"{"}</span>
+            </div>
+            <div class="pl-4">
+              <span class="text-sage-200">name</span><span class="text-moss-400"
+                >:</span
+              >
+              <span class="text-mint/80">"Akmal Keisin"</span><span
+                class="text-moss-500">,</span
+              >
+            </div>
+            <div class="pl-4">
+              <span class="text-sage-200">role</span><span class="text-moss-400"
+                >:</span
+              >
+              <span class="text-mint/80">"Full-Stack Dev"</span><span
+                class="text-moss-500">,</span
+              >
+            </div>
+            <div class="pl-4">
+              <span class="text-sage-200">stack</span><span
+                class="text-moss-400">:</span
+              >
+              <span class="text-moss-400">[</span>
+            </div>
+            <div class="pl-8">
+              <span class="text-mint/80">"Laravel"</span><span
+                class="text-moss-500"
+                >,
+              </span><span class="text-mint/80">"PHP"</span><span
+                class="text-moss-500">,</span
+              >
+            </div>
+            <div class="pl-8">
+              <span class="text-mint/80">"Vue"</span><span class="text-moss-500"
+                >,
+              </span><span class="text-mint/80">"PostgreSQL"</span>
+            </div>
+            <div class="pl-4">
+              <span class="text-moss-400">]</span><span class="text-moss-500"
+                >,</span
+              >
+            </div>
+            <div class="pl-4">
+              <span class="text-sage-200">available</span><span
+                class="text-moss-400">:</span
+              >
+              <span class="text-moss-300">true</span>
+            </div>
+            <div><span class="text-moss-400">{"}"}</span></div>
+            <div class="mt-2 flex items-center gap-2">
+              <span class="text-moss-400">// </span>
+              <span class="text-sage-300 animate-pulse">█</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Floating status cards -->
+        <div
+          class="absolute -left-10 top-1/2 -translate-y-1/2 bg-fog border border-moss-100 rounded-xl px-4 py-3 shadow-lg"
+        >
+          <div class="flex items-center gap-2">
+            <div
+              class="w-8 h-8 rounded-full bg-mint flex items-center justify-center"
+            >
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
+                ><path
+                  d="M7 2v5l3 2"
+                  stroke="#2e5f25"
+                  stroke-width="1.5"
+                  stroke-linecap="round"></path></svg
+              >
+            </div>
+            <div>
+              <div class="font-body text-xs font-semibold text-moss-700">
+                Latest commit
+              </div>
+              <div class="font-mono text-[10px] text-moss-400">2 hours ago</div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="absolute -right-8 -bottom-6 bg-moss-500 text-fog rounded-xl px-4 py-3 shadow-lg"
+        >
+          <div class="font-mono text-xs opacity-70 mb-0.5">currently at</div>
+          <div class="font-body text-sm font-semibold">Reprime ID</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div
+    class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+  >
+    <div
+      class="w-5 h-8 rounded-full border-2 border-moss-300 flex justify-center pt-1.5"
+    >
+      <div class="w-1 h-1.5 rounded-full bg-moss-500 animate-bounce"></div>
+    </div>
+  </div>
+</section>
