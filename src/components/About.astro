@@ -1,0 +1,192 @@
+---
+
+---
+
+<section id="about" class="py-28 bg-fog-100 relative overflow-hidden">
+  <!-- Large numeral watermark -->
+  <div
+    class="absolute top-8 right-8 font-display text-[200px] leading-none text-moss-100 select-none pointer-events-none opacity-60"
+  >
+    02
+  </div>
+
+  <div class="relative max-w-6xl mx-auto px-6">
+    <!-- Label + heading -->
+    <div class="reveal mb-16">
+      <span class="accent-line mb-4"></span>
+      <div class="flex items-baseline gap-3 mt-4">
+        <span class="font-mono text-xs text-moss-400 tracking-[.2em] uppercase"
+          >About Me</span
+        >
+      </div>
+      <h2 class="font-display text-5xl md:text-6xl font-semibold text-ink mt-3">
+        More than<br /><em class="text-moss-500">just a learner</em>
+      </h2>
+    </div>
+
+    <div class="grid lg:grid-cols-[1fr_380px] gap-16 items-start">
+      <!-- Story -->
+      <div class="space-y-6">
+        <p
+          class="reveal reveal-d1 font-body text-lg text-moss-800/80 leading-relaxed"
+        >
+          I'm AKmal Keisin, a full-stack developer with three years of
+          experience turning complex problems into elegant, maintainable
+          software. I learn building websites at 18 and never stopped.
+        </p>
+        <p class="reveal reveal-d2 font-body text-moss-600 leading-relaxed">
+          he modern tech stack shifts constantly. Mastering it requires an
+          autodidactic mindset—driven by continuous learning and highly
+          disciplined study.
+        </p>
+        <p class="reveal reveal-d3 font-body text-moss-600 leading-relaxed">
+          Outside of work, I balance exploring new stacks with revisiting core
+          fundamentals. We are engineers, not magicians—true expertise means
+          understanding exactly how the underlying systems work
+        </p>
+
+        <!-- Principles -->
+        <div class="reveal reveal-d4 grid grid-cols-2 gap-5 pt-4">
+          {
+            [
+              ["Accessibility first", "Everyone deserves great software"],
+              ["Deep Understanding", "Fundamental is the first step"],
+              ["Continuous learning", "The stack evolves, so do I"],
+              ["Ship iteratively", "Done > perfect, improve faster"],
+            ].map(([t, d]) => (
+              <div class="flex gap-3 items-start">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 18 18"
+                  fill="none"
+                  class="mt-0.5 shrink-0"
+                >
+                  <path
+                    d="M9 2C9 2 3 5 3 10C3 13 5.7 15.5 9 15.5C12.3 15.5 15 13 15 10C15 5 9 2 9 2Z"
+                    fill="#c8f0d0"
+                  />
+                  <path
+                    d="M6 9.5L8 11.5L12 7.5"
+                    stroke="#2e5f25"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                <div>
+                  <div class="font-body text-sm font-semibold text-moss-800">
+                    {t}
+                  </div>
+                  <div class="font-body text-xs text-moss-500 mt-0.5">{d}</div>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Right sidebar: experience + education -->
+      <div class="space-y-5">
+        {/* Experience card */}
+        <div
+          class="reveal reveal-d2 bg-white/60 border border-moss-100 rounded-2xl p-6 shadow-sm space-y-5"
+        >
+          <h3 class="font-display text-base font-semibold text-moss-700">
+            Work History
+          </h3>
+          {
+            [
+              {
+                period: "Jun 2024 – Now",
+                role: "Web Developer",
+                org: "Reprime ID",
+                stacks: [
+                  "PHP",
+                  "Laravel",
+                  "MySQL",
+                  "PostgreSQL",
+                  "TypeScript",
+                  "Vue",
+                  "Go",
+                  "Fiber",
+                  "Astro",
+                ],
+                note: "Back to Reprime ID with more experience and better performance. Focus on developing new version of our product.",
+              },
+              {
+                period: "Okt 2023 – Jun 2024",
+                role: "Web Developer",
+                org: "Crocodic",
+                stacks: ["PHP", "Laravel", "MySQL", "TypeScript"],
+                note: "Still in same holding company, work on complex HR Project from a big factory client with thousands of active users",
+              },
+              {
+                period: "Sept 2022 – Sept 2023",
+                role: "Web Developer",
+                org: "Reprime ID",
+                stacks: ["PHP", "Laravel", "Lumen", "PostgreSQL", "MySQL"],
+                note: "Out of intern, working as a full web developer. Focusing on developing new features, maintenances and bug fixing.",
+              },
+              {
+                period: "Jun 2022 – Aug 2022",
+                role: "Web Developer",
+                org: "Reprime ID",
+                stacks: ["PHP", "Laravel", "MySQL"],
+                note: "Intern, helping my partner maintain & feature update",
+              },
+            ].map((item, i) => (
+              <div
+                class={`pl-5 relative ${i < 3 ? "border-l-2 border-moss-100" : ""}`}
+              >
+                <div class="absolute -left-1.25 top-1 w-2.5 h-2.5 rounded-full bg-moss-300 border-2 border-fog" />
+                <div class="font-mono text-[10px] text-moss-400 mb-0.5 tracking-wider">
+                  {item.period}
+                </div>
+                <div class="font-body text-sm font-semibold text-ink">
+                  {item.role}
+                </div>
+                <div class="font-body text-xs text-moss-500">{item.org}</div>
+                <div class="font-body text-xs text-moss-400 mt-1 leading-snug">
+                  {item.note}
+                </div>
+                <div class="flex flex-wrap gap-0.5 mt-2">
+                  {item.stacks.map((stackItem, stackIdx) => (
+                    <span class="font-body text-xs me-2 bg-moss-500 text-fog px-1.5 py-0.5 rounded-full">
+                      {stackItem}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+
+        {/* Education */}
+        <div
+          class="reveal reveal-d3 bg-mint/30 border border-moss-200/60 rounded-2xl p-6 shadow-sm"
+        >
+          <h3 class="font-display text-base font-semibold text-moss-700 mb-4">
+            Education
+          </h3>
+          <div class="font-mono text-[10px] text-moss-400 tracking-wider">
+            2019 – 2022
+          </div>
+          <div class="font-body text-sm font-semibold text-ink">Multimedia</div>
+          <div class="font-body text-xs text-moss-500">SMKN 11 Semarang</div>
+          <div class="mt-4 flex flex-wrap gap-2">
+            {
+              ["Design", "Photography", "Web Development", "Web Design"].map(
+                (t) => (
+                  <span class="font-mono text-[10px] text-moss-600 bg-white/70 border border-moss-200 px-2.5 py-1 rounded-full">
+                    {t}
+                  </span>
+                ),
+              )
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
