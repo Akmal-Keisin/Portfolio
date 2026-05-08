@@ -1,0 +1,438 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+
+/**
+ * Articles page
+ *
+ * Expects the Laravel Eloquent Resource Collection response shape.
+ * Pass `articles` as a prop from your Astro data-fetching or getStaticPaths.
+ *
+ * Usage example (SSR mode):
+ *   const res  = await fetch('https://your-api.test/api/articles?page=1&per_page=9')
+ *   const articles: PaginatedResource<Article> = await res.json()
+ */
+
+export interface PaginatedResource<T> {
+    data: T[];
+    links: {
+        first: string;
+        last:  string;
+        prev:  string | null;
+        next:  string | null;
+    };
+    meta: {
+        current_page: number;
+        from:         number;
+        last_page:    number;
+        path:         string;
+        per_page:     number;
+        to:           number;
+        total:        number;
+    };
+}
+
+export interface Article {
+    id:        number;
+    title:     string;
+    slug:      string;
+    excerpt:   string;
+    author:    string;
+    category:  string;
+    tags:      string[];
+    createdAt: string;
+    updatedAt: string;
+}
+
+// ── Dummy data so the page renders without an API call ───────────────────────
+const dummyArticles: PaginatedResource<Article> = {
+    data: [
+        {
+            id: 1, title: "Building a High-Performance REST API with Laravel and Go Fiber",
+            slug: "laravel-go-fiber-api", excerpt: "A hands-on comparison of building the same API in both frameworks — benchmarks, DX tradeoffs, and when to reach for each one.",
+            author: "Akmal Keisin", category: "Backend", tags: ["Laravel", "Go", "API"],
+            createdAt: "2025-05-12", updatedAt: "2025-05-12",
+        },
+        {
+            id: 2, title: "Composables That Don't Leak: Vue 3 Patterns I Actually Use",
+            slug: "vue3-composables", excerpt: "Practical patterns for writing reusable, testable Vue 3 composables without the memory leak pitfalls.",
+            author: "Akmal Keisin", category: "Frontend", tags: ["Vue", "TypeScript"],
+            createdAt: "2025-04-28", updatedAt: "2025-04-30",
+        },
+        {
+            id: 3, title: "PostgreSQL Indexing Strategies for Growing Applications",
+            slug: "postgres-indexing", excerpt: "When a single index isn't enough. Covering partial, composite, and covering indexes with real EXPLAIN ANALYZE output.",
+            author: "Akmal Keisin", category: "Database", tags: ["PostgreSQL", "Performance"],
+            createdAt: "2025-04-03", updatedAt: "2025-04-03",
+        },
+        {
+            id: 4, title: "Astro Islands + SSR: The Architecture Behind This Site",
+            slug: "astro-islands-ssr", excerpt: "How I combined Astro's island architecture with SSR to get fast static pages with dynamic personalisation.",
+            author: "Akmal Keisin", category: "Architecture", tags: ["Astro", "SSR"],
+            createdAt: "2025-03-17", updatedAt: "2025-03-20",
+        },
+        {
+            id: 5, title: "Understanding Go Fiber Middleware from Scratch",
+            slug: "go-fiber-middleware", excerpt: "Demystifying the middleware chain in Go Fiber — how to write, compose, and test your own middleware cleanly.",
+            author: "Akmal Keisin", category: "Backend", tags: ["Go", "Fiber"],
+            createdAt: "2025-03-01", updatedAt: "2025-03-01",
+        },
+        {
+            id: 6, title: "MySQL vs PostgreSQL: Choosing the Right Database for Your Laravel App",
+            slug: "mysql-vs-postgresql-laravel", excerpt: "A pragmatic guide to choosing between MySQL and PostgreSQL for your Laravel project, based on real-world tradeoffs.",
+            author: "Akmal Keisin", category: "Database", tags: ["MySQL", "PostgreSQL", "Laravel"],
+            createdAt: "2025-02-14", updatedAt: "2025-02-14",
+        },
+    ],
+    links: { first: "#", last: "#", prev: null, next: "#" },
+    meta:  { current_page: 1, from: 1, last_page: 3, path: "/articles", per_page: 6, to: 6, total: 18 },
+};
+
+// ── Swap this for your real fetch in SSR/SSG ─────────────────────────────────
+const articles = dummyArticles;
+
+function formatDate(iso: string) {
+    return new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+}
+
+// First article = featured hero, rest = grid
+const [featured, ...rest] = articles.data;
+---
+
+<Layout title="Articles — Akmal Keisin">
+  <Navbar />
+
+  <!-- ── Hero banner ─────────────────────────────────────────────────────────── -->
+  <section class="pt-32 pb-16 px-6 relative overflow-hidden" aria-label="Articles hero">
+      <!-- Decorative background blobs -->
+      <div aria-hidden="true" class="absolute inset-0 pointer-events-none overflow-hidden -z-10">
+          <div class="absolute -top-15 -right-20 w-120 h-120 rounded-full bg-[radial-gradient(circle,rgba(62,125,50,.09),transparent_65%)]"></div>
+          <div class="absolute -bottom-10 -left-10 w-70 h-70 rounded-full bg-[radial-gradient(circle,rgba(200,240,208,.25),transparent_70%)]"></div>
+          
+          <svg class="absolute top-10 right-[18%] w-16 opacity-10" viewBox="0 0 80 120" fill="none">
+              <path d="M40 10C40 10 10 40 10 70C10 88 23 100 40 100C57 100 70 88 70 70C70 40 40 10 40 10Z" class="fill-moss-500"/>
+              <line x1="40" y1="100" x2="40" y2="115" class="stroke-moss-500" stroke-width="2"/>
+          </svg>
+          <svg class="absolute bottom-8 left-[12%] w-10 opacity-[0.06]" viewBox="0 0 60 90" fill="none">
+              <path d="M30 5C30 5 5 30 5 55C5 70 16 80 30 80C44 80 55 70 55 55C55 30 30 5 30 5Z" class="fill-moss-500"/>
+          </svg>
+      </div>
+
+      <div class="max-w-6xl mx-auto relative">
+          <span class="accent-line mb-3.5"></span>
+          <span class="font-mono text-[10px] tracking-[0.18em] uppercase text-moss-400 block mt-3">Writing</span>
+
+          <h1 class="font-display text-[clamp(2.8rem,6vw,4.5rem)] font-semibold text-ink leading-[1.08] mt-2.5">
+              From the<br />
+              <em class="not-italic text-moss-500">notebook</em>
+          </h1>
+
+          <p class="text-base text-moss-600 leading-relaxed max-w-130 mt-4">
+              Notes, deep-dives, and tutorials on backend engineering, database internals, and the web
+              stack I use every day. {articles.meta.total} articles total.
+          </p>
+
+          <!-- Stats row -->
+          <div class="flex items-center gap-8 mt-8 pt-6 border-t border-sage-200">
+              {[
+                  [String(articles.meta.total), "Articles"],
+                  [String(articles.meta.last_page), "Pages"],
+                  ["4", "Categories"],
+              ].map(([num, label]) => (
+                  <div>
+                      <div class="font-display text-3xl font-semibold text-moss-600">{num}</div>
+                      <div class="font-mono text-[10px] text-moss-400 mt-0.5 tracking-widest uppercase">{label}</div>
+                  </div>
+              ))}
+          </div>
+      </div>
+  </section>
+
+
+  <!-- ── Filter / search toolbar ─────────────────────────────────────────────── -->
+  <section class="sticky top-17 z-40 bg-fog/95 backdrop-blur-md border-b border-sage-200">
+      <div class="max-w-6xl mx-auto px-6 py-3 flex items-center gap-2.5 flex-wrap">
+
+          <!-- Search -->
+          <div class="relative flex-1 min-w-45 max-w-70">
+              <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 opacity-40 pointer-events-none text-moss-700" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <circle cx="6" cy="6" r="4"/><path d="M10 10l3 3"/>
+              </svg>
+              <input
+                  type="text"
+                  id="search-input"
+                  placeholder="Search articles…"
+                  class="w-full py-2 pr-3 pl-8 rounded-full border border-sage-200 bg-white font-body text-[13px] text-ink focus:outline-none focus:border-moss-500 focus:ring-2 focus:ring-moss-500/20 transition-all"
+              />
+          </div>
+
+          <!-- Category filters -->
+          <div class="flex items-center gap-1.5 flex-wrap">
+              {["All", "Backend", "Frontend", "Database", "Architecture"].map((cat) => (
+                  <button
+                      class={`filter-btn font-mono text-[11px] px-3.5 py-1.5 rounded-full border border-sage-200 bg-white text-moss-600 cursor-pointer transition-all tracking-[0.06em] hover:bg-sage-100 ${cat === "All" ? "bg-moss-500 text-fog border-moss-500 hover:bg-moss-500" : ""}`}
+                      data-filter={cat}
+                  >
+                      {cat}
+                  </button>
+              ))}
+          </div>
+
+          <!-- Result count -->
+          <div class="ml-auto">
+              <span id="result-count" class="font-mono text-[11px] text-moss-400">
+                  {articles.meta.from}–{articles.meta.to} of {articles.meta.total}
+              </span>
+          </div>
+      </div>
+  </section>
+
+
+  <!-- ── Featured article ─────────────────────────────────────────────────────── -->
+  {featured && (
+  <section class="pt-12 px-6 max-w-6xl mx-auto" data-category={featured.category}>
+      <a
+          href={`/articles/${featured.slug}`}
+          class="proj-card reveal flex flex-col bg-white border border-sage-200 rounded-2xl overflow-hidden relative"
+          aria-label={`Read featured article: ${featured.title}`}
+      >
+          <!-- Featured label strip -->
+          <div class="bg-moss-700 px-5 py-2 flex items-center gap-2.5">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                  <path d="M7 1L8.8 5.2H13L9.6 7.8L10.9 12L7 9.4L3.1 12L4.4 7.8L1 5.2H5.2Z" class="fill-mint" opacity=".8"/>
+              </svg>
+              <span class="font-mono text-[10px] text-mint tracking-[0.18em] uppercase">Featured article</span>
+          </div>
+
+          <div class="p-8 grid grid-cols-1 md:grid-cols-[1fr_auto] gap-8 items-start">
+              <div>
+                  <!-- Meta row -->
+                  <div class="flex items-center gap-2.5 mb-4 flex-wrap">
+                      <span class="font-mono text-[9px] tracking-[0.14em] uppercase px-2.5 py-1 rounded-full border border-sage-200 bg-mint/15 text-moss-500">{featured.category}</span>
+                      <span class="font-mono text-[10px] text-moss-400">{formatDate(featured.createdAt)}</span>
+                      <span class="w-0.75 h-0.75 rounded-full bg-moss-300"></span>
+                      <span class="font-mono text-[10px] text-moss-400">by {featured.author}</span>
+                  </div>
+
+                  <!-- Title -->
+                  <h2 class="font-display text-[clamp(1.5rem,3vw,2.2rem)] font-semibold text-ink leading-tight mb-3.5">
+                      {featured.title}
+                  </h2>
+
+                  <!-- Excerpt -->
+                  <p class="text-[15px] text-moss-600 leading-relaxed max-w-150">
+                      {featured.excerpt}
+                  </p>
+
+                  <!-- Tags -->
+                  <div class="flex gap-1.5 flex-wrap mt-5">
+                      {featured.tags.map((tag) => (
+                          <span class="font-mono text-[10px] tracking-[0.08em] px-2.5 py-0.5 rounded-full border border-sage-200 bg-sage-100 text-moss-600 whitespace-nowrap">
+                              #{tag}
+                          </span>
+                      ))}
+                  </div>
+              </div>
+
+              <!-- Read arrow block -->
+              <div class="hidden md:flex flex-col items-end justify-between h-full gap-4 shrink-0">
+                  <!-- Decorative leaf -->
+                  <svg width="60" height="90" viewBox="0 0 80 120" fill="none" aria-hidden="true" class="opacity-10">
+                      <path d="M40 10C40 10 10 40 10 70C10 88 23 100 40 100C57 100 70 88 70 70C70 40 40 10 40 10Z" class="fill-moss-500"/>
+                      <line x1="40" y1="100" x2="40" y2="115" class="stroke-moss-500" stroke-width="2"/>
+                      <path d="M40 70L26 56" class="stroke-mint" stroke-width="2" stroke-linecap="round"/>
+                      <path d="M40 80L52 65" class="stroke-mint" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                  <!-- Read link -->
+                  <span class="inline-flex items-center gap-1.5 text-[13px] font-semibold text-moss-500">
+                      Read article
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                          <path d="M2 7h10M8 3l4 4-4 4"/>
+                      </svg>
+                  </span>
+              </div>
+          </div>
+      </a>
+  </section>
+  )}
+
+
+  <!-- ── Article grid ────────────────────────────────────────────────────────── -->
+  <section class="py-8 px-6 mb-16" id="articles-grid">
+      <div class="max-w-6xl mx-auto">
+
+          <div id="grid-container" class="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-4">
+              {rest.map((article, i) => (
+                  <a
+                      href={`/articles/${article.slug}`}
+                      class={`proj-card reveal reveal-d${Math.min(i + 1, 4)} flex flex-col justify-between gap-4 bg-white border border-sage-200 rounded-[14px] p-6 relative overflow-hidden`}
+                      data-category={article.category}
+                      data-title={article.title.toLowerCase()}
+                      aria-label={`Read article: ${article.title}`}
+                  >
+                      <!-- Decorative blob -->
+                      <div aria-hidden="true" class="absolute top-0 right-0 w-25 h-25 rounded-full bg-[radial-gradient(circle,rgba(200,240,208,.3),transparent_70%)] pointer-events-none"></div>
+
+                      <div>
+                          <!-- Top meta -->
+                          <div class="flex items-center justify-between mb-3.5">
+                              <span class="font-mono text-[9px] tracking-[0.14em] uppercase px-2.5 py-1 rounded-full border border-sage-200 bg-mint/15 text-moss-500">{article.category}</span>
+                              <span class="font-mono text-[10px] text-moss-400">{formatDate(article.createdAt)}</span>
+                          </div>
+
+                          <!-- Title -->
+                          <h3 class="font-display text-lg font-semibold text-ink leading-tight mb-2.5">
+                              {article.title}
+                          </h3>
+
+                          <!-- Excerpt -->
+                          <p class="text-[13px] text-moss-600 leading-relaxed line-clamp-3">
+                              {article.excerpt}
+                          </p>
+                      </div>
+
+                      <div>
+                          <!-- Tags -->
+                          <div class="flex gap-1.5 flex-wrap mb-3.5 mt-2">
+                              {article.tags.map((tag) => (
+                                  <span class="font-mono text-[10px] tracking-[0.08em] px-2.5 py-0.5 rounded-full border border-sage-200 bg-sage-100 text-moss-600 whitespace-nowrap">
+                                      #{tag}
+                                  </span>
+                              ))}
+                          </div>
+
+                          <!-- Footer row -->
+                          <div class="flex items-center justify-between pt-3.5 border-t border-sage-200">
+                              <span class="font-mono text-[10px] text-moss-400">by {article.author}</span>
+                              <span class="inline-flex items-center gap-1 text-[12px] font-semibold text-moss-500">
+                                  Read
+                                  <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                                      <path d="M2 7h10M8 3l4 4-4 4"/>
+                                  </svg>
+                              </span>
+                          </div>
+                      </div>
+                  </a>
+              ))}
+          </div>
+
+          <!-- Empty state -->
+          <div id="empty-state" class="hidden py-20 text-center">
+              <svg width="48" height="72" viewBox="0 0 80 120" fill="none" class="mx-auto mb-5 opacity-20" aria-hidden="true">
+                  <path d="M40 10C40 10 10 40 10 70C10 88 23 100 40 100C57 100 70 88 70 70C70 40 40 10 40 10Z" class="fill-moss-500"/>
+                  <line x1="40" y1="100" x2="40" y2="115" class="stroke-moss-500" stroke-width="2"/>
+              </svg>
+              <p class="font-display text-xl text-moss-600">No articles found</p>
+              <p class="text-[13px] text-moss-400 mt-1.5">Try a different search term or category filter.</p>
+          </div>
+      </div>
+  </section>
+
+
+  <!-- ── Pagination ──────────────────────────────────────────────────────────── -->
+  <section class="px-6 pb-20">
+      <div class="max-w-6xl mx-auto flex items-center justify-between flex-wrap gap-3.5">
+          <!-- Page info -->
+          <span class="font-mono text-[11px] text-moss-400">
+              Page {articles.meta.current_page} of {articles.meta.last_page}
+              &nbsp;·&nbsp;
+              showing {articles.meta.from}–{articles.meta.to} of {articles.meta.total}
+          </span>
+
+          <!-- Page buttons -->
+          <div class="flex items-center gap-1.5">
+              <!-- Prev -->
+              <a
+                  href={articles.links.prev ?? undefined}
+                  class={`inline-flex items-center justify-center w-9 h-9 rounded-lg border border-sage-200 bg-white text-moss-600 font-mono text-xs cursor-pointer transition-colors hover:bg-sage-100 hover:border-moss-400 ${articles.links.prev === null ? 'opacity-35 pointer-events-none' : ''}`}
+                  aria-disabled={articles.links.prev === null}
+                  aria-label="Previous page"
+              >
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                      <path d="M8 3L4 7l4 4"/>
+                  </svg>
+              </a>
+
+              <!-- Page numbers -->
+              {Array.from({ length: articles.meta.last_page }, (_, i) => i + 1).map((p) => (
+                  <a
+                      href={`${articles.meta.path}?page=${p}`}
+                      class={`inline-flex items-center justify-center w-9 h-9 rounded-lg border bg-white font-mono text-xs cursor-pointer transition-colors hover:bg-sage-100 hover:border-moss-400 ${p === articles.meta.current_page ? "border-moss-500 bg-moss-500 text-fog" : "border-sage-200 text-moss-600"}`}
+                      aria-current={p === articles.meta.current_page ? "page" : undefined}
+                      aria-label={`Page ${p}`}
+                  >
+                      {p}
+                  </a>
+              ))}
+
+              <!-- Next -->
+              <a
+                  href={articles.links.next ?? undefined}
+                  class={`inline-flex items-center justify-center w-9 h-9 rounded-lg border border-sage-200 bg-white text-moss-600 font-mono text-xs cursor-pointer transition-colors hover:bg-sage-100 hover:border-moss-400 ${articles.links.next === null ? 'opacity-35 pointer-events-none' : ''}`}
+                  aria-disabled={articles.links.next === null}
+                  aria-label="Next page"
+              >
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                      <path d="M6 3l4 4-4 4"/>
+                  </svg>
+              </a>
+          </div>
+
+          <!-- Per-page note -->
+          <span class="font-mono text-[11px] text-moss-400">
+              {articles.meta.per_page} per page
+          </span>
+      </div>
+  </section>
+  
+  <Footer />
+</Layout>
+
+<!-- ── Client-side: search + filter ─────────────────────────── -->
+<script>
+    const searchInput  = document.getElementById('search-input') as HTMLInputElement | null;
+    const filterBtns   = document.querySelectorAll('.filter-btn');
+    const grid         = document.getElementById('grid-container');
+    const emptyState   = document.getElementById('empty-state');
+    const resultCount  = document.getElementById('result-count');
+
+    let activeCategory = 'All';
+    let searchQuery    = '';
+
+    function applyFilters() {
+        if (!grid || !emptyState || !resultCount) return;
+        const cards = grid.querySelectorAll<HTMLAnchorElement>('a[data-category]');
+        let visible  = 0;
+
+        cards.forEach((card) => {
+            const cat   = card.getAttribute('data-category') ?? '';
+            const title = card.getAttribute('data-title') ?? '';
+            const matchCat  = activeCategory === 'All' || cat === activeCategory;
+            const matchSearch = !searchQuery || title.includes(searchQuery);
+            const show = matchCat && matchSearch;
+            card.style.display = show ? '' : 'none';
+            if (show) visible++;
+        });
+
+        emptyState.style.display = visible === 0 ? 'block' : 'none';
+        resultCount.textContent  = `${visible} shown`;
+    }
+
+    filterBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach((b) => {
+                b.classList.remove('bg-moss-500', 'text-fog', 'border-moss-500');
+            });
+            btn.classList.add('bg-moss-500', 'text-fog', 'border-moss-500');
+            activeCategory = btn.getAttribute('data-filter') ?? 'All';
+            applyFilters();
+        });
+    });
+
+    searchInput?.addEventListener('input', (e) => {
+        searchQuery = (e.target as HTMLInputElement).value.toLowerCase().trim();
+        applyFilters();
+    });
+</script>
+
