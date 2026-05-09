@@ -1,104 +1,336 @@
 ---
-const projects = [
+/**
+ * Projects Section Component
+ * Displays a selected work portfolio with interactive filtering.
+ */
+import { Image } from "astro:assets";
+
+export interface Project {
+  id: number;
+  title: string;
+  slug: string;
+  excerpt: string;
+  thumbnail: string | null;
+  stack: string[];
+  category: string;
+  live_url: string | null;
+  repo_url: string | null;
+  status: "completed" | "ongoing" | "archived";
+  featured: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+const dummyProjects: Project[] = [
   {
-    num: "01",
-    title: "Reprime ID — HRIS",
-    tag: "SaaS · Full-Stack",
-    desc: "A cloud based Human Resource Information System and field forcing monitoring platform. operations—ranging from attendance and payroll to tracking field sales teams—all through a mobile-first approach.",
-    stack: ["Laravel", "PostgreSQL", "Vue", "Lumen", "Go", "Fiber", "Python"],
-    href: "#",
-    wide: true,
+    id: 1,
+    title: "Reprime — Business Management Platform",
+    slug: "reprime",
+    featured: true,
+    status: "ongoing",
+    category: "SaaS",
+    thumbnail: null,
+    excerpt:
+      "A full-featured ERP and HR platform serving thousands of active users across multiple companies. Covers attendance, payroll, project tracking, and asset management.",
+    stack: ["Laravel", "Vue", "PostgreSQL", "Go", "Fiber", "Astro"],
+    live_url: "https://reprime.id",
+    repo_url: null,
+    createdAt: "2022-09-01",
+    updatedAt: "2025-05-01",
+  },
+  {
+    id: 2,
+    title: "HR Module — Factory Workforce System",
+    slug: "hr-factory",
+    featured: false,
+    status: "completed",
+    category: "Enterprise",
+    thumbnail: null,
+    excerpt:
+      "Complex HR project built for a large factory client with thousands of active daily users. Covers shift scheduling, overtime calculation, and multi-branch payroll.",
+    stack: ["Laravel", "MySQL", "TypeScript"],
+    live_url: null,
+    repo_url: null,
+    createdAt: "2023-10-01",
+    updatedAt: "2024-06-01",
+  },
+  {
+    id: 3,
+    title: "REST API Gateway with Go Fiber",
+    slug: "go-fiber-gateway",
+    featured: false,
+    status: "completed",
+    category: "Backend",
+    thumbnail: null,
+    excerpt:
+      "High-performance API gateway built with Go Fiber. Includes JWT auth, rate limiting, request logging, and a Redis caching layer. Benchmarked at 40k req/s.",
+    stack: ["Go", "Fiber", "Redis", "PostgreSQL"],
+    live_url: null,
+    repo_url: "https://github.com/akmal/go-fiber-gateway",
+    createdAt: "2024-02-01",
+    updatedAt: "2024-05-01",
+  },
+  {
+    id: 4,
+    title: "Portfolio — This Site",
+    slug: "portfolio",
+    featured: false,
+    status: "ongoing",
+    category: "Frontend",
+    thumbnail: null,
+    excerpt:
+      "My personal portfolio built with Astro and Tailwind. Static-first with Astro Islands for interactive sections. Zero JS on most pages.",
+    stack: ["Astro", "TypeScript", "Tailwind"],
+    live_url: "#",
+    repo_url: "https://github.com/akmal/portfolio",
+    createdAt: "2025-01-01",
+    updatedAt: "2025-05-01",
+  },
+  {
+    id: 5,
+    title: "Inventory & Asset Tracking Module",
+    slug: "inventory-module",
+    featured: false,
+    status: "completed",
+    category: "SaaS",
+    thumbnail: null,
+    excerpt:
+      "Internal inventory system built as a module inside the Reprime platform. Tracks company assets, depreciation schedules, and purchase orders.",
+    stack: ["Laravel", "Vue", "PostgreSQL"],
+    live_url: null,
+    repo_url: null,
+    createdAt: "2023-03-01",
+    updatedAt: "2023-09-01",
+  },
+  {
+    id: 6,
+    title: "Lumen Microservice — Notification Worker",
+    slug: "lumen-notification",
+    featured: false,
+    status: "archived",
+    category: "Backend",
+    thumbnail: null,
+    excerpt:
+      "Lightweight Lumen microservice handling email, SMS, and push notification dispatch via queue workers. Processes 10k+ notifications per day.",
+    stack: ["PHP", "Lumen", "MySQL", "Redis"],
+    live_url: null,
+    repo_url: "https://github.com/akmal/lumen-notify",
+    createdAt: "2022-11-01",
+    updatedAt: "2023-06-01",
   },
 ];
+
+const projects = dummyProjects;
+const featuredProject = projects.find((p) => p.featured);
+const otherProjects = projects.filter((p) => !p.featured);
+
+const categories = ["All", ...new Set(projects.map((p) => p.category))];
+
+const STATUS_COLORS: Record<string, string> = {
+  completed: "bg-moss-400",
+  ongoing: "bg-mint animate-pulse",
+  archived: "bg-moss-200",
+};
 ---
 
 <section id="projects" class="py-28 bg-fog relative overflow-hidden">
-  <!-- Section watermark -->
+  <!-- Watermark numeral -->
   <div
-    class="absolute top-8 left-8 font-display text-[180px] leading-none text-moss-100 select-none pointer-events-none"
+    class="absolute top-6 right-6 font-display text-[180px] leading-none select-none pointer-events-none text-moss-100"
+    aria-hidden="true"
   >
     05
   </div>
 
+  <!-- Background texture -->
+  <div class="absolute inset-0 pointer-events-none opacity-[0.05]" aria-hidden="true">
+    <svg width="100%" height="100%">
+      <defs>
+        <pattern id="dotPattern" x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1.5" fill="#3e7d32" />
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#dotPattern)" />
+    </svg>
+  </div>
+
   <div class="relative max-w-6xl mx-auto px-6">
-    <!-- Header -->
-    <div
-      class="reveal mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6"
-    >
+    <!-- Section header -->
+    <div class="reveal mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
       <div>
         <span class="accent-line mb-4"></span>
-        <p
-          class="font-mono text-xs text-moss-400 tracking-[.2em] uppercase mt-4"
-        >
-          Selected Work
-        </p>
-        <h2
-          class="font-display text-5xl md:text-6xl font-semibold text-ink mt-2"
-        >
+        <p class="text-label-mono text-moss-400 mt-4">Selected Work</p>
+        <h2 class="text-section-title text-ink mt-2">
           Things I've<br /><em class="text-moss-500">shipped</em>
         </h2>
       </div>
-      <a
-        href="#"
-        class="self-end font-body text-sm font-semibold text-moss-600 border-b-2 border-moss-200 hover:border-moss-500 transition-colors pb-0.5"
-      >
-        All projects →
-      </a>
+      <div class="flex items-center gap-4">
+        <!-- Filter Bar -->
+        <div class="flex items-center gap-2 bg-white/60 border border-moss-100 rounded-full p-1 shadow-sm">
+          {categories.map((cat) => (
+            <button
+              class="filter-btn text-label-mono px-3.5 py-1.5 rounded-full transition-all cursor-pointer hover:bg-moss-100 text-moss-600 data-[active=true]:bg-moss-700 data-[active=true]:text-fog !text-[10px]"
+              data-filter={cat}
+              data-active={cat === "All" ? "true" : "false"}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      </div>
     </div>
 
-    <!-- Grid -->
-    <div class="grid md:grid-cols-2 gap-6">
-      {
-        projects.map((p, i) => (
-          <a
-            href={p.href}
-            class={`proj-card group relative bg-white/70 border border-moss-100 rounded-2xl p-8 flex flex-col hover:border-moss-300 reveal reveal-d${(i % 4) + 1} ${p.wide ? "md:col-span-2" : ""}`}
-          >
-            <div class="absolute top-0 right-0 w-32 h-32 rounded-full bg-mint/20 blur-2xl pointer-events-none group-hover:bg-mint/35 transition-all duration-500" />
-
-            <div class="flex items-start justify-between mb-6">
-              <span class="font-mono text-sm text-moss-400">{p.num}</span>
-              <span class="font-mono text-xs text-moss-500 bg-sage-100 border border-moss-200 px-3 py-1 rounded-full">
-                {p.tag}
-              </span>
-            </div>
-
-            <h3 class="font-display text-2xl font-semibold text-ink mb-3 group-hover:text-moss-700 transition-colors">
-              {p.title}
-            </h3>
-            <p class="font-body text-sm text-moss-600 leading-relaxed flex-1 mb-6">
-              {p.desc}
-            </p>
-
-            <div class="flex flex-wrap gap-2 mb-6">
-              {p.stack.map((t) => (
-                <span class="font-mono text-xs text-moss-600 bg-mint/40 border border-moss-200 px-3 py-1 rounded-full">
-                  {t}
-                </span>
-              ))}
-            </div>
-
-            <div class="flex items-center gap-2 text-moss-500 group-hover:text-moss-700 transition-colors">
-              <span class="font-body text-sm font-medium">View Project</span>
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 14 14"
-                fill="none"
-                class="group-hover:translate-x-1 transition-transform"
-              >
-                <path
-                  d="M2 7h10M8 3l4 4-4 4"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
+    <div id="projects-container">
+      <!-- Featured Project -->
+      {featuredProject && (
+        <div
+          class="reveal mb-12"
+          data-category={featuredProject.category}
+        >
+          <div class="proj-card group relative bg-white border border-moss-200 rounded-3xl overflow-hidden shadow-sm hover:border-moss-300 transition-all duration-500 grid lg:grid-cols-2">
+            <!-- Thumbnail / Placeholder -->
+            <div class="relative h-64 lg:h-full bg-moss-800 flex items-center justify-center overflow-hidden">
+              <div class="absolute inset-0 opacity-10">
+                <svg width="100%" height="100%">
+                  <pattern id="hex-small" x="0" y="0" width="30" height="26" patternUnits="userSpaceOnUse">
+                    <path d="M15 1L28 8.5V22.5L15 30L2 22.5V8.5Z" fill="none" stroke="#c8f0d0" stroke-width="1" />
+                  </pattern>
+                  <rect width="100%" height="100%" fill="url(#hex-small)" />
+                </svg>
+              </div>
+              <svg class="w-24 opacity-20 relative z-10 group-hover:scale-110 transition-transform duration-700" viewBox="0 0 200 280" fill="none">
+                <path d="M100 10C100 10 20 60 20 140C20 188 55 220 100 220C145 220 180 188 180 140C180 60 100 10 100 10Z" fill="#c8f0d0"/>
+                <line x1="100" y1="220" x2="100" y2="270" stroke="#c8f0d0" stroke-width="4" stroke-linecap="round"/>
               </svg>
+              
+              <!-- Status Badge -->
+              <div class="absolute top-6 left-6 flex items-center gap-2 bg-ink/40 backdrop-blur-md border border-moss-500/30 rounded-full px-3 py-1">
+                <span class={`w-2 h-2 rounded-full ${STATUS_COLORS[featuredProject.status]}`}></span>
+                <span class="text-label-mono text-mint tracking-wider !text-[9px]">{featuredProject.status}</span>
+              </div>
             </div>
-          </a>
-        ))
-      }
+
+            <!-- Content -->
+            <div class="p-8 lg:p-12 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-3 mb-6">
+                  <span class="text-label-mono text-moss-400 border border-moss-200 px-3 py-1 rounded-full !text-[10px]">
+                    {featuredProject.category}
+                  </span>
+                  <span class="text-label-mono text-mint bg-moss-700 px-3 py-1 rounded-full tracking-wider !text-[10px]">
+                    Featured
+                  </span>
+                </div>
+                <h3 class="text-section-title text-ink mb-4 group-hover:text-moss-700 transition-colors">
+                  {featuredProject.title}
+                </h3>
+                <p class="text-hero-subtitle text-moss-600 mb-8">
+                  {featuredProject.excerpt}
+                </p>
+                <div class="flex flex-wrap gap-2 mb-8">
+                  {featuredProject.stack.map((s) => (
+                    <span class="text-label-mono text-moss-500 bg-moss-100 border border-moss-200 px-3 py-1 rounded-full !text-[10px]">
+                      {s}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              
+              <div class="flex items-center justify-between pt-8 border-t border-moss-100">
+                <span class="text-label-mono text-moss-400 !text-[10px]">Project #{featuredProject.id.toString().padStart(2, '0')}</span>
+                <div class="flex gap-4">
+                  {featuredProject.repo_url && (
+                    <a href={featuredProject.repo_url} class="text-moss-400 hover:text-moss-700 transition-colors" title="View Source">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                    </a>
+                  )}
+                  {featuredProject.live_url && (
+                    <a href={featuredProject.live_url} class="inline-flex items-center gap-2 font-body text-sm font-semibold text-moss-600 hover:text-moss-800 transition-colors">
+                      Live Site
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12L12 2M12 2H4M12 2V10"/></svg>
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <!-- Grid of other projects -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {otherProjects.map((project, i) => (
+          <div
+            class={`reveal reveal-d${(i % 3) + 1} proj-card`}
+            data-category={project.category}
+          >
+            <div class="group h-full bg-white border border-moss-100 rounded-2xl p-6 hover:border-moss-300 transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-6">
+                  <span class="text-label-mono text-moss-400 border border-moss-100 px-2 py-0.5 rounded-full !text-[9px]">
+                    {project.category}
+                  </span>
+                  <span class={`w-2 h-2 rounded-full ${STATUS_COLORS[project.status]}`}></span>
+                </div>
+                <h4 class="text-card-title text-ink mb-3 group-hover:text-moss-600 transition-colors">
+                  {project.title}
+                </h4>
+                <p class="text-section-desc text-moss-500 mb-6 line-clamp-3 !text-sm">
+                  {project.excerpt}
+                </p>
+                <div class="flex flex-wrap gap-1.5 mb-6">
+                  {project.stack.map((s) => (
+                    <span class="text-label-mono text-moss-400 bg-fog border border-moss-100 px-2 py-0.5 rounded-full !text-[9px]">
+                      {s}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between pt-5 border-t border-moss-100 mt-auto">
+                <span class="text-label-mono text-moss-300 !text-[9px]">{project.status}</span>
+                <div class="flex gap-3">
+                  {project.repo_url && (
+                    <a href={project.repo_url} class="text-moss-300 hover:text-moss-600 transition-colors">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                    </a>
+                  )}
+                  <a href={`/projects/${project.slug}`} class="text-moss-500 hover:text-moss-700 transition-colors">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   </div>
 </section>
+
+<script>
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const projectItems = document.querySelectorAll('[data-category]');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = btn.getAttribute('data-filter');
+      
+      // Update buttons
+      filterBtns.forEach(b => b.setAttribute('data-active', 'false'));
+      btn.setAttribute('data-active', 'true');
+
+      // Filter items
+      projectItems.forEach(item => {
+        const itemCat = item.getAttribute('data-category');
+        if (filter === 'All' || itemCat === filter) {
+          (item as HTMLElement).style.display = 'block';
+          // Re-trigger reveal animation if hidden
+          item.classList.add('visible');
+        } else {
+          (item as HTMLElement).style.display = 'none';
+        }
+      });
+    });
+  });
+</script>

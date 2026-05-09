@@ -202,6 +202,71 @@ textarea:focus {
   border-radius: 3px;
 }
 
+/* Typography Standardization */
+@utility text-hero-title {
+  font-family: var(--font-display);
+  font-size: var(--text-5xl);
+  line-height: 1.1;
+  font-weight: var(--font-semibold);
+  @media (width >= 768px) {
+    font-size: var(--text-7xl);
+  }
+  @media (width >= 1024px) {
+    font-size: var(--text-8xl);
+  }
+}
+
+@utility text-hero-subtitle {
+  font-family: var(--font-body);
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+  @media (width >= 768px) {
+    font-size: var(--text-xl);
+  }
+}
+
+@utility text-section-title {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  line-height: var(--leading-tight);
+  font-weight: var(--font-semibold);
+  @media (width >= 768px) {
+    font-size: var(--text-4xl);
+  }
+  @media (width >= 1024px) {
+    font-size: var(--text-5xl);
+  }
+}
+
+@utility text-section-desc {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  @media (width >= 768px) {
+    font-size: var(--text-lg);
+  }
+}
+
+@utility text-card-title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  line-height: var(--leading-tight);
+  font-weight: var(--font-semibold);
+  @media (width >= 768px) {
+    font-size: var(--text-2xl);
+  }
+}
+
+@utility text-label-mono {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  @media (width >= 768px) {
+    font-size: var(--text-xs);
+  }
+}
+
 /* Cursor dot */
 .cursor-dot {
   width: 8px;

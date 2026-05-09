@@ -1,221 +1,103 @@
 ---
-
 ---
 
-<section id="contact" class="py-28 bg-fog-200 relative overflow-hidden">
-  <!-- Decorative -->
-  <div
-    class="absolute bottom-0 right-0 w-125 h-125 rounded-full bg-mint/20 blur-3xl pointer-events-none z-0"
-  >
+<section id="contact" class="py-28 bg-sage-100/30 relative overflow-hidden">
+  <!-- Background leaf -->
+  <div class="absolute -bottom-20 -right-20 w-80 h-80 opacity-[.03] pointer-events-none">
+    <svg width="100%" height="100%" viewBox="0 0 80 120" fill="none">
+      <path d="M40 10C40 10 10 40 10 70C10 88 23 100 40 100C57 100 70 88 70 70C70 40 40 10 40 10Z" fill="#3e7d32"/>
+    </svg>
   </div>
 
   <div class="relative max-w-6xl mx-auto px-6">
-    <!-- Header -->
-    <div class="reveal mb-16 text-center max-w-2xl mx-auto">
+    <div class="reveal mb-16 text-center">
       <span class="accent-line mx-auto mb-4"></span>
-      <p class="font-mono text-xs text-moss-400 tracking-[.2em] uppercase mt-4">
-        Contact
-      </p>
-      <h2 class="font-display text-5xl md:text-6xl font-semibold text-ink mt-3">
-        Let's work<br /><em class="text-moss-500">together</em>
+      <p class="text-label-mono text-moss-400 mt-4">Get In Touch</p>
+      <h2 class="text-section-title text-ink mt-2">
+        Let's start a<br /><em class="text-moss-500">conversation</em>
       </h2>
-      <p class="font-body text-moss-600 mt-5 leading-relaxed">
-        I'm currently open to full-time roles and select freelance projects.
-        Reach out and I'll reply within one business day.
+      <p class="text-section-desc text-moss-600 max-w-lg mx-auto mt-6">
+        Currently open to new projects and interesting collaborations. Feel free
+        to reach out if you have something in mind.
       </p>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-10 items-start">
-      <!-- Left -->
-      <div class="reveal reveal-d1 space-y-8">
-        <!-- Direct contact -->
-        <div
-          class="bg-white/70 border border-moss-100 rounded-2xl p-7 shadow-sm space-y-5"
-        >
-          <h3 class="font-display text-lg font-semibold text-moss-700">
-            Get in touch
-          </h3>
-          {
-            [
-              {
-                icon: "✉",
-                label: "Email",
-                value: "akmalkeisin@gmail.com",
-                href: "mailto:akmalkeisin@gmail.com",
-              },
-              {
-                icon: "☎",
-                label: "Available",
-                value: "Mon–Fri, 9–18 Asia/Jakarta",
-                href: null,
-              },
-              {
-                icon: "📍",
-                label: "Location",
-                value: "Semarang, Indonesia",
-                href: null,
-              },
-            ].map((item) => (
-              <div class="flex items-center gap-4">
-                <div class="w-10 h-10 rounded-xl bg-mint/50 flex items-center justify-center text-lg shrink-0">
-                  {item.icon}
-                </div>
-                <div>
-                  <div class="font-mono text-xs text-moss-400 mb-0.5">
-                    {item.label}
-                  </div>
-                  {item.href ? (
-                    <a
-                      href={item.href}
-                      class="font-body text-sm font-semibold text-moss-700 hover:text-moss-500 transition-colors"
-                    >
-                      {item.value}
-                    </a>
-                  ) : (
-                    <div class="font-body text-sm font-semibold text-moss-700">
-                      {item.value}
-                    </div>
-                  )}
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <!-- Contact info -->
+      <div class="reveal d1 space-y-8">
+        <div class="bg-white/60 border border-moss-100 rounded-3xl p-8 shadow-sm">
+          <h3 class="text-card-title text-ink mb-6">Contact Details</h3>
+          <div class="space-y-6">
+            <a href="mailto:hello@akmalkeisin.com" class="flex items-center gap-4 group no-underline">
+              <div class="w-12 h-12 rounded-2xl bg-mint/30 flex items-center justify-center text-moss-600 group-hover:bg-moss-500 group-hover:text-fog transition-all">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+              </div>
+              <div>
+                <div class="text-label-mono text-moss-400">Email</div>
+                <div class="font-body text-base font-semibold text-ink group-hover:text-moss-600 transition-colors">
+                  hello@akmalkeisin.com
                 </div>
               </div>
-            ))
-          }
+            </a>
+            <div class="flex items-center gap-4 group">
+              <div class="w-12 h-12 rounded-2xl bg-mint/30 flex items-center justify-center text-moss-600">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+              </div>
+              <div>
+                <div class="text-label-mono text-moss-400">Location</div>
+                <div class="font-body text-base font-semibold text-ink">
+                  Semarang, Indonesia
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Socials -->
+        <div class="flex items-center gap-4 px-2">
+          <span class="text-label-mono text-moss-400">Find me on</span>
+          <div class="flex gap-3">
+            {
+              [
+                ["Github", "#"],
+                ["Linkedin", "#"],
+                ["Twitter", "#"],
+              ].map(([l, h]) => (
+                <a href={h} class="text-label-mono text-moss-600 hover:text-moss-900 transition-colors bg-white/40 border border-moss-100 px-4 py-2 rounded-full no-underline">
+                  {l}
+                </a>
+              ))
+            }
+          </div>
         </div>
       </div>
 
-      <!-- Social -->
-      <div class="bg-white/70 border border-moss-100 rounded-2xl p-7 shadow-sm">
-        <h3 class="font-display text-base font-semibold text-moss-700 mb-5">
-          Connect
-        </h3>
-        <div class="space-y-3">
-          {
-            [
-              {
-                name: "GitHub",
-                handle: "Akmal-Keisin",
-                link: "https://github.com/Akmal-Keisin",
-                color: "bg-ink",
-                icon: "GH",
-              },
-              {
-                name: "LinkedIn",
-                handle: "Akmal Keisin",
-                link: "https://www.linkedin.com/in/akmal-keisin-536102265",
-                color: "bg-moss-600",
-                icon: "in",
-              },
-              {
-                name: "Instagram",
-                handle: "@this_is_keiii",
-                link: "https://www.instagram.com/this_is_keiii",
-                color: "bg-moss-400",
-                icon: "IG",
-              },
-            ].map((s) => (
-              <a
-                href={s.link}
-                class="flex items-center gap-3 group"
-                target="_blank"
-              >
-                <div
-                  class={`w-9 h-9 rounded-lg ${s.color} flex items-center justify-center shrink-0`}
-                >
-                  <span class="font-mono text-xs text-white font-bold">
-                    {s.icon}
-                  </span>
-                </div>
-                <div>
-                  <span class="font-body text-sm font-medium text-moss-700 group-hover:text-moss-500 transition-colors">
-                    {s.name}
-                  </span>
-                  <span class="font-mono text-xs text-moss-400 ml-2">
-                    {s.handle}
-                  </span>
-                </div>
-              </a>
-            ))
-          }
-        </div>
-      </div>
-
-      <!-- Right: Form -->
-      <!-- <div
-        class="reveal reveal-d2 bg-white/80 border border-moss-100 rounded-2xl p-8 shadow-sm"
-      >
-        <h3 class="font-display text-lg font-semibold text-moss-700 mb-7">
-          Send a message
-        </h3>
-        <div class="space-y-5">
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label
-                class="font-mono text-xs text-moss-400 tracking-widest uppercase block mb-2"
-                >Name</label
-              >
-              <input
-                type="text"
-                placeholder="Alex Chen"
-                class="w-full bg-fog border border-moss-100 rounded-xl px-4 py-3 font-body text-sm text-ink placeholder:text-moss-300 transition-all"
-              />
-            </div>
-            <div>
-              <label
-                class="font-mono text-xs text-moss-400 tracking-widest uppercase block mb-2"
-                >Email</label
-              >
-              <input
-                type="email"
-                placeholder="alex@co.com"
-                class="w-full bg-fog border border-moss-100 rounded-xl px-4 py-3 font-body text-sm text-ink placeholder:text-moss-300 transition-all"
-              />
-            </div>
+      <!-- Mini form -->
+      <div class="reveal d2">
+        <form class="bg-white border border-moss-100 rounded-3xl p-8 shadow-sm space-y-5">
+          <div class="space-y-2">
+            <label for="f-name" class="text-label-mono text-moss-400 ml-1">Name</label>
+            <input type="text" id="f-name" class="w-full bg-fog/50 border border-moss-100 rounded-xl px-4 py-3 font-body text-sm focus:outline-none focus:border-moss-500 transition-colors" placeholder="Your name" />
           </div>
-          <div>
-            <label
-              class="font-mono text-xs text-moss-400 tracking-widest uppercase block mb-2"
-              >Budget range</label
-            >
-            <select
-              class="w-full bg-fog border border-moss-100 rounded-xl px-4 py-3 font-body text-sm text-moss-600 transition-all appearance-none"
-            >
-              <option>Select a range</option>
-              <option>Under $5k</option>
-              <option>$5k – $15k</option>
-              <option>$15k – $50k</option>
-              <option>$50k+</option>
-            </select>
+          <div class="space-y-2">
+            <label for="f-email" class="text-label-mono text-moss-400 ml-1">Email</label>
+            <input type="email" id="f-email" class="w-full bg-fog/50 border border-moss-100 rounded-xl px-4 py-3 font-body text-sm focus:outline-none focus:border-moss-500 transition-colors" placeholder="your@email.com" />
           </div>
-          <div>
-            <label
-              class="font-mono text-xs text-moss-400 tracking-widest uppercase block mb-2"
-              >Message</label
-            >
-            <textarea
-              rows="5"
-              placeholder="Tell me about your project, timeline, and goals..."
-              class="w-full bg-fog border border-moss-100 rounded-xl px-4 py-3 font-body text-sm text-ink placeholder:text-moss-300 transition-all resize-none"
-            ></textarea>
+          <div class="space-y-2">
+            <label for="f-msg" class="text-label-mono text-moss-400 ml-1">Message</label>
+            <textarea id="f-msg" rows="4" class="w-full bg-fog/50 border border-moss-100 rounded-xl px-4 py-3 font-body text-sm focus:outline-none focus:border-moss-500 transition-colors resize-none" placeholder="How can I help?"></textarea>
           </div>
-          <button
-            type="button"
-            class="w-full bg-moss-600 hover:bg-moss-700 text-fog font-semibold text-sm py-4 rounded-xl transition-colors flex items-center justify-center gap-2 shadow-md hover:shadow-lg"
-          >
+          <button type="submit" class="w-full bg-moss-700 text-fog font-semibold py-4 rounded-xl hover:bg-ink transition-all shadow-md hover:shadow-lg">
             Send Message
-            <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-              <path
-                d="M1.5 7.5l11-5-5 11-1-5-5-1z"
-                stroke="currentColor"
-                stroke-width="1.4"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-            </svg>
           </button>
-          <p class="font-mono text-xs text-moss-400 text-center">
-            I reply within 24 hours · No spam ever
-          </p>
-        </div>
-      </div> -->
+        </form>
+      </div>
     </div>
   </div>
 </section>

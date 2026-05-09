@@ -1,0 +1,494 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+
+/**
+ * Projects page
+ * Expects the Laravel Eloquent Resource Collection response shape.
+ */
+
+export interface PaginatedResource<T> {
+  data: T[];
+  links: {
+    first: string;
+    last: string;
+    prev: string | null;
+    next: string | null;
+  };
+  meta: {
+    current_page: number;
+    from: number;
+    last_page: number;
+    path: string;
+    per_page: number;
+    to: number;
+    total: number;
+  };
+}
+
+export interface Project {
+  id: number;
+  title: string;
+  slug: string;
+  excerpt: string;
+  thumbnail: string | null;
+  stack: string[];
+  category: string;
+  live_url: string | null;
+  repo_url: string | null;
+  status: "completed" | "ongoing" | "archived";
+  featured: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// ── Dummy data ───────────────────────────────────────────────────────────────
+const dummyProjects: PaginatedResource<Project> = {
+  data: [
+    {
+      id: 1,
+      title: "Reprime — Business Management Platform",
+      slug: "reprime",
+      featured: true,
+      status: "ongoing",
+      category: "SaaS",
+      thumbnail: null,
+      excerpt:
+        "A full-featured ERP and HR platform serving thousands of active users across multiple companies. Covers attendance, payroll, project tracking, and asset management.",
+      stack: ["Laravel", "Vue", "PostgreSQL", "Go", "Fiber", "Astro"],
+      live_url: "https://reprime.id",
+      repo_url: null,
+      createdAt: "2022-09-01",
+      updatedAt: "2025-05-01",
+    },
+    {
+      id: 2,
+      title: "HR Module — Factory Workforce System",
+      slug: "hr-factory",
+      featured: false,
+      status: "completed",
+      category: "Enterprise",
+      thumbnail: null,
+      excerpt:
+        "Complex HR project built for a large factory client with thousands of active daily users. Covers shift scheduling, overtime calculation, and multi-branch payroll.",
+      stack: ["Laravel", "MySQL", "TypeScript"],
+      live_url: null,
+      repo_url: null,
+      createdAt: "2023-10-01",
+      updatedAt: "2024-06-01",
+    },
+    {
+      id: 3,
+      title: "REST API Gateway with Go Fiber",
+      slug: "go-fiber-gateway",
+      featured: false,
+      status: "completed",
+      category: "Backend",
+      thumbnail: null,
+      excerpt:
+        "High-performance API gateway built with Go Fiber. Includes JWT auth, rate limiting, request logging, and a Redis caching layer. Benchmarked at 40k req/s.",
+      stack: ["Go", "Fiber", "Redis", "PostgreSQL"],
+      live_url: null,
+      repo_url: "https://github.com/akmal/go-fiber-gateway",
+      createdAt: "2024-02-01",
+      updatedAt: "2024-05-01",
+    },
+    {
+      id: 4,
+      title: "Portfolio — This Site",
+      slug: "portfolio",
+      featured: false,
+      status: "ongoing",
+      category: "Frontend",
+      thumbnail: null,
+      excerpt:
+        "My personal portfolio built with Astro and Tailwind. Static-first with Astro Islands for interactive sections. Zero JS on most pages.",
+      stack: ["Astro", "TypeScript", "Tailwind"],
+      live_url: "#",
+      repo_url: "https://github.com/akmal/portfolio",
+      createdAt: "2025-01-01",
+      updatedAt: "2025-05-01",
+    },
+    {
+      id: 5,
+      title: "Inventory & Asset Tracking Module",
+      slug: "inventory-module",
+      featured: false,
+      status: "completed",
+      category: "SaaS",
+      thumbnail: null,
+      excerpt:
+        "Internal inventory system built as a module inside the Reprime platform. Tracks company assets, depreciation schedules, and purchase orders.",
+      stack: ["Laravel", "Vue", "PostgreSQL"],
+      live_url: null,
+      repo_url: null,
+      createdAt: "2023-03-01",
+      updatedAt: "2023-09-01",
+    },
+    {
+      id: 6,
+      title: "Lumen Microservice — Notification Worker",
+      slug: "lumen-notification",
+      featured: false,
+      status: "archived",
+      category: "Backend",
+      thumbnail: null,
+      excerpt:
+        "Lightweight Lumen microservice handling email, SMS, and push notification dispatch via queue workers. Processes 10k+ notifications per day.",
+      stack: ["PHP", "Lumen", "MySQL", "Redis"],
+      live_url: null,
+      repo_url: "https://github.com/akmal/lumen-notify",
+      createdAt: "2022-11-01",
+      updatedAt: "2023-06-01",
+    },
+  ],
+  links: { first: "#", last: "#", prev: null, next: "#" },
+  meta: {
+    current_page: 1,
+    from: 1,
+    last_page: 2,
+    path: "/project",
+    per_page: 6,
+    to: 6,
+    total: 11,
+  },
+};
+
+const projects = dummyProjects;
+
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString("en-GB", {
+    month: "short",
+    year: "numeric",
+  });
+}
+
+const categories = ["All", ...new Set(projects.data.map((p) => p.category))];
+const featured = projects.data.find((p) => p.featured);
+const rest = projects.data.filter((p) => !p.featured);
+
+const STATUS_COLORS: Record<string, string> = {
+  completed: "bg-moss-400",
+  ongoing: "bg-mint animate-pulse",
+  archived: "bg-moss-200",
+};
+---
+
+<Layout title="Projects — Akmal Keisin">
+  <Navbar />
+
+  <!-- ── Dark Library Hero ─────────────────────────────────────────────────── -->
+  <section class="relative bg-moss-800 overflow-hidden pt-[66px]" aria-label="Projects hero">
+    <!-- Background textures -->
+    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+      <svg class="absolute inset-0 w-full h-full opacity-[.04]">
+        <defs>
+          <pattern id="hex-projects" x="0" y="0" width="60" height="52" patternUnits="userSpaceOnUse">
+            <path d="M30 2L56 17V47L30 62L4 47V17Z" fill="none" stroke="#c8f0d0" stroke-width="1" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#hex-projects)" />
+      </svg>
+      <div class="absolute top-0 right-0 w-120 h-120 rounded-full bg-moss-600/20 blur-3xl" aria-hidden="true"></div>
+      <div class="absolute bottom-0 left-0 w-80 h-80 rounded-full bg-mint/10 blur-3xl" aria-hidden="true"></div>
+    </div>
+
+    <div class="relative max-w-6xl mx-auto px-6 py-20 md:py-28">
+      <div class="reveal">
+        <span class="block w-12 h-[3px] rounded-full mb-6 bg-gradient-to-r from-mint to-moss-500"></span>
+        <p class="text-label-mono text-moss-300 mb-4">Selected Work</p>
+        <h1 class="text-hero-title text-fog">
+          Things I've<br/><em class="not-italic text-mint">shipped</em>
+        </h1>
+        <p class="text-hero-subtitle text-moss-300 mt-8 max-w-xl">
+          A collection of products, tools, and systems I've built professionally and as personal projects. Total {projects.meta.total} projects featured.
+        </p>
+      </div>
+
+      <!-- Stats row -->
+      <div class="flex flex-wrap gap-10 md:gap-20 mt-16 pt-12 border-t border-moss-700/50">
+        {[
+          [String(projects.meta.total) + "+", "Projects"],
+          [String(categories.length - 1), "Categories"],
+          [String(new Set(projects.data.flatMap(p => p.stack)).size) + "+", "Tech Stack"],
+        ].map(([num, label], i) => (
+          <div class={`reveal d${i + 1}`}>
+            <div class="text-hero-title text-fog">{num}</div>
+            <div class="text-label-mono text-moss-400 mt-2">{label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Filter / search toolbar ─────────────────────────────────────────────── -->
+  <section class="sticky top-[66px] z-40 bg-fog/95 backdrop-blur-md border-b border-sage-200">
+    <div class="max-w-6xl mx-auto px-6 py-3 flex items-center gap-3 flex-wrap">
+      <!-- Search -->
+      <div class="relative flex-1 min-w-[200px] max-w-[300px]">
+        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-moss-400 pointer-events-none" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="6" cy="6" r="4"/><path d="M10 10l3 3"/>
+        </svg>
+        <input
+          type="text"
+          id="search-input"
+          placeholder="Search projects…"
+          class="w-full py-2 pr-3 pl-8 rounded-full border border-sage-200 bg-white font-body text-[13px] text-ink focus:outline-none focus:border-moss-500 transition-all"
+        />
+      </div>
+
+      <!-- Category filters -->
+      <div class="flex items-center gap-1.5 flex-wrap">
+        {categories.map((cat) => (
+          <button
+            class={`filter-btn text-label-mono px-3.5 py-1.5 rounded-full border border-sage-200 bg-white text-moss-600 cursor-pointer transition-all hover:bg-sage-100 data-[active=true]:bg-moss-700 data-[active=true]:text-fog data-[active=true]:border-moss-700`}
+            data-filter={cat}
+            data-active={cat === "All" ? "true" : "false"}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
+      <div class="ml-auto hidden sm:block">
+        <span id="result-count" class="text-label-mono text-moss-400">
+          {projects.meta.from}–{projects.meta.to} of {projects.meta.total}
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Main Grid ────────────────────────────────────────────────────────── -->
+  <main class="bg-fog">
+    <div class="max-w-6xl mx-auto px-6 py-24">
+      
+      <!-- Featured Project -->
+      {featured && (
+      <section class="mb-24" data-category={featured.category} data-title={featured.title.toLowerCase()}>
+        <div class="proj-card reveal group relative bg-white border border-moss-200 rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-xl hover:border-moss-300 transition-all duration-500 grid lg:grid-cols-2">
+          <!-- Visual Side -->
+          <div class="relative h-64 lg:h-auto bg-moss-800 flex items-center justify-center overflow-hidden">
+            <div class="absolute inset-0 opacity-10">
+              <svg width="100%" height="100%">
+                <pattern id="hex-featured-proj" x="0" y="0" width="30" height="26" patternUnits="userSpaceOnUse">
+                  <path d="M15 1L28 8.5V22.5L15 30L2 22.5V8.5Z" fill="none" stroke="#c8f0d0" stroke-width="1" />
+                </pattern>
+                <rect width="100%" height="100%" fill="url(#hex-featured-proj)" />
+              </svg>
+            </div>
+            <svg class="w-32 opacity-20 relative z-10 group-hover:scale-110 transition-transform duration-700" viewBox="0 0 200 280" fill="none">
+              <path d="M100 10C100 10 20 60 20 140C20 188 55 220 100 220C145 220 180 188 180 140C180 60 100 10 100 10Z" fill="#c8f0d0"/>
+              <line x1="100" y1="220" x2="100" y2="270" stroke="#c8f0d0" stroke-width="4" stroke-linecap="round"/>
+            </svg>
+            <div class="absolute top-8 left-8 flex items-center gap-2 bg-ink/40 backdrop-blur-md border border-moss-500/30 rounded-full px-4 py-1.5">
+              <span class={`w-2 h-2 rounded-full ${STATUS_COLORS[featured.status]}`}></span>
+              <span class="text-label-mono text-mint">{featured.status}</span>
+            </div>
+          </div>
+
+          <!-- Content Side -->
+          <div class="p-10 lg:p-16 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-8">
+                <span class="text-label-mono border border-moss-200 px-3 py-1 rounded-full text-moss-400">
+                  {featured.category}
+                </span>
+                <span class="text-label-mono text-mint bg-moss-700 px-3 py-1 rounded-full">
+                  Featured
+                </span>
+              </div>
+              <h2 class="text-section-title text-ink mb-6">
+                {featured.title}
+              </h2>
+              <p class="text-hero-subtitle text-moss-600 mb-10 max-w-xl">
+                {featured.excerpt}
+              </p>
+              <div class="flex flex-wrap gap-2 mb-10">
+                {featured.stack.map((s) => (
+                  <span class="text-label-mono text-moss-500 bg-moss-100 border border-moss-200 px-3 py-1 rounded-full">
+                    {s}
+                  </span>
+                ))}
+              </div>
+            </div>
+            
+            <div class="flex items-center justify-between pt-10 border-t border-moss-100">
+              <span class="text-label-mono text-moss-400">Project #{featured.id.toString().padStart(2, '0')}</span>
+              <div class="flex gap-6">
+                {featured.repo_url && (
+                  <a href={featured.repo_url} class="text-moss-400 hover:text-moss-700 transition-colors" title="View Source">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                  </a>
+                )}
+                {featured.live_url && (
+                  <a href={featured.live_url} class="inline-flex items-center gap-2 font-body text-sm font-bold text-moss-700 hover:text-ink transition-colors uppercase tracking-widest">
+                    Live Project
+                    <svg width="16" height="16" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12L12 2M12 2H4M12 2V10"/></svg>
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      )}
+
+      <!-- Other Projects Grid -->
+      <section>
+        <div id="grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {rest.map((project, i) => (
+            <div
+              class={`proj-card reveal reveal-d${(i % 3) + 1} flex flex-col bg-white border border-moss-100 rounded-3xl p-8 hover:shadow-xl hover:border-moss-300 transition-all duration-300 relative overflow-hidden group`}
+              data-category={project.category}
+              data-title={project.title.toLowerCase()}
+            >
+              <div aria-hidden="true" class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-mint/10 to-transparent rounded-bl-[100%] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+              <div class="flex flex-col h-full justify-between gap-8">
+                <div>
+                  <div class="flex items-center justify-between mb-8">
+                    <span class="text-label-mono border border-moss-100 px-3 py-1 rounded-full text-moss-400 bg-fog">
+                      {project.category}
+                    </span>
+                    <span class={`w-2 h-2 rounded-full ${STATUS_COLORS[project.status]}`}></span>
+                  </div>
+                  <h3 class="text-card-title text-ink mb-4 group-hover:text-moss-700 transition-colors">
+                    {project.title}
+                  </h3>
+                  <p class="text-section-desc text-moss-600 line-clamp-3">
+                    {project.excerpt}
+                  </p>
+                </div>
+
+                <div>
+                  <div class="flex flex-wrap gap-1.5 mb-8">
+                    {project.stack.slice(0, 4).map((s) => (
+                      <span class="text-label-mono px-2.5 py-1 rounded-full border border-sage-100 bg-fog text-moss-500">
+                        {s}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div class="flex items-center justify-between pt-6 border-t border-moss-100">
+                    <span class="text-label-mono text-moss-300">{project.status}</span>
+                    <div class="flex gap-4">
+                      {project.repo_url && (
+                        <a href={project.repo_url} class="text-moss-300 hover:text-moss-600 transition-colors">
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                        </a>
+                      )}
+                      <a href={`/project/${project.slug}`} class="text-moss-700 hover:text-ink transition-colors">
+                        <svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- Empty state -->
+      <div id="empty-state" class="hidden py-32 text-center">
+        <svg class="w-16 h-16 mx-auto mb-6 opacity-10" viewBox="0 0 80 120" fill="none">
+          <path d="M40 10C40 10 10 40 10 70C10 88 23 100 40 100C57 100 70 88 70 70C70 40 40 10 40 10Z" fill="#3e7d32"/>
+          <line x1="40" y1="100" x2="40" y2="115" stroke="#3e7d32" stroke-width="2"/>
+        </svg>
+        <h3 class="text-section-title text-moss-600 font-medium tracking-widest">No Projects Found</h3>
+        <p class="text-section-desc text-moss-400 mt-2">Adjust your search or category filters.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- ── Pagination ────────────────────────────────────────────────────────── -->
+  <section class="bg-fog px-6 pb-24">
+    <div class="max-w-6xl mx-auto flex items-center justify-between flex-wrap gap-6 border-t border-sage-200 pt-12">
+      <span class="text-label-mono text-moss-400">
+        Page {projects.meta.current_page} / {projects.meta.last_page} &nbsp;·&nbsp; {projects.meta.total} Total
+      </span>
+
+      <div class="flex items-center gap-2">
+        <a
+          href={projects.links.prev ?? undefined}
+          class={`inline-flex items-center justify-center w-12 h-12 rounded-2xl border transition-all no-underline ${projects.links.prev ? 'border-sage-200 bg-white text-moss-600 hover:bg-sage-100 hover:border-moss-400' : 'border-sage-100 bg-fog text-moss-200 pointer-events-none'}`}
+          aria-disabled={projects.links.prev === null}
+        >
+          <svg width="18" height="18" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3L4 7l4 4"/></svg>
+        </a>
+
+        {Array.from({ length: projects.meta.last_page }, (_, i) => i + 1).map((p) => (
+          <a
+            href={`${projects.meta.path}?page=${p}`}
+            class={`inline-flex items-center justify-center w-12 h-12 rounded-2xl border text-label-mono transition-all no-underline ${p === projects.meta.current_page ? "bg-moss-800 text-fog border-moss-800" : "border-sage-200 bg-white text-moss-600 hover:bg-sage-100 hover:border-moss-400"}`}
+          >
+            {p}
+          </a>
+        ))}
+
+        <a
+          href={projects.links.next ?? undefined}
+          class={`inline-flex items-center justify-center w-12 h-12 rounded-2xl border transition-all no-underline ${projects.links.next ? 'border-sage-200 bg-white text-moss-600 hover:bg-sage-100 hover:border-moss-400' : 'border-sage-100 bg-fog text-moss-200 pointer-events-none'}`}
+          aria-disabled={projects.links.next === null}
+        >
+          <svg width="18" height="18" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3l4 4-4 4"/></svg>
+        </a>
+      </div>
+
+      <span class="text-label-mono text-moss-400">
+        {projects.meta.per_page} Per Page
+      </span>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>
+
+<script>
+  const searchInput = document.getElementById('search-input') as HTMLInputElement | null;
+  const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const grid = document.getElementById('grid-container');
+  const emptyState = document.getElementById('empty-state');
+  const resultCount = document.getElementById('result-count');
+
+  let activeCategory = 'All';
+  let searchQuery = '';
+
+  function applyFilters() {
+    if (!grid || !emptyState || !resultCount) return;
+    const cards = document.querySelectorAll<HTMLElement>('[data-category]');
+    let visible = 0;
+
+    cards.forEach((card) => {
+      const cat = card.getAttribute('data-category') ?? '';
+      const title = card.getAttribute('data-title') ?? '';
+      const matchCat = activeCategory === 'All' || cat === activeCategory;
+      const matchSearch = !searchQuery || title.includes(searchQuery);
+      const show = matchCat && matchSearch;
+      
+      card.style.display = show ? '' : 'none';
+      if (show) {
+        visible++;
+        card.classList.add('visible');
+      }
+    });
+
+    emptyState.style.display = visible === 0 ? 'block' : 'none';
+    resultCount.textContent = `${visible} SHOWN`;
+  }
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach((b) => b.setAttribute('data-active', 'false'));
+      btn.setAttribute('data-active', 'true');
+      activeCategory = btn.getAttribute('data-filter') ?? 'All';
+      applyFilters();
+    });
+  });
+
+  searchInput?.addEventListener('input', (e) => {
+    searchQuery = (e.target as HTMLInputElement).value.toLowerCase().trim();
+    applyFilters();
+  });
+</script>

@@ -7,11 +7,6 @@ import Footer from "../components/Footer.astro";
  * Articles page
  *
  * Expects the Laravel Eloquent Resource Collection response shape.
- * Pass `articles` as a prop from your Astro data-fetching or getStaticPaths.
- *
- * Usage example (SSR mode):
- *   const res  = await fetch('https://your-api.test/api/articles?page=1&per_page=9')
- *   const articles: PaginatedResource<Article> = await res.json()
  */
 
 export interface PaginatedResource<T> {
@@ -45,7 +40,7 @@ export interface Article {
     updatedAt: string;
 }
 
-// ── Dummy data so the page renders without an API call ───────────────────────
+// ── Dummy data ───────────────────────────────────────────────────────────────
 const dummyArticles: PaginatedResource<Article> = {
     data: [
         {
@@ -89,350 +84,345 @@ const dummyArticles: PaginatedResource<Article> = {
     meta:  { current_page: 1, from: 1, last_page: 3, path: "/articles", per_page: 6, to: 6, total: 18 },
 };
 
-// ── Swap this for your real fetch in SSR/SSG ─────────────────────────────────
 const articles = dummyArticles;
 
 function formatDate(iso: string) {
     return new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
 }
 
-// First article = featured hero, rest = grid
-const [featured, ...rest] = articles.data;
+const featured = articles.data[0];
+const rest = articles.data.slice(1);
+
+const categories = ["All", ...new Set(articles.data.map(a => a.category))];
+
+const CATEGORY_COLORS: Record<string, string> = {
+  Backend:      "bg-moss-700 text-mint border-moss-600",
+  Frontend:     "bg-mint-light text-moss-700 border-mint",
+  Database:     "bg-sage-200 text-ink border-sage-300",
+  Architecture: "bg-ink text-fog border-ink-light",
+};
 ---
 
 <Layout title="Articles — Akmal Keisin">
   <Navbar />
 
-  <!-- ── Hero banner ─────────────────────────────────────────────────────────── -->
-  <section class="pt-32 pb-16 px-6 relative overflow-hidden" aria-label="Articles hero">
-      <!-- Decorative background blobs -->
-      <div aria-hidden="true" class="absolute inset-0 pointer-events-none overflow-hidden -z-10">
-          <div class="absolute -top-15 -right-20 w-120 h-120 rounded-full bg-[radial-gradient(circle,rgba(62,125,50,.09),transparent_65%)]"></div>
-          <div class="absolute -bottom-10 -left-10 w-70 h-70 rounded-full bg-[radial-gradient(circle,rgba(200,240,208,.25),transparent_70%)]"></div>
-          
-          <svg class="absolute top-10 right-[18%] w-16 opacity-10" viewBox="0 0 80 120" fill="none">
-              <path d="M40 10C40 10 10 40 10 70C10 88 23 100 40 100C57 100 70 88 70 70C70 40 40 10 40 10Z" class="fill-moss-500"/>
-              <line x1="40" y1="100" x2="40" y2="115" class="stroke-moss-500" stroke-width="2"/>
-          </svg>
-          <svg class="absolute bottom-8 left-[12%] w-10 opacity-[0.06]" viewBox="0 0 60 90" fill="none">
-              <path d="M30 5C30 5 5 30 5 55C5 70 16 80 30 80C44 80 55 70 55 55C55 30 30 5 30 5Z" class="fill-moss-500"/>
-          </svg>
+  <!-- ── Dark Library Hero ─────────────────────────────────────────────────── -->
+  <section class="relative bg-moss-800 overflow-hidden pt-[66px]" aria-label="Articles hero">
+    <!-- Background textures -->
+    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+      <svg class="absolute inset-0 w-full h-full opacity-[.04]">
+        <defs>
+          <pattern id="hex-hero" x="0" y="0" width="60" height="52" patternUnits="userSpaceOnUse">
+            <path d="M30 2L56 17V47L30 62L4 47V17Z" fill="none" stroke="#c8f0d0" stroke-width="1" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#hex-hero)" />
+      </svg>
+      <div class="absolute top-0 right-0 w-96 h-96 rounded-full bg-moss-600/20 blur-3xl" aria-hidden="true"></div>
+      <div class="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-mint/10 blur-3xl" aria-hidden="true"></div>
+      <svg class="absolute top-16 right-[15%] w-16 opacity-[.07]" viewBox="0 0 80 120" fill="none">
+        <path d="M40 10C40 10 10 40 10 70C10 88 23 100 40 100C57 100 70 88 70 70C70 40 40 10 40 10Z" fill="#c8f0d0"/>
+        <line x1="40" y1="100" x2="40" y2="115" stroke="#c8f0d0" stroke-width="2"/>
+      </svg>
+    </div>
+
+    <div class="relative max-w-6xl mx-auto px-6 py-20 md:py-28">
+      <!-- Eyebrow + heading -->
+      <div class="reveal mb-12">
+        <span class="block w-12 h-[3px] rounded-full mb-6 bg-gradient-to-r from-mint to-moss-500"></span>
+        <p class="text-label-mono text-moss-300 mb-4">Writing</p>
+        <h1 class="text-hero-title text-fog">
+          From the<br/><em class="not-italic text-mint">notebook</em>
+        </h1>
+        <p class="text-hero-subtitle text-moss-300 mt-8 max-w-xl">
+          Notes, deep-dives, and tutorials on backend engineering, database internals, and the web stack.
+        </p>
       </div>
 
-      <div class="max-w-6xl mx-auto relative">
-          <span class="accent-line mb-3.5"></span>
-          <span class="font-mono text-[10px] tracking-[0.18em] uppercase text-moss-400 block mt-3">Writing</span>
-
-          <h1 class="font-display text-[clamp(2.8rem,6vw,4.5rem)] font-semibold text-ink leading-[1.08] mt-2.5">
-              From the<br />
-              <em class="not-italic text-moss-500">notebook</em>
-          </h1>
-
-          <p class="text-base text-moss-600 leading-relaxed max-w-130 mt-4">
-              Notes, deep-dives, and tutorials on backend engineering, database internals, and the web
-              stack I use every day. {articles.meta.total} articles total.
-          </p>
-
-          <!-- Stats row -->
-          <div class="flex items-center gap-8 mt-8 pt-6 border-t border-sage-200">
-              {[
-                  [String(articles.meta.total), "Articles"],
-                  [String(articles.meta.last_page), "Pages"],
-                  ["4", "Categories"],
-              ].map(([num, label]) => (
-                  <div>
-                      <div class="font-display text-3xl font-semibold text-moss-600">{num}</div>
-                      <div class="font-mono text-[10px] text-moss-400 mt-0.5 tracking-widest uppercase">{label}</div>
-                  </div>
-              ))}
+      <!-- Stats row -->
+      <div class="flex items-center gap-8 md:gap-12 pt-10 border-t border-moss-700/50">
+        {[
+          [String(articles.meta.total), "Articles"],
+          [String(articles.meta.last_page), "Pages"],
+          [String(categories.length - 1), "Categories"],
+        ].map(([num, label], i) => (
+          <div class={`reveal d${i + 1}`}>
+            <div class="text-hero-title text-fog">{num}</div>
+            <div class="text-label-mono text-moss-400 mt-1 tracking-widest uppercase">{label}</div>
           </div>
+        ))}
       </div>
+    </div>
   </section>
 
-
-  <!-- ── Filter / search toolbar ─────────────────────────────────────────────── -->
-  <section class="sticky top-17 z-40 bg-fog/95 backdrop-blur-md border-b border-sage-200">
-      <div class="max-w-6xl mx-auto px-6 py-3 flex items-center gap-2.5 flex-wrap">
-
-          <!-- Search -->
-          <div class="relative flex-1 min-w-45 max-w-70">
-              <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 opacity-40 pointer-events-none text-moss-700" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <circle cx="6" cy="6" r="4"/><path d="M10 10l3 3"/>
-              </svg>
-              <input
-                  type="text"
-                  id="search-input"
-                  placeholder="Search articles…"
-                  class="w-full py-2 pr-3 pl-8 rounded-full border border-sage-200 bg-white font-body text-[13px] text-ink focus:outline-none focus:border-moss-500 focus:ring-2 focus:ring-moss-500/20 transition-all"
-              />
-          </div>
-
-          <!-- Category filters -->
-          <div class="flex items-center gap-1.5 flex-wrap">
-              {["All", "Backend", "Frontend", "Database", "Architecture"].map((cat) => (
-                  <button
-                      class={`filter-btn font-mono text-[11px] px-3.5 py-1.5 rounded-full border border-sage-200 bg-white text-moss-600 cursor-pointer transition-all tracking-[0.06em] hover:bg-sage-100 ${cat === "All" ? "bg-moss-500 text-fog border-moss-500 hover:bg-moss-500" : ""}`}
-                      data-filter={cat}
-                  >
-                      {cat}
-                  </button>
-              ))}
-          </div>
-
-          <!-- Result count -->
-          <div class="ml-auto">
-              <span id="result-count" class="font-mono text-[11px] text-moss-400">
-                  {articles.meta.from}–{articles.meta.to} of {articles.meta.total}
-              </span>
-          </div>
+  <!-- ── Sticky Toolbar ────────────────────────────────────────────────────── -->
+  <section class="sticky top-[66px] z-40 bg-fog/95 backdrop-blur-md border-b border-sage-200">
+    <div class="max-w-6xl mx-auto px-6 py-3 flex items-center gap-3 flex-wrap">
+      <!-- Search -->
+      <div class="relative flex-1 min-w-[200px] max-w-[300px]">
+        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-moss-400 pointer-events-none" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="6" cy="6" r="4"/><path d="M10 10l3 3"/>
+        </svg>
+        <input
+          type="text"
+          id="search-input"
+          placeholder="Search articles…"
+          class="w-full pl-8 pr-3 py-2 rounded-full border border-sage-200 bg-white font-body text-[13px] text-ink placeholder:text-moss-300 focus:outline-none focus:border-moss-500 transition-all"
+        />
       </div>
+
+      <!-- Category filters -->
+      <div class="flex items-center gap-1.5 flex-wrap">
+        {categories.map((cat) => (
+          <button
+            class={`filter-btn text-label-mono px-3.5 py-1.5 rounded-full border border-sage-200 bg-white text-moss-600 cursor-pointer transition-all hover:bg-sage-100 data-[active=true]:bg-moss-700 data-[active=true]:text-fog data-[active=true]:border-moss-700`}
+            data-filter={cat}
+            data-active={cat === "All" ? "true" : "false"}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
+      <!-- Result count -->
+      <div class="ml-auto hidden sm:block">
+        <span id="result-count" class="text-label-mono text-moss-400">
+          {articles.meta.from}–{articles.meta.to} of {articles.meta.total}
+        </span>
+      </div>
+    </div>
   </section>
 
-
-  <!-- ── Featured article ─────────────────────────────────────────────────────── -->
+  <!-- ── Featured Article ──────────────────────────────────────────────────── -->
   {featured && (
-  <section class="pt-12 px-6 max-w-6xl mx-auto" data-category={featured.category}>
-      <a
-          href={`/articles/${featured.slug}`}
-          class="proj-card reveal flex flex-col bg-white border border-sage-200 rounded-2xl overflow-hidden relative"
-          aria-label={`Read featured article: ${featured.title}`}
-      >
-          <!-- Featured label strip -->
-          <div class="bg-moss-700 px-5 py-2 flex items-center gap-2.5">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                  <path d="M7 1L8.8 5.2H13L9.6 7.8L10.9 12L7 9.4L3.1 12L4.4 7.8L1 5.2H5.2Z" class="fill-mint" opacity=".8"/>
-              </svg>
-              <span class="font-mono text-[10px] text-mint tracking-[0.18em] uppercase">Featured article</span>
+  <section class="max-w-6xl mx-auto px-6 pt-12 pb-0" data-category={featured.category}>
+    <a
+      href={`/blog/${featured.slug}`}
+      class="proj-card reveal group relative flex flex-col lg:flex-row bg-white border border-sage-200 rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-xl hover:border-moss-300 transition-all duration-500 no-underline"
+      aria-label={`Read featured article: ${featured.title}`}
+    >
+      <!-- Visual Placeholder Side -->
+      <div class="lg:w-[40%] h-64 lg:h-auto bg-moss-800 flex items-center justify-center relative overflow-hidden flex-shrink-0">
+        <div class="absolute inset-0 opacity-10">
+          <svg width="100%" height="100%">
+            <pattern id="hex-small-article" x="0" y="0" width="30" height="26" patternUnits="userSpaceOnUse">
+              <path d="M15 1L28 8.5V22.5L15 30L2 22.5V8.5Z" fill="none" stroke="#c8f0d0" stroke-width="1" />
+            </pattern>
+            <rect width="100%" height="100%" fill="url(#hex-small-article)" />
+          </svg>
+        </div>
+        <svg class="w-32 opacity-20 relative z-10 group-hover:scale-110 transition-transform duration-700" viewBox="0 0 200 280" fill="none">
+          <path d="M100 10C100 10 20 60 20 140C20 188 55 220 100 220C145 220 180 188 180 140C180 60 100 10 100 10Z" fill="#c8f0d0"/>
+          <line x1="100" y1="220" x2="100" y2="270" stroke="#c8f0d0" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+        <div class="absolute top-6 left-6 flex items-center gap-2 bg-ink/40 backdrop-blur-md border border-moss-500/30 rounded-full px-3 py-1">
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M7 1L8.8 5.2H13L9.6 7.8L10.9 12L7 9.4L3.1 12L4.4 7.8L1 5.2H5.2Z" class="fill-mint" opacity=".8"/>
+          </svg>
+          <span class="text-label-mono text-mint">Featured</span>
+        </div>
+      </div>
+
+      <!-- Content Side -->
+      <div class="p-8 lg:p-12 flex flex-col justify-between flex-1">
+        <div>
+          <div class="flex items-center gap-3 mb-6">
+            <span class={`text-label-mono border px-3 py-1 rounded-full ${CATEGORY_COLORS[featured.category] || "bg-sage-100 border-sage-200 text-moss-600"}`}>
+              {featured.category}
+            </span>
+            <span class="text-label-mono text-moss-400">
+              {formatDate(featured.createdAt)}
+            </span>
           </div>
-
-          <div class="p-8 grid grid-cols-1 md:grid-cols-[1fr_auto] gap-8 items-start">
-              <div>
-                  <!-- Meta row -->
-                  <div class="flex items-center gap-2.5 mb-4 flex-wrap">
-                      <span class="font-mono text-[9px] tracking-[0.14em] uppercase px-2.5 py-1 rounded-full border border-sage-200 bg-mint/15 text-moss-500">{featured.category}</span>
-                      <span class="font-mono text-[10px] text-moss-400">{formatDate(featured.createdAt)}</span>
-                      <span class="w-0.75 h-0.75 rounded-full bg-moss-300"></span>
-                      <span class="font-mono text-[10px] text-moss-400">by {featured.author}</span>
-                  </div>
-
-                  <!-- Title -->
-                  <h2 class="font-display text-[clamp(1.5rem,3vw,2.2rem)] font-semibold text-ink leading-tight mb-3.5">
-                      {featured.title}
-                  </h2>
-
-                  <!-- Excerpt -->
-                  <p class="text-[15px] text-moss-600 leading-relaxed max-w-150">
-                      {featured.excerpt}
-                  </p>
-
-                  <!-- Tags -->
-                  <div class="flex gap-1.5 flex-wrap mt-5">
-                      {featured.tags.map((tag) => (
-                          <span class="font-mono text-[10px] tracking-[0.08em] px-2.5 py-0.5 rounded-full border border-sage-200 bg-sage-100 text-moss-600 whitespace-nowrap">
-                              #{tag}
-                          </span>
-                      ))}
-                  </div>
-              </div>
-
-              <!-- Read arrow block -->
-              <div class="hidden md:flex flex-col items-end justify-between h-full gap-4 shrink-0">
-                  <!-- Decorative leaf -->
-                  <svg width="60" height="90" viewBox="0 0 80 120" fill="none" aria-hidden="true" class="opacity-10">
-                      <path d="M40 10C40 10 10 40 10 70C10 88 23 100 40 100C57 100 70 88 70 70C70 40 40 10 40 10Z" class="fill-moss-500"/>
-                      <line x1="40" y1="100" x2="40" y2="115" class="stroke-moss-500" stroke-width="2"/>
-                      <path d="M40 70L26 56" class="stroke-mint" stroke-width="2" stroke-linecap="round"/>
-                      <path d="M40 80L52 65" class="stroke-mint" stroke-width="2" stroke-linecap="round"/>
-                  </svg>
-                  <!-- Read link -->
-                  <span class="inline-flex items-center gap-1.5 text-[13px] font-semibold text-moss-500">
-                      Read article
-                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                          <path d="M2 7h10M8 3l4 4-4 4"/>
-                      </svg>
-                  </span>
-              </div>
+          <h2 class="text-section-title text-ink mb-6 group-hover:text-moss-700 transition-colors">
+            {featured.title}
+          </h2>
+          <p class="text-hero-subtitle text-moss-600 mb-8 max-w-2xl">
+            {featured.excerpt}
+          </p>
+          <div class="flex flex-wrap gap-1.5 mb-8">
+            {featured.tags.map((tag) => (
+              <span class="text-label-mono px-2.5 py-0.5 rounded-full border border-sage-200 bg-sage-100 text-moss-600">
+                #{tag}
+              </span>
+            ))}
           </div>
-      </a>
+        </div>
+
+        <div class="flex items-center justify-between pt-8 border-t border-moss-100">
+          <span class="text-label-mono text-moss-400">by {featured.author}</span>
+          <span class="inline-flex items-center gap-2 font-body text-sm font-semibold text-moss-500 group-hover:text-moss-700 transition-colors">
+            Read article
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" class="group-hover:translate-x-1 transition-transform">
+              <path d="M2 7h10M8 3l4 4-4 4"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+    </a>
   </section>
   )}
 
+  <!-- ── Article Grid ──────────────────────────────────────────────────────── -->
+  <section class="max-w-6xl mx-auto px-6 py-12">
+    <div id="grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {rest.map((article, i) => (
+        <a
+          href={`/blog/${article.slug}`}
+          class={`proj-card reveal reveal-d${(i % 3) + 1} flex flex-col bg-white border border-moss-100 rounded-3xl p-8 shadow-sm hover:shadow-lg hover:border-moss-300 transition-all duration-300 no-underline relative overflow-hidden group`}
+          data-category={article.category}
+          data-title={article.title.toLowerCase()}
+          aria-label={`Read article: ${article.title}`}
+        >
+          <div aria-hidden="true" class="absolute top-0 right-0 w-24 h-24 rounded-full bg-[radial-gradient(circle,rgba(200,240,208,.15),transparent_70%)] pointer-events-none"></div>
 
-  <!-- ── Article grid ────────────────────────────────────────────────────────── -->
-  <section class="py-8 px-6 mb-16" id="articles-grid">
-      <div class="max-w-6xl mx-auto">
+          <div class="flex flex-col h-full justify-between gap-8">
+            <div>
+              <div class="flex items-center justify-between mb-8">
+                <span class={`text-label-mono border px-3 py-1 rounded-full ${CATEGORY_COLORS[article.category] || "bg-sage-100 border-sage-200 text-moss-600"}`}>
+                  {article.category}
+                </span>
+                <span class="text-label-mono text-moss-400">{formatDate(article.createdAt)}</span>
+              </div>
 
-          <div id="grid-container" class="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-4">
-              {rest.map((article, i) => (
-                  <a
-                      href={`/articles/${article.slug}`}
-                      class={`proj-card reveal reveal-d${Math.min(i + 1, 4)} flex flex-col justify-between gap-4 bg-white border border-sage-200 rounded-[14px] p-6 relative overflow-hidden`}
-                      data-category={article.category}
-                      data-title={article.title.toLowerCase()}
-                      aria-label={`Read article: ${article.title}`}
-                  >
-                      <!-- Decorative blob -->
-                      <div aria-hidden="true" class="absolute top-0 right-0 w-25 h-25 rounded-full bg-[radial-gradient(circle,rgba(200,240,208,.3),transparent_70%)] pointer-events-none"></div>
+              <h3 class="text-card-title text-ink mb-4 group-hover:text-moss-700 transition-colors">
+                {article.title}
+              </h3>
 
-                      <div>
-                          <!-- Top meta -->
-                          <div class="flex items-center justify-between mb-3.5">
-                              <span class="font-mono text-[9px] tracking-[0.14em] uppercase px-2.5 py-1 rounded-full border border-sage-200 bg-mint/15 text-moss-500">{article.category}</span>
-                              <span class="font-mono text-[10px] text-moss-400">{formatDate(article.createdAt)}</span>
-                          </div>
+              <p class="text-section-desc text-moss-500 line-clamp-3">
+                {article.excerpt}
+              </p>
+            </div>
 
-                          <!-- Title -->
-                          <h3 class="font-display text-lg font-semibold text-ink leading-tight mb-2.5">
-                              {article.title}
-                          </h3>
+            <div>
+              <div class="flex gap-1.5 flex-wrap mb-6">
+                {article.tags.slice(0, 3).map((tag) => (
+                  <span class="text-label-mono px-2.5 py-0.5 rounded-full border border-sage-100 bg-fog text-moss-400">
+                    #{tag}
+                  </span>
+                ))}
+              </div>
 
-                          <!-- Excerpt -->
-                          <p class="text-[13px] text-moss-600 leading-relaxed line-clamp-3">
-                              {article.excerpt}
-                          </p>
-                      </div>
-
-                      <div>
-                          <!-- Tags -->
-                          <div class="flex gap-1.5 flex-wrap mb-3.5 mt-2">
-                              {article.tags.map((tag) => (
-                                  <span class="font-mono text-[10px] tracking-[0.08em] px-2.5 py-0.5 rounded-full border border-sage-200 bg-sage-100 text-moss-600 whitespace-nowrap">
-                                      #{tag}
-                                  </span>
-                              ))}
-                          </div>
-
-                          <!-- Footer row -->
-                          <div class="flex items-center justify-between pt-3.5 border-t border-sage-200">
-                              <span class="font-mono text-[10px] text-moss-400">by {article.author}</span>
-                              <span class="inline-flex items-center gap-1 text-[12px] font-semibold text-moss-500">
-                                  Read
-                                  <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                                      <path d="M2 7h10M8 3l4 4-4 4"/>
-                                  </svg>
-                              </span>
-                          </div>
-                      </div>
-                  </a>
-              ))}
+              <div class="flex items-center justify-between pt-6 border-t border-moss-100">
+                <span class="text-label-mono text-moss-300">by {article.author}</span>
+                <span class="inline-flex items-center gap-1.5 font-body text-xs font-semibold text-moss-500 group-hover:text-moss-700 transition-colors">
+                  Read
+                  <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" class="group-hover:translate-x-0.5 transition-transform">
+                    <path d="M2 7h10M8 3l4 4-4 4"/>
+                  </svg>
+                </span>
+              </div>
+            </div>
           </div>
+        </a>
+      ))}
+    </div>
 
-          <!-- Empty state -->
-          <div id="empty-state" class="hidden py-20 text-center">
-              <svg width="48" height="72" viewBox="0 0 80 120" fill="none" class="mx-auto mb-5 opacity-20" aria-hidden="true">
-                  <path d="M40 10C40 10 10 40 10 70C10 88 23 100 40 100C57 100 70 88 70 70C70 40 40 10 40 10Z" class="fill-moss-500"/>
-                  <line x1="40" y1="100" x2="40" y2="115" class="stroke-moss-500" stroke-width="2"/>
-              </svg>
-              <p class="font-display text-xl text-moss-600">No articles found</p>
-              <p class="text-[13px] text-moss-400 mt-1.5">Try a different search term or category filter.</p>
-          </div>
-      </div>
+    <!-- Empty state -->
+    <div id="empty-state" class="hidden py-24 text-center">
+      <svg class="w-16 h-16 mx-auto mb-6 opacity-10" viewBox="0 0 80 120" fill="none" aria-hidden="true">
+        <path d="M40 10C40 10 10 40 10 70C10 88 23 100 40 100C57 100 70 88 70 70C70 40 40 10 40 10Z" fill="#3e7d32"/>
+        <line x1="40" y1="100" x2="40" y2="115" stroke="#3e7d32" stroke-width="2"/>
+      </svg>
+      <h3 class="text-section-title text-moss-600 font-medium">No matches found</h3>
+      <p class="text-section-desc text-moss-400 mt-2">Adjust your search or filters to find what you're looking for.</p>
+    </div>
   </section>
 
+  <!-- ── Pagination ────────────────────────────────────────────────────────── -->
+  <section class="max-w-6xl mx-auto px-6 pb-24">
+    <div class="flex items-center justify-between flex-wrap gap-4 border-t border-sage-200 pt-8">
+      <span class="text-label-mono text-moss-400">
+        PAGE {articles.meta.current_page} OF {articles.meta.last_page} &nbsp;·&nbsp; {articles.meta.from}–{articles.meta.to} OF {articles.meta.total}
+      </span>
 
-  <!-- ── Pagination ──────────────────────────────────────────────────────────── -->
-  <section class="px-6 pb-20">
-      <div class="max-w-6xl mx-auto flex items-center justify-between flex-wrap gap-3.5">
-          <!-- Page info -->
-          <span class="font-mono text-[11px] text-moss-400">
-              Page {articles.meta.current_page} of {articles.meta.last_page}
-              &nbsp;·&nbsp;
-              showing {articles.meta.from}–{articles.meta.to} of {articles.meta.total}
-          </span>
+      <div class="flex items-center gap-2">
+        <!-- Prev -->
+        <a
+          href={articles.links.prev ?? undefined}
+          class={`inline-flex items-center justify-center w-10 h-10 rounded-xl border transition-all no-underline ${articles.links.prev ? 'border-sage-200 bg-white text-moss-600 hover:bg-sage-100 hover:border-moss-400' : 'border-sage-100 bg-fog text-moss-200 pointer-events-none'}`}
+          aria-disabled={articles.links.prev === null}
+          aria-label="Previous page"
+        >
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3L4 7l4 4"/></svg>
+        </a>
 
-          <!-- Page buttons -->
-          <div class="flex items-center gap-1.5">
-              <!-- Prev -->
-              <a
-                  href={articles.links.prev ?? undefined}
-                  class={`inline-flex items-center justify-center w-9 h-9 rounded-lg border border-sage-200 bg-white text-moss-600 font-mono text-xs cursor-pointer transition-colors hover:bg-sage-100 hover:border-moss-400 ${articles.links.prev === null ? 'opacity-35 pointer-events-none' : ''}`}
-                  aria-disabled={articles.links.prev === null}
-                  aria-label="Previous page"
-              >
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                      <path d="M8 3L4 7l4 4"/>
-                  </svg>
-              </a>
+        <!-- Page numbers -->
+        {Array.from({ length: articles.meta.last_page }, (_, i) => i + 1).map((p) => (
+          <a
+            href={`${articles.meta.path}?page=${p}`}
+            class={`inline-flex items-center justify-center w-10 h-10 rounded-xl border text-label-mono transition-all no-underline ${p === articles.meta.current_page ? "bg-moss-700 text-fog border-moss-700" : "border-sage-200 bg-white text-moss-600 hover:bg-sage-100 hover:border-moss-400"}`}
+            aria-current={p === articles.meta.current_page ? "page" : undefined}
+          >
+            {p}
+          </a>
+        ))}
 
-              <!-- Page numbers -->
-              {Array.from({ length: articles.meta.last_page }, (_, i) => i + 1).map((p) => (
-                  <a
-                      href={`${articles.meta.path}?page=${p}`}
-                      class={`inline-flex items-center justify-center w-9 h-9 rounded-lg border bg-white font-mono text-xs cursor-pointer transition-colors hover:bg-sage-100 hover:border-moss-400 ${p === articles.meta.current_page ? "border-moss-500 bg-moss-500 text-fog" : "border-sage-200 text-moss-600"}`}
-                      aria-current={p === articles.meta.current_page ? "page" : undefined}
-                      aria-label={`Page ${p}`}
-                  >
-                      {p}
-                  </a>
-              ))}
-
-              <!-- Next -->
-              <a
-                  href={articles.links.next ?? undefined}
-                  class={`inline-flex items-center justify-center w-9 h-9 rounded-lg border border-sage-200 bg-white text-moss-600 font-mono text-xs cursor-pointer transition-colors hover:bg-sage-100 hover:border-moss-400 ${articles.links.next === null ? 'opacity-35 pointer-events-none' : ''}`}
-                  aria-disabled={articles.links.next === null}
-                  aria-label="Next page"
-              >
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                      <path d="M6 3l4 4-4 4"/>
-                  </svg>
-              </a>
-          </div>
-
-          <!-- Per-page note -->
-          <span class="font-mono text-[11px] text-moss-400">
-              {articles.meta.per_page} per page
-          </span>
+        <!-- Next -->
+        <a
+          href={articles.links.next ?? undefined}
+          class={`inline-flex items-center justify-center w-10 h-10 rounded-xl border transition-all no-underline ${articles.links.next ? 'border-sage-200 bg-white text-moss-600 hover:bg-sage-100 hover:border-moss-400' : 'border-sage-100 bg-fog text-moss-200 pointer-events-none'}`}
+          aria-disabled={articles.links.next === null}
+          aria-label="Next page"
+        >
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3l4 4-4 4"/></svg>
+        </a>
       </div>
+
+      <span class="text-label-mono text-moss-400">
+        {articles.meta.per_page} ARTICLES PER PAGE
+      </span>
+    </div>
   </section>
-  
+
   <Footer />
 </Layout>
 
-<!-- ── Client-side: search + filter ─────────────────────────── -->
+<!-- ── Client-side Scripts ───────────────────────────────────────────────── -->
 <script>
-    const searchInput  = document.getElementById('search-input') as HTMLInputElement | null;
-    const filterBtns   = document.querySelectorAll('.filter-btn');
-    const grid         = document.getElementById('grid-container');
-    const emptyState   = document.getElementById('empty-state');
-    const resultCount  = document.getElementById('result-count');
+  const searchInput = document.getElementById('search-input') as HTMLInputElement | null;
+  const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const grid = document.getElementById('grid-container');
+  const emptyState = document.getElementById('empty-state');
+  const resultCount = document.getElementById('result-count');
 
-    let activeCategory = 'All';
-    let searchQuery    = '';
+  let activeCategory = 'All';
+  let searchQuery = '';
 
-    function applyFilters() {
-        if (!grid || !emptyState || !resultCount) return;
-        const cards = grid.querySelectorAll<HTMLAnchorElement>('a[data-category]');
-        let visible  = 0;
+  function applyFilters() {
+    if (!grid || !emptyState || !resultCount) return;
+    const cards = document.querySelectorAll<HTMLElement>('[data-category]');
+    let visible = 0;
 
-        cards.forEach((card) => {
-            const cat   = card.getAttribute('data-category') ?? '';
-            const title = card.getAttribute('data-title') ?? '';
-            const matchCat  = activeCategory === 'All' || cat === activeCategory;
-            const matchSearch = !searchQuery || title.includes(searchQuery);
-            const show = matchCat && matchSearch;
-            card.style.display = show ? '' : 'none';
-            if (show) visible++;
-        });
-
-        emptyState.style.display = visible === 0 ? 'block' : 'none';
-        resultCount.textContent  = `${visible} shown`;
-    }
-
-    filterBtns.forEach((btn) => {
-        btn.addEventListener('click', () => {
-            filterBtns.forEach((b) => {
-                b.classList.remove('bg-moss-500', 'text-fog', 'border-moss-500');
-            });
-            btn.classList.add('bg-moss-500', 'text-fog', 'border-moss-500');
-            activeCategory = btn.getAttribute('data-filter') ?? 'All';
-            applyFilters();
-        });
+    cards.forEach((card) => {
+      const cat = card.getAttribute('data-category') ?? '';
+      const title = card.getAttribute('data-title') ?? '';
+      const matchCat = activeCategory === 'All' || cat === activeCategory;
+      const matchSearch = !searchQuery || title.includes(searchQuery);
+      const show = matchCat && matchSearch;
+      
+      card.style.display = show ? '' : 'none';
+      if (show) {
+        visible++;
+        card.classList.add('visible');
+      }
     });
 
-    searchInput?.addEventListener('input', (e) => {
-        searchQuery = (e.target as HTMLInputElement).value.toLowerCase().trim();
-        applyFilters();
+    emptyState.style.display = visible === 0 ? 'block' : 'none';
+    resultCount.textContent = `${visible} SHOWN`;
+  }
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach((b) => b.setAttribute('data-active', 'false'));
+      btn.setAttribute('data-active', 'true');
+      activeCategory = btn.getAttribute('data-filter') ?? 'All';
+      applyFilters();
     });
+  });
+
+  searchInput?.addEventListener('input', (e) => {
+    searchQuery = (e.target as HTMLInputElement).value.toLowerCase().trim();
+    applyFilters();
+  });
 </script>
-

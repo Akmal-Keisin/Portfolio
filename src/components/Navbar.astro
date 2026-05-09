@@ -10,18 +10,19 @@
       <span
         class="font-display text-xl font-semibold text-moss-700 group-hover:text-moss-500 transition-colors"
       >
-        Keisin<span class="text-moss-400">.</span>
+        Akmal<span class="text-moss-400">Keisin</span>
       </span>
     </a>
 
     <ul class="hidden md:flex items-center gap-10">
       {
         [
-          ["About", "/"],
-          ["Article", "article"],
-          ["Skills", "#skills"],
-          ["Projects", "#projects"],
-          ["Contact", "#contact"],
+          ["Home", "/"],
+          ["About", "/about"],
+          ["Article", "/article"],
+          ["Skills", "/skills"],
+          ["Projects", "/project"],
+          ["Contact", "/contact"],
         ].map(([l, h]) => (
           <li>
             <a
@@ -37,7 +38,7 @@
 
     <div class="hidden md:flex items-center gap-4">
       <a
-        href="#contact"
+        href="/contact"
         class="font-body text-sm font-semibold bg-moss-500 text-fog px-5 py-2.5 rounded-full hover:bg-moss-600 transition-colors shadow-sm"
       >
         Let's Talk
@@ -61,11 +62,12 @@
   >
     {
       [
-        ["About", "#about"],
-        ["Article", "#article"],
-        ["Skills", "#skills"],
-        ["Projects", "#projects"],
-        ["Contact", "#contact"],
+        ["Home", "/"],
+        ["About", "/about"],
+        ["Article", "/article"],
+        ["Skills", "/skills"],
+        ["Projects", "/project"],
+        ["Contact", "/contact"],
       ].map(([l, h]) => (
         <a
           href={h}

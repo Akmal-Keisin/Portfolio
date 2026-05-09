@@ -14,10 +14,21 @@
     <p class="font-mono text-xs text-fog">
       © {new Date().getFullYear()} Akmal Keisin — Built with Astro & Tailwind
     </p>
-    <a
-      href="#hero"
-      class="font-mono text-xs text-moss-500 hover:text-mint transition-colors"
-      >Back to top ↑</a
-    >
+    <div class="flex items-center gap-6">
+      {["About", "Article", "Skills", "Projects", "Contact"].map((item) => (
+        <a
+          href={`/${item.toLowerCase() === "projects" ? "project" : item.toLowerCase()}`}
+          class="font-mono text-[10px] text-moss-400 hover:text-mint transition-colors tracking-widest uppercase no-underline"
+        >
+          {item}
+        </a>
+      ))}
+      <a
+        href="/"
+        class="font-mono text-xs text-moss-500 hover:text-mint transition-colors"
+      >
+        Back to Home ↑
+      </a>
+    </div>
   </div>
 </footer>

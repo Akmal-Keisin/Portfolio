@@ -68,12 +68,12 @@ const categories = [
     <div class="reveal mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
       <div>
         <span class="accent-line mb-4" style="background: linear-gradient(90deg,#c8f0d0,#3e7d32)"></span>
-        <p class="font-mono text-xs text-fog tracking-[.2em] uppercase mt-4">Skills</p>
-        <h2 class="font-display text-5xl font-semibold text-fog mt-2">
+        <p class="text-label-mono text-fog mt-4">Skills</p>
+        <h2 class="text-section-title text-fog mt-2">
           My<br /><em class="text-mint">expertise</em>
         </h2>
       </div>
-      <p class="font-body text-moss-300 max-w-xs leading-relaxed text-sm">
+      <p class="text-section-desc text-moss-300 max-w-xs text-sm">
         Four years of daily practice across the full web stack, from pixel to pipeline.
       </p>
     </div>
@@ -89,7 +89,7 @@ const categories = [
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
               <path d="M7 1L13 4.5V10.5L7 14L1 10.5V4.5Z" fill="#c8f0d0" opacity="0.3" stroke="#c8f0d0" stroke-width="1"/>
             </svg>
-            <span class="font-mono text-xs tracking-[.18em] uppercase text-mint">{cat.label}</span>
+            <span class="text-label-mono text-mint">{cat.label}</span>
           </div>
 
           <!-- Logo cards -->
@@ -101,7 +101,7 @@ const categories = [
                   alt={logo.label}
                   class="h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-110"
                 />
-                <span class="font-mono text-[10px] tracking-wider text-moss-300 group-hover:text-fog transition-colors">
+                <span class="text-label-mono text-moss-300 group-hover:text-fog transition-colors !text-[10px]">
                   {logo.label}
                 </span>
               </div>
@@ -119,7 +119,7 @@ const categories = [
         "REST APIs",
         "Full-stack delivery",
       ].map((pill) => (
-        <span class="font-mono text-xs text-moss-300 border border-moss-600/60 px-4 py-2 rounded-full hover:border-mint/50 hover:text-fog transition-colors cursor-default">
+        <span class="text-label-mono text-moss-300 border border-moss-600/60 px-4 py-2 rounded-full hover:border-mint/50 hover:text-fog transition-colors cursor-default">
           {pill}
         </span>
       ))}
