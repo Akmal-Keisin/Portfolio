@@ -1,0 +1,94 @@
+---
+const experience = [
+  {
+    period: "Jun 2024 – Now",
+    role: "Web Developer",
+    org: "Reprime ID",
+    stacks: ["PHP", "Laravel", "MySQL", "PostgreSQL", "TypeScript", "Vue", "Go", "Fiber", "Astro"],
+    note: "Returned with more experience. Focus on developing the new version of the core product, optimizing performance, and architecting scalable backend systems.",
+    current: true,
+  },
+  {
+    period: "Oct 2023 – Jun 2024",
+    role: "Web Developer",
+    org: "Crocodic",
+    stacks: ["PHP", "Laravel", "MySQL", "TypeScript"],
+    note: "Engineered a complex HR project for a large factory client with thousands of active daily users. Managed intricate payroll logic and shift scheduling systems.",
+    current: false,
+  },
+  {
+    period: "Sep 2022 – Sep 2023",
+    role: "Web Developer",
+    org: "Reprime ID",
+    stacks: ["PHP", "Laravel", "Lumen", "PostgreSQL", "MySQL"],
+    note: "Full developer role post-internship. Responsible for new feature delivery, infrastructure maintenance, and resolving critical production bugs.",
+    current: false,
+  },
+  {
+    period: "Jun 2022 – Aug 2022",
+    role: "Intern",
+    org: "Reprime ID",
+    stacks: ["PHP", "Laravel", "MySQL"],
+    note: "Gained hands-on experience in production environments, contributing to feature updates and learning enterprise development best practices.",
+    current: false,
+  },
+];
+---
+<section class="mb-32">
+  <div class="reveal mb-16 flex flex-col md:flex-row md:items-end gap-6">
+    <div class="md:w-1/2">
+      <h2 class="text-section-title text-ink mb-4">Work <em class="text-moss-500">History</em></h2>
+      <p class="text-section-desc text-moss-600 max-w-md">
+        A journey through the roles and projects that shaped my expertise.
+      </p>
+    </div>
+    <div class="flex-1 h-px bg-sage-200 mb-2 hidden md:block"></div>
+  </div>
+
+  <div class="space-y-6">
+    {experience.map((item, i) => (
+      <div class={`reveal reveal-d${i+1} proj-card relative flex flex-col md:flex-row justify-between gap-8 rounded-3xl p-8 border shadow-sm transition-all duration-500
+        ${item.current
+          ? "bg-moss-800 border-moss-600"
+          : "bg-white border-sage-200 hover:border-moss-300"
+        }`}>
+
+        <div class="flex-1">
+          <div class="flex items-center gap-3 mb-4">
+            <span class={`text-label-mono border px-3 py-1 rounded-full ${item.current ? "text-mint border-moss-500 bg-moss-700/60" : "text-moss-400 border-sage-200 bg-fog"}`}>
+              {item.period}
+            </span>
+            {item.current && (
+              <span class="flex items-center gap-1.5 bg-mint/10 px-3 py-1 rounded-full">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-mint opacity-75"></span>
+                  <span class="relative inline-flex h-2 w-2 rounded-full bg-mint"></span>
+                </span>
+                <span class="text-label-mono text-mint">Currently Active</span>
+              </span>
+            )}
+          </div>
+
+          <h3 class={`text-card-title mb-2 ${item.current ? "text-fog" : "text-ink"}`}>
+            {item.role} <span class={item.current ? "text-moss-400" : "text-moss-400"}>at</span> {item.org}
+          </h3>
+          <p class={`text-section-desc max-w-3xl mb-6 ${item.current ? "text-moss-300" : "text-moss-600"}`}>
+            {item.note}
+          </p>
+
+          <div class="flex flex-wrap gap-2">
+            {item.stacks.map((s) => (
+              <span class={`text-label-mono px-3 py-1 rounded-full border
+                ${item.current
+                  ? "text-mint border-moss-500 bg-moss-700/40"
+                  : "text-moss-600 border-sage-100 bg-fog"
+                }`}>
+                {s}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

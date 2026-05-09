@@ -1,0 +1,96 @@
+---
+import AstroLogo from "@assets/logos/astro-logo-light-gradient.svg";
+import PHPLogo from "@assets/logos/php-logo.svg";
+import GoLogo from "@assets/logos/go-logo.svg";
+import GoFiberLogo from "@assets/logos/go-fiber-logo.svg";
+import JavascriptLogo from "@assets/logos/javascript-logo.svg";
+import VueJSLogo from "@assets/logos/vue-js-logo.svg";
+import LaravelLogo from "@assets/logos/laravel-logo.svg";
+import PostgreSQLLogo from "@assets/logos/postgresql-logo.svg";
+import MySQLLogo from "@assets/logos/mysql-logo.svg";
+import { Image } from "astro:assets";
+
+const detailedSkills = [
+  {
+    category: "Languages",
+    description: "The core foundations of my technical stack. I prioritize type safety, performance, and clean syntax.",
+    items: [
+      { name: "PHP", logo: PHPLogo, level: "Advanced", years: "4+ years", detail: "Expertise in modern PHP (8.x+), focusing on performance and robust backend systems." },
+      { name: "Go", logo: GoLogo, level: "Advanced", years: "2+ years", detail: "Building high-concurrency microservices and fast API gateways with Go." },
+      { name: "JavaScript", logo: JavascriptLogo, level: "Advanced", years: "4+ years", detail: "Proficient in modern ES6+, TypeScript, and building interactive frontend experiences." },
+    ],
+  },
+  {
+    category: "Frameworks",
+    description: "Tools that help me build scalable applications faster without compromising on quality.",
+    items: [
+      { name: "Laravel", logo: LaravelLogo, level: "Expert", years: "4+ years", detail: "Deep understanding of the Laravel ecosystem, including Eloquent, Queues, and Service Containers." },
+      { name: "Go Fiber", logo: GoFiberLogo, level: "Advanced", years: "2+ years", detail: "Building lightweight, high-performance web applications and REST APIs." },
+      { name: "Vue.js", logo: VueJSLogo, level: "Advanced", years: "3+ years", detail: "Creating reactive and component-based user interfaces with Vue 3 and Composition API." },
+      { name: "Astro", logo: AstroLogo, level: "Advanced", years: "1+ year", detail: "Building content-driven websites with modern island architecture for optimal performance." },
+    ],
+  },
+  {
+    category: "Databases",
+    description: "Relational database management systems I use to ensure data integrity and high-performance querying.",
+    items: [
+      { name: "PostgreSQL", logo: PostgreSQLLogo, level: "Advanced", years: "3+ years", detail: "Experience with complex indexing, JSONB usage, and advanced performance tuning." },
+      { name: "MySQL", logo: MySQLLogo, level: "Advanced", years: "4+ years", detail: "Robust experience in architecting and managing relational schemas for enterprise applications." },
+    ],
+  },
+];
+---
+<div class="max-w-6xl mx-auto px-6 py-24">
+  {detailedSkills.map((cat, ci) => (
+    <section class="mb-32 last:mb-0">
+      <!-- Category Header -->
+      <div class={`reveal mb-12 flex flex-col md:flex-row md:items-end gap-6 md:gap-16`}>
+        <div class="md:w-1/3">
+          <div class="flex items-center gap-3 mb-4">
+            <svg width="16" height="16" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M7 1L13 4.5V10.5L7 14L1 10.5V4.5Z" fill="#3e7d32" opacity="0.1" stroke="#3e7d32" stroke-width="1.5"/>
+            </svg>
+            <h2 class="text-label-mono text-moss-500 font-bold">{cat.category}</h2>
+          </div>
+          <p class="text-section-desc text-moss-600 italic">
+            {cat.description}
+          </p>
+        </div>
+        <div class="flex-1 h-px bg-sage-200 mb-2 hidden md:block"></div>
+      </div>
+
+      <!-- Skill Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {cat.items.map((item, ii) => (
+          <div class={`proj-card reveal reveal-d${(ii % 3) + 1} bg-white border border-sage-200 rounded-3xl p-8 hover:shadow-xl hover:border-moss-200 transition-all duration-500 flex flex-col justify-between overflow-hidden relative group`}>
+            <!-- Decorative top gradient -->
+            <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-mint/10 to-transparent rounded-bl-[100%] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            
+            <div>
+              <div class="flex items-center justify-between mb-8">
+                <div class="w-14 h-14 bg-fog rounded-2xl flex items-center justify-center border border-sage-100 group-hover:scale-110 transition-transform duration-500">
+                  <Image src={item.logo} alt={item.name} class="w-8 h-8 object-contain" />
+                </div>
+                <span class="text-label-mono text-moss-400 border border-sage-200 px-3 py-1 rounded-full">
+                  {item.level}
+                </span>
+              </div>
+              
+              <h3 class="text-card-title text-ink mb-4">{item.name}</h3>
+              <p class="text-section-desc text-moss-600 text-sm">
+                {item.detail}
+              </p>
+            </div>
+
+            <div class="mt-8 pt-6 border-t border-sage-100 flex items-center justify-between">
+              <span class="text-label-mono text-moss-300">{item.years}</span>
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" class="text-mint opacity-40">
+                <path d="M9 2L11.5 7L17 7.5L13 11.5L14 17L9 14.5L4 17L5 11.5L1 7.5L6.5 7L9 2Z" fill="currentColor"/>
+              </svg>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  ))}
+</div>

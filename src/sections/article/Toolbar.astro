@@ -1,0 +1,42 @@
+---
+import { dummyArticles } from "./data";
+
+const articles = dummyArticles;
+const categories = ["All", ...new Set(articles.data.map(a => a.category))];
+---
+<section class="sticky top-[66px] z-40 bg-fog/95 backdrop-blur-md border-b border-sage-200">
+  <div class="max-w-6xl mx-auto px-6 py-3 flex items-center gap-3 flex-wrap">
+    <!-- Search -->
+    <div class="relative flex-1 min-w-[200px] max-w-[300px]">
+      <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-moss-400 pointer-events-none" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="6" cy="6" r="4"/><path d="M10 10l3 3"/>
+      </svg>
+      <input
+        type="text"
+        id="search-input"
+        placeholder="Search articles…"
+        class="w-full pl-8 pr-3 py-2 rounded-full border border-sage-200 bg-white font-body text-[13px] text-ink placeholder:text-moss-300 focus:outline-none focus:border-moss-500 transition-all"
+      />
+    </div>
+
+    <!-- Category filters -->
+    <div class="flex items-center gap-1.5 flex-wrap">
+      {categories.map((cat) => (
+        <button
+          class={`filter-btn text-label-mono px-3.5 py-1.5 rounded-full border border-sage-200 bg-white text-moss-600 cursor-pointer transition-all hover:bg-sage-100 data-[active=true]:bg-moss-700 data-[active=true]:text-fog data-[active=true]:border-moss-700`}
+          data-filter={cat}
+          data-active={cat === "All" ? "true" : "false"}
+        >
+          {cat}
+        </button>
+      ))}
+    </div>
+
+    <!-- Result count -->
+    <div class="ml-auto hidden sm:block">
+      <span id="result-count" class="text-label-mono text-moss-400">
+        {articles.meta.from}–{articles.meta.to} of {articles.meta.total}
+      </span>
+    </div>
+  </div>
+</section>

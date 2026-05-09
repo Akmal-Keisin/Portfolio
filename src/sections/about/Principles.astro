@@ -1,0 +1,38 @@
+---
+const principles = [
+  { title: "Accessibility First", desc: "Everyone deserves great software. I prioritize semantic HTML and WCAG standards to ensure my work is inclusive.", icon: "leaf" },
+  { title: "Deep Understanding", desc: "I believe in learning the fundamentals before frameworks. Understanding the 'how' and 'why' makes for better architectural decisions.", icon: "leaf" },
+  { title: "Continuous Learning", desc: "The modern tech stack shifts constantly. My autodidactic mindset drives me to master new systems through disciplined study.", icon: "leaf" },
+  { title: "Ship Iteratively", desc: "I favor getting code into production early and improving it through real-world usage and feedback loops.", icon: "leaf" },
+];
+---
+<section class="mb-32">
+  <div class="reveal mb-16 flex flex-col md:flex-row md:items-end gap-6">
+    <div class="md:w-1/2">
+      <h2 class="text-section-title text-ink mb-4">Engineering <em class="text-moss-500">Principles</em></h2>
+      <p class="text-section-desc text-moss-600 max-w-md">
+        Guidelines I follow to ensure every project is robust, inclusive, and scalable.
+      </p>
+    </div>
+    <div class="flex-1 h-px bg-sage-200 mb-2 hidden md:block"></div>
+  </div>
+
+  <div class="grid md:grid-cols-2 gap-8">
+    {principles.map((p, i) => (
+      <div class={`reveal d${i+1} bg-white border border-sage-200 rounded-3xl p-8 hover:shadow-lg transition-all duration-300`}>
+        <div class="flex gap-4 items-start">
+          <div class="w-10 h-10 bg-mint/20 rounded-xl flex items-center justify-center shrink-0">
+            <svg width="20" height="20" viewBox="0 0 18 18" fill="none">
+              <path d="M9 2C9 2 3 5 3 10C3 13 5.7 15.5 9 15.5C12.3 15.5 15 13 15 10C15 5 9 2 9 2Z" fill="#3e7d32" opacity="0.2"/>
+              <path d="M6 9.5L8 11.5L12 7.5" stroke="#3e7d32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-card-title text-ink mb-2">{p.title}</h3>
+            <p class="font-body text-sm text-moss-600 leading-relaxed">{p.desc}</p>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

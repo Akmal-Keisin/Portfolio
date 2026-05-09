@@ -1,137 +1,22 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Navbar from "../components/Navbar.astro";
-import Footer from "../components/Footer.astro";
-
-const socialLinks = [
-  { label: "GitHub", href: "https://github.com/akmal-keisin", icon: "github" },
-  { label: "LinkedIn", href: "https://linkedin.com/in/akmal-keisin", icon: "linkedin" },
-  { label: "Twitter", href: "https://twitter.com/akmalkeisin", icon: "twitter" },
-  { label: "Email", href: "mailto:hello@akmalkeisin.com", icon: "mail" },
-];
+import Layout from "@layouts/Layout.astro";
+import Navbar from "@components/Navbar.astro";
+import Footer from "@components/Footer.astro";
+import Hero from "@sections/contact/Hero.astro";
+import ContactForm from "@sections/contact/ContactForm.astro";
+import Sidebar from "@sections/contact/Sidebar.astro";
 ---
 
 <Layout title="Contact — Akmal Keisin">
   <Navbar />
-
-  <!-- ── Dark Library Hero ─────────────────────────────────────────────────── -->
-  <section class="relative bg-moss-800 overflow-hidden pt-[66px]" aria-label="Contact hero">
-    <!-- Background textures -->
-    <div class="absolute inset-0 pointer-events-none overflow-hidden">
-      <svg class="absolute inset-0 w-full h-full opacity-[.04]">
-        <defs>
-          <pattern id="hex-contact" x="0" y="0" width="60" height="52" patternUnits="userSpaceOnUse">
-            <path d="M30 2L56 17V47L30 62L4 47V17Z" fill="none" stroke="#c8f0d0" stroke-width="1" />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#hex-contact)" />
-      </svg>
-      <div class="absolute top-0 right-0 w-120 h-120 rounded-full bg-moss-600/20 blur-3xl" aria-hidden="true"></div>
-      <div class="absolute bottom-0 left-0 w-80 h-80 rounded-full bg-mint/10 blur-3xl" aria-hidden="true"></div>
-    </div>
-
-    <div class="relative max-w-6xl mx-auto px-6 py-24 md:py-32">
-      <div class="reveal">
-        <span class="block w-12 h-[3px] rounded-full mb-6 bg-gradient-to-r from-mint to-moss-500"></span>
-        <p class="text-label-mono text-moss-300 mb-4">Get In Touch</p>
-        <h1 class="text-hero-title text-fog">
-          Let's start a<br/><em class="not-italic text-mint">conversation</em>
-        </h1>
-        <p class="text-hero-subtitle text-moss-300 mt-8 max-w-2xl leading-relaxed">
-          Whether you have a project in mind, a question about my work, or just want to say hi — I'd love to hear from you.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Contact Content ──────────────────────────────────────────────────── -->
+  <Hero />
   <main class="bg-fog">
     <div class="max-w-6xl mx-auto px-6 py-24">
       <div class="grid lg:grid-cols-[1fr_400px] gap-16 items-start">
-        
-        <!-- Contact Form -->
-        <section class="reveal">
-          <div class="bg-white border border-sage-200 rounded-[2.5rem] p-8 md:p-12 shadow-sm relative overflow-hidden">
-            <!-- Decorative accent -->
-            <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-mint/10 to-transparent rounded-bl-[100%] pointer-events-none"></div>
-            
-            <h2 class="text-section-title text-ink mb-8 font-semibold">Send a message</h2>
-            
-            <form action="#" class="space-y-6">
-              <div class="grid md:grid-cols-2 gap-6">
-                <div class="space-y-2">
-                  <label for="name" class="text-label-mono text-moss-400 ml-1">Your Name</label>
-                  <input type="text" id="name" name="name" required class="w-full bg-fog border border-sage-200 rounded-2xl px-6 py-4 font-body text-ink focus:outline-none focus:border-moss-500 focus:ring-4 focus:ring-moss-500/5 transition-all" placeholder="John Doe" />
-                </div>
-                <div class="space-y-2">
-                  <label for="email" class="text-label-mono text-moss-400 ml-1">Email Address</label>
-                  <input type="email" id="email" name="email" required class="w-full bg-fog border border-sage-200 rounded-2xl px-6 py-4 font-body text-ink focus:outline-none focus:border-moss-500 focus:ring-4 focus:ring-moss-500/5 transition-all" placeholder="john@example.com" />
-                </div>
-              </div>
-              
-              <div class="space-y-2">
-                <label for="subject" class="text-label-mono text-moss-400 ml-1">Subject</label>
-                <input type="text" id="subject" name="subject" required class="w-full bg-fog border border-sage-200 rounded-2xl px-6 py-4 font-body text-ink focus:outline-none focus:border-moss-500 focus:ring-4 focus:ring-moss-500/5 transition-all" placeholder="Project Inquiry" />
-              </div>
-              
-              <div class="space-y-2">
-                <label for="message" class="text-label-mono text-moss-400 ml-1">Message</label>
-                <textarea id="message" name="message" rows="6" required class="w-full bg-fog border border-sage-200 rounded-2xl px-6 py-4 font-body text-ink focus:outline-none focus:border-moss-500 focus:ring-4 focus:ring-moss-500/5 transition-all resize-none" placeholder="Tell me about your project..."></textarea>
-              </div>
-              
-              <button type="submit" class="w-full bg-moss-700 text-fog font-semibold py-5 rounded-2xl hover:bg-ink transition-all shadow-lg hover:shadow-2xl flex items-center justify-center gap-3 group">
-                Send Message
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-              </button>
-            </form>
-          </div>
-        </section>
-
-        <!-- Sidebar Details -->
-        <aside class="space-y-12">
-          <!-- Availability Card -->
-          <div class="reveal d1 bg-moss-800 rounded-[2rem] p-8 text-center relative overflow-hidden border border-moss-600">
-            <div class="absolute inset-0 hex-pattern opacity-[.03] pointer-events-none"></div>
-            <div class="relative z-10">
-              <div class="inline-flex items-center gap-2 bg-mint/10 border border-mint/20 rounded-full px-4 py-1 mb-6">
-                <span class="relative flex h-2 w-2">
-                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-mint opacity-75"></span>
-                  <span class="relative inline-flex h-2 w-2 rounded-full bg-mint"></span>
-                </span>
-                <span class="text-label-mono text-mint">Available for projects</span>
-              </div>
-              <h3 class="text-card-title text-fog mb-4">Current Availability</h3>
-              <p class="text-section-desc text-moss-300 leading-relaxed text-sm">
-                I'm currently accepting new freelance projects and collaborations. My typical lead time is 2-4 weeks.
-              </p>
-            </div>
-          </div>
-
-          <!-- Social Links -->
-          <div class="reveal d2 space-y-6">
-            <h3 class="text-label-mono text-moss-400 font-bold ml-2">Connect Elsewhere</h3>
-            <div class="grid grid-cols-1 gap-3">
-              {socialLinks.map((social) => (
-                <a href={social.href} target="_blank" rel="noopener noreferrer" class="flex items-center justify-between bg-white border border-sage-200 rounded-2xl px-6 py-4 hover:border-moss-300 hover:shadow-md transition-all group no-underline">
-                  <div class="flex items-center gap-4">
-                    <div class="w-10 h-10 bg-fog rounded-xl flex items-center justify-center border border-sage-100 group-hover:scale-110 transition-transform">
-                      {social.icon === "github" && <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>}
-                      {social.icon === "linkedin" && <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>}
-                      {social.icon === "twitter" && <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.48 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>}
-                      {social.icon === "mail" && <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>}
-                    </div>
-                    <span class="text-section-desc font-semibold text-ink group-hover:text-moss-700 transition-colors">{social.label}</span>
-                  </div>
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" class="text-moss-300 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all"><path d="M2 12L12 2M12 2H4M12 2V10"/></svg>
-                </a>
-              ))}
-            </div>
-          </div>
-        </aside>
-
+        <ContactForm />
+        <Sidebar />
       </div>
     </div>
   </main>
-
   <Footer />
 </Layout>

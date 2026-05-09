@@ -1,0 +1,38 @@
+---
+---
+<section class="reveal">
+  <div class="bg-white border border-sage-200 rounded-[2.5rem] p-8 md:p-12 shadow-sm relative overflow-hidden">
+    <!-- Decorative accent -->
+    <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-mint/10 to-transparent rounded-bl-[100%] pointer-events-none"></div>
+    
+    <h2 class="text-section-title text-ink mb-8 font-semibold">Send a message</h2>
+    
+    <form action="#" class="space-y-6">
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="space-y-2">
+          <label for="name" class="text-label-mono text-moss-400 ml-1">Your Name</label>
+          <input type="text" id="name" name="name" required class="w-full bg-fog border border-sage-200 rounded-2xl px-6 py-4 font-body text-ink focus:outline-none focus:border-moss-500 focus:ring-4 focus:ring-moss-500/5 transition-all" placeholder="John Doe" />
+        </div>
+        <div class="space-y-2">
+          <label for="email" class="text-label-mono text-moss-400 ml-1">Email Address</label>
+          <input type="email" id="email" name="email" required class="w-full bg-fog border border-sage-200 rounded-2xl px-6 py-4 font-body text-ink focus:outline-none focus:border-moss-500 focus:ring-4 focus:ring-moss-500/5 transition-all" placeholder="john@example.com" />
+        </div>
+      </div>
+      
+      <div class="space-y-2">
+        <label for="subject" class="text-label-mono text-moss-400 ml-1">Subject</label>
+        <input type="text" id="subject" name="subject" required class="w-full bg-fog border border-sage-200 rounded-2xl px-6 py-4 font-body text-ink focus:outline-none focus:border-moss-500 focus:ring-4 focus:ring-moss-500/5 transition-all" placeholder="Project Inquiry" />
+      </div>
+      
+      <div class="space-y-2">
+        <label for="message" class="text-label-mono text-moss-400 ml-1">Message</label>
+        <textarea id="message" name="message" rows="6" required class="w-full bg-fog border border-sage-200 rounded-2xl px-6 py-4 font-body text-ink focus:outline-none focus:border-moss-500 focus:ring-4 focus:ring-moss-500/5 transition-all resize-none" placeholder="Tell me about your project..."></textarea>
+      </div>
+      
+      <button type="submit" class="w-full bg-moss-700 text-fog font-semibold py-5 rounded-2xl hover:bg-ink transition-all shadow-lg hover:shadow-2xl flex items-center justify-center gap-3 group">
+        Send Message
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+      </button>
+    </form>
+  </div>
+</section>
