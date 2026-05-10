@@ -1,8 +1,11 @@
 ---
-import { dummyArticles } from "./data";
+interface Props {
+  total: number;
+  totalPages: number;
+  categoriesCount: number;
+}
 
-const articles = dummyArticles;
-const categories = ["All", ...new Set(articles.data.map(a => a.category))];
+const { total, totalPages, categoriesCount } = Astro.props;
 ---
 <section class="relative bg-moss-800 overflow-hidden pt-[66px]" aria-label="Articles hero">
   <!-- Background textures -->
@@ -39,9 +42,9 @@ const categories = ["All", ...new Set(articles.data.map(a => a.category))];
     <!-- Stats row -->
     <div class="flex items-center gap-8 md:gap-12 pt-10 border-t border-moss-700/50">
       {[
-        [String(articles.meta.total), "Articles"],
-        [String(articles.meta.last_page), "Pages"],
-        [String(categories.length - 1), "Categories"],
+        [String(total), "Articles"],
+        [String(totalPages), "Pages"],
+        [String(categoriesCount), "Categories"],
       ].map(([num, label], i) => (
         <div class={`reveal d${i + 1}`}>
           <div class="text-hero-title text-fog">{num}</div>

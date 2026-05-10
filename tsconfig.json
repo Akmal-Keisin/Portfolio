@@ -13,7 +13,8 @@
       "@sections/*": ["./src/sections/*"],
       "@layouts/*": ["./src/layouts/*"],
       "@assets/*": ["./src/assets/*"],
-      "@styles/*": ["./src/styles/*"]
+      "@styles/*": ["./src/styles/*"],
+      "@lib/*": ["./src/lib/*"]
     }
   }
 }

@@ -1,16 +1,21 @@
 ---
-import { dummyArticles, CATEGORY_COLORS, formatDate } from "./data";
+import { CATEGORY_COLORS, formatDate } from "./data";
+import type { Article, PaginatedResource } from "./data";
 
-const articles = dummyArticles;
+interface Props {
+  articles: PaginatedResource<Article>;
+}
+
+const { articles } = Astro.props;
 const rest = articles.data.slice(1);
 ---
 <section class="max-w-6xl mx-auto px-6 py-12">
   <div id="grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
     {rest.map((article, i) => (
       <a
-        href={`/blog/${article.slug}`}
+        href={`/article/${article.slug}`}
         class={`proj-card reveal reveal-d${(i % 3) + 1} flex flex-col bg-white border border-moss-100 rounded-3xl p-8 shadow-sm hover:shadow-lg hover:border-moss-300 transition-all duration-300 no-underline relative overflow-hidden group`}
-        data-category={article.category}
+        data-category={article.category.name}
         data-title={article.title.toLowerCase()}
         aria-label={`Read article: ${article.title}`}
       >
@@ -19,8 +24,8 @@ const rest = articles.data.slice(1);
         <div class="flex flex-col h-full justify-between gap-8">
           <div>
             <div class="flex items-center justify-between mb-8">
-              <span class={`text-label-mono border px-3 py-1 rounded-full ${CATEGORY_COLORS[article.category] || "bg-sage-100 border-sage-200 text-moss-600"}`}>
-                {article.category}
+              <span class={`text-label-mono border px-3 py-1 rounded-full ${CATEGORY_COLORS[article.category.name] || "bg-sage-100 border-sage-200 text-moss-600"}`}>
+                {article.category.name}
               </span>
               <span class="text-label-mono text-moss-400">{formatDate(article.createdAt)}</span>
             </div>
@@ -38,7 +43,7 @@ const rest = articles.data.slice(1);
             <div class="flex gap-1.5 flex-wrap mb-6">
               {article.tags.slice(0, 3).map((tag) => (
                 <span class="text-label-mono px-2.5 py-0.5 rounded-full border border-sage-100 bg-fog text-moss-400">
-                  #{tag}
+                  #{tag.name}
                 </span>
               ))}
             </div>

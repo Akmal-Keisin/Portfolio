@@ -1,13 +1,17 @@
 ---
-import { dummyArticles, CATEGORY_COLORS, formatDate } from "./data";
+import { CATEGORY_COLORS, formatDate } from "./data";
+import type { Article } from "./data";
 
-const articles = dummyArticles;
-const featured = articles.data[0];
+interface Props {
+  featured: Article;
+}
+
+const { featured } = Astro.props;
 ---
 {featured && (
-<section class="max-w-6xl mx-auto px-6 pt-12 pb-0" data-category={featured.category}>
+<section class="max-w-6xl mx-auto px-6 pt-12 pb-0" data-category={featured.category.name}>
   <a
-    href={`/blog/${featured.slug}`}
+    href={`/article/${featured.slug}`}
     class="proj-card reveal group relative flex flex-col lg:flex-row bg-white border border-sage-200 rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-xl hover:border-moss-300 transition-all duration-500 no-underline"
     aria-label={`Read featured article: ${featured.title}`}
   >
@@ -37,8 +41,8 @@ const featured = articles.data[0];
     <div class="p-8 lg:p-12 flex flex-col justify-between flex-1">
       <div>
         <div class="flex items-center gap-3 mb-6">
-          <span class={`text-label-mono border px-3 py-1 rounded-full ${CATEGORY_COLORS[featured.category] || "bg-sage-100 border-sage-200 text-moss-600"}`}>
-            {featured.category}
+          <span class={`text-label-mono border px-3 py-1 rounded-full ${CATEGORY_COLORS[featured.category.name] || "bg-sage-100 border-sage-200 text-moss-600"}`}>
+            {featured.category.name}
           </span>
           <span class="text-label-mono text-moss-400">
             {formatDate(featured.createdAt)}
@@ -53,7 +57,7 @@ const featured = articles.data[0];
         <div class="flex flex-wrap gap-1.5 mb-8">
           {featured.tags.map((tag) => (
             <span class="text-label-mono px-2.5 py-0.5 rounded-full border border-sage-200 bg-sage-100 text-moss-600">
-              #{tag}
+              #{tag.name}
             </span>
           ))}
         </div>

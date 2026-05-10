@@ -7,15 +7,45 @@ import Toolbar from "@sections/article/Toolbar.astro";
 import FeaturedArticle from "@sections/article/FeaturedArticle.astro";
 import ArticleGrid from "@sections/article/ArticleGrid.astro";
 import Pagination from "@sections/article/Pagination.astro";
+import { getArticles, getCategories } from "@lib/api";
+
+const url = new URL(Astro.request.url);
+const page = parseInt(url.searchParams.get('page') || '1');
+
+let articles;
+let categories;
+try {
+  [articles, categories] = await Promise.all([
+    getArticles(page),
+    getCategories()
+  ]);
+} catch (error) {
+  console.error(error);
+}
+
+const featured = articles?.data[0];
 ---
 
 <Layout title="Articles — Akmal Keisin">
   <Navbar />
-  <Hero />
-  <Toolbar />
-  <FeaturedArticle />
-  <ArticleGrid />
-  <Pagination />
+  {articles && (
+    <>
+      <Hero 
+        total={articles.meta.total} 
+        totalPages={articles.meta.last_page} 
+        categoriesCount={categories?.meta.total || 0} 
+      />
+      <Toolbar 
+        categories={categories?.data.map(c => c.name) || []} 
+        from={articles.meta.from} 
+        to={articles.meta.to} 
+        total={articles.meta.total} 
+      />
+      <FeaturedArticle featured={featured} />
+      <ArticleGrid articles={articles} />
+      <Pagination articles={articles} />
+    </>
+  )}
   <Footer />
 </Layout>
 

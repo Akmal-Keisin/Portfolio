@@ -1,36 +1,21 @@
 ---
-const articles = [
-  {
-    slug: "cooming-soon",
-    tag: "Backend",
-    date: "May 12, 2025",
-    readTime: "0 min read",
-    title: "Cooming Soon",
-    excerpt:
-      "Cooming Soon",
-    featured: true,
-  },
-  {
-    slug: "cooming-soon",
-    tag: "Frontend",
-    date: "Apr 28, 2025",
-    readTime: "0 min read",
-    title: "Cooming Soon",
-    excerpt:
-      "Cooming Soon",
-    featured: false,
-  },
-  {
-    slug: "cooming-soon",
-    tag: "Database",
-    date: "Apr 3, 2025",
-    readTime: "0 min read",
-    title: "Cooming Soon",
-    excerpt:
-      "Cooming Soon",
-    featured: false,
-  },
-];
+import { getArticles } from "@lib/api";
+import { formatDate } from "../article/data";
+
+let articles = [];
+try {
+  const response = await getArticles(1);
+  articles = response.data.slice(0, 3);
+} catch (error) {
+  console.error("Failed to fetch articles for index:", error);
+}
+
+// Simple read time calculation helper
+const getReadTime = (content: any) => {
+  // If content is a string, count words. If it's Tiptap JSON, it's more complex.
+  // For now, let's just return a placeholder or implement a basic one if needed.
+  return "5 min read";
+};
 ---
 
 <section id="article" class="py-28 relative overflow-hidden bg-fog">
@@ -69,9 +54,9 @@ const articles = [
             <div>
               <div class="flex items-center justify-between mb-6">
                 <span class="text-label-mono text-moss-400 bg-fog px-2.5 py-1 rounded-md">
-                  {article.tag}
+                  {article.category.name}
                 </span>
-                <span class="text-label-mono text-moss-300">{article.date}</span>
+                <span class="text-label-mono text-moss-300">{formatDate(article.createdAt)}</span>
               </div>
 
               <h3 class="text-card-title text-ink group-hover:text-moss-700 transition-colors">
@@ -85,7 +70,7 @@ const articles = [
             </div>
 
             <div class="flex items-center justify-between pt-6 border-t border-moss-50/80">
-              <span class="text-label-mono text-moss-300">{article.readTime}</span>
+              <span class="text-label-mono text-moss-300">{getReadTime(article.content)}</span>
               <div class="text-moss-500 group-hover:text-moss-800 transition-colors">
                 <svg width="16" height="16" viewBox="0 0 14 14" fill="none">
                   <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
