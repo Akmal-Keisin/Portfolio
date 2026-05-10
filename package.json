@@ -22,5 +22,11 @@
 		"sharp": "^0.34.3",
 		"tailwindcss": "^4.2.4",
 		"typescript": "^5.9.3"
+	},
+	"devDependencies": {
+		"@tailwindcss/typography": "^0.5.19",
+		"@tiptap/core": "^3.23.1",
+		"@tiptap/html": "^3.23.1",
+		"@tiptap/starter-kit": "^3.23.1"
 	}
 }

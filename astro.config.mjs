@@ -8,6 +8,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
+	output: 'server',
 	site: 'http://localhost:4321',
 	integrations: [mdx(), sitemap()],
 

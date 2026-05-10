@@ -1,0 +1,23 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Navbar from "@components/Navbar.astro";
+import Footer from "@components/Footer.astro";
+---
+
+<Layout title="500: Server Error">
+  <Navbar />
+  <main class="flex-grow flex items-center justify-center bg-fog">
+    <div class="text-center max-w-lg mx-auto px-6 py-24">
+      <h1 class="text-[8rem] font-bold leading-none text-moss-500/20 font-display">500</h1>
+      <h2 class="text-section-title text-ink mt-4">Internal Server Error</h2>
+      <p class="text-section-desc text-moss-600 mt-4">
+        It seems something went wrong on our end. We've been notified and are looking into it. Please try again in a little while.
+      </p>
+      <a href="/" class="mt-8 inline-flex items-center gap-2 bg-moss-700 text-white font-semibold px-6 py-3 rounded-full hover:bg-moss-800 transition-all no-underline shadow-lg">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-home"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Return to Homepage
+      </a>
+    </div>
+  </main>
+  <Footer />
+</Layout>

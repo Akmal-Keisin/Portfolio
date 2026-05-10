@@ -6,6 +6,17 @@ interface Props {
 }
 
 const { articles } = Astro.props;
+
+const getPageLink = (url: string | null) => {
+  if (!url) return undefined;
+  try {
+    const params = new URL(url).searchParams;
+    const page = params.get("page");
+    return page ? `/article?page=${page}` : "/article";
+  } catch (e) {
+    return undefined;
+  }
+};
 ---
 <section class="max-w-6xl mx-auto px-6 pb-24">
   <div class="flex items-center justify-between flex-wrap gap-4 border-t border-sage-200 pt-8">
@@ -16,7 +27,7 @@ const { articles } = Astro.props;
     <div class="flex items-center gap-2">
       <!-- Prev -->
       <a
-        href={articles.links.prev ?? undefined}
+        href={getPageLink(articles.links.prev)}
         class={`inline-flex items-center justify-center w-10 h-10 rounded-xl border transition-all no-underline ${articles.links.prev ? 'border-sage-200 bg-white text-moss-600 hover:bg-sage-100 hover:border-moss-400' : 'border-sage-100 bg-fog text-moss-200 pointer-events-none'}`}
         aria-disabled={articles.links.prev === null}
         aria-label="Previous page"
@@ -27,7 +38,7 @@ const { articles } = Astro.props;
       <!-- Page numbers -->
       {Array.from({ length: articles.meta.last_page }, (_, i) => i + 1).map((p) => (
         <a
-          href={`${articles.meta.path}?page=${p}`}
+          href={`/article?page=${p}`}
           class={`inline-flex items-center justify-center w-10 h-10 rounded-xl border text-label-mono transition-all no-underline ${p === articles.meta.current_page ? "bg-moss-700 text-fog border-moss-700" : "border-sage-200 bg-white text-moss-600 hover:bg-sage-100 hover:border-moss-400"}`}
           aria-current={p === articles.meta.current_page ? "page" : undefined}
         >
@@ -37,7 +48,7 @@ const { articles } = Astro.props;
 
       <!-- Next -->
       <a
-        href={articles.links.next ?? undefined}
+        href={getPageLink(articles.links.next)}
         class={`inline-flex items-center justify-center w-10 h-10 rounded-xl border transition-all no-underline ${articles.links.next ? 'border-sage-200 bg-white text-moss-600 hover:bg-sage-100 hover:border-moss-400' : 'border-sage-100 bg-fog text-moss-200 pointer-events-none'}`}
         aria-disabled={articles.links.next === null}
         aria-label="Next page"

@@ -1,8 +1,9 @@
 ---
 import { getArticles } from "@lib/api";
 import { formatDate } from "../article/data";
+import type { Article } from "../article/data";
 
-let articles = [];
+let articles: Article[] = [];
 try {
   const response = await getArticles(1);
   articles = response.data.slice(0, 3);

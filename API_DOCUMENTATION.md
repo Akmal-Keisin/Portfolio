@@ -90,31 +90,29 @@ Returns a single project based on its slug.
 **Response Example (200 OK):**
 ```json
 {
-  "data": {
-    "id": 1,
-    "title": "E-Commerce Dashboard",
-    "slug": "e-commerce-dashboard",
-    "description": "<p>Full description of the project.</p>",
-    "excerpt": "A modern dashboard built with Vue.",
-    "thumbnail": "/storage/projects/thumbnail.jpg",
-    "live_url": "https://demo.com",
-    "repo_url": "https://github.com/user/repo",
-    "status": "completed",
-    "featured": true,
-    "tech_stacks": [
-      {
-        "id": 1,
-        "name": "Vue.js",
-        "slug": "vuejs",
-        "description": "Progressive JavaScript Framework",
-        "projectCount": 5,
-        "createdAt": "Monday, May 11, 2026",
-        "updatedAt": "Monday, May 11, 2026"
-      }
-    ],
-    "created_at": "2026-05-11T10:00:00.000000Z",
-    "updated_at": "2026-05-11T10:00:00.000000Z"
-  }
+  "id": 1,
+  "title": "E-Commerce Dashboard",
+  "slug": "e-commerce-dashboard",
+  "description": "<p>Full description of the project.</p>",
+  "excerpt": "A modern dashboard built with Vue.",
+  "thumbnail": "/storage/projects/thumbnail.jpg",
+  "live_url": "https://demo.com",
+  "repo_url": "https://github.com/user/repo",
+  "status": "completed",
+  "featured": true,
+  "tech_stacks": [
+    {
+      "id": 1,
+      "name": "Vue.js",
+      "slug": "vuejs",
+      "description": "Progressive JavaScript Framework",
+      "projectCount": 5,
+      "createdAt": "Monday, May 11, 2026",
+      "updatedAt": "Monday, May 11, 2026"
+    }
+  ],
+  "created_at": "2026-05-11T10:00:00.000000Z",
+  "updated_at": "2026-05-11T10:00:00.000000Z"
 }
 ```
 
@@ -183,39 +181,37 @@ Returns a single article based on its slug.
 **Response Example (200 OK):**
 ```json
 {
-  "data": {
+  "id": 1,
+  "title": "Getting Started with Astro",
+  "slug": "getting-started-with-astro",
+  "excerpt": "Learn how to build fast websites.",
+  "content": {
+    "type": "doc",
+    "content": [
+      { "type": "paragraph", "content": [ { "type": "text", "text": "Hello World" } ] }
+    ]
+  },
+  "author": "John Doe",
+  "category": {
     "id": 1,
-    "title": "Getting Started with Astro",
-    "slug": "getting-started-with-astro",
-    "excerpt": "Learn how to build fast websites.",
-    "content": {
-      "type": "doc",
-      "content": [
-        { "type": "paragraph", "content": [ { "type": "text", "text": "Hello World" } ] }
-      ]
-    },
-    "author": "John Doe",
-    "category": {
-      "id": 1,
-      "name": "Web Development",
-      "description": "Articles about web dev.",
-      "articleCount": 10,
-      "createdAt": "Monday, May 11, 2026",
-      "updatedAt": "Monday, May 11, 2026"
-    },
-    "tags": [
-      {
-        "id": 1,
-        "name": "Astro",
-        "description": "A web framework.",
-        "articleCount": 5,
-        "createdAt": "Monday, May 11, 2026",
-        "updatedAt": "Monday, May 11, 2026"
-      }
-    ],
+    "name": "Web Development",
+    "description": "Articles about web dev.",
+    "articleCount": 10,
     "createdAt": "Monday, May 11, 2026",
     "updatedAt": "Monday, May 11, 2026"
-  }
+  },
+  "tags": [
+    {
+      "id": 1,
+      "name": "Astro",
+      "description": "A web framework.",
+      "articleCount": 5,
+      "createdAt": "Monday, May 11, 2026",
+      "updatedAt": "Monday, May 11, 2026"
+    }
+  ],
+  "createdAt": "Monday, May 11, 2026",
+  "updatedAt": "Monday, May 11, 2026"
 }
 ```
 
@@ -259,14 +255,12 @@ Returns a single category based on its slug.
 **Response Example (200 OK):**
 ```json
 {
-  "data": {
-    "id": 1,
-    "name": "Web Development",
-    "description": "Articles about web dev.",
-    "articleCount": 10,
-    "createdAt": "Monday, May 11, 2026",
-    "updatedAt": "Monday, May 11, 2026"
-  }
+  "id": 1,
+  "name": "Web Development",
+  "description": "Articles about web dev.",
+  "articleCount": 10,
+  "createdAt": "Monday, May 11, 2026",
+  "updatedAt": "Monday, May 11, 2026"
 }
 ```
 
@@ -310,14 +304,12 @@ Returns a single tag based on its slug.
 **Response Example (200 OK):**
 ```json
 {
-  "data": {
-    "id": 1,
-    "name": "Laravel",
-    "description": "PHP Framework",
-    "articleCount": 15,
-    "createdAt": "Monday, May 11, 2026",
-    "updatedAt": "Monday, May 11, 2026"
-  }
+  "id": 1,
+  "name": "Laravel",
+  "description": "PHP Framework",
+  "articleCount": 15,
+  "createdAt": "Monday, May 11, 2026",
+  "updatedAt": "Monday, May 11, 2026"
 }
 ```
 
@@ -362,14 +354,12 @@ Returns a single tech stack based on its slug.
 **Response Example (200 OK):**
 ```json
 {
-  "data": {
-    "id": 1,
-    "name": "Vue.js",
-    "slug": "vuejs",
-    "description": "Progressive JavaScript Framework",
-    "projectCount": 5,
-    "createdAt": "Monday, May 11, 2026",
-    "updatedAt": "Monday, May 11, 2026"
-  }
+  "id": 1,
+  "name": "Vue.js",
+  "slug": "vuejs",
+  "description": "Progressive JavaScript Framework",
+  "projectCount": 5,
+  "createdAt": "Monday, May 11, 2026",
+  "updatedAt": "Monday, May 11, 2026"
 }
 ```

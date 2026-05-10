@@ -1,0 +1,80 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Navbar from "@components/Navbar.astro";
+import Footer from "@components/Footer.astro";
+import { getArticleBySlug } from "@lib/api";
+import { formatDate, CATEGORY_COLORS } from "@sections/article/data";
+
+import { generateHTML } from "@tiptap/html";
+import StarterKit from "@tiptap/starter-kit";
+
+const { slug } = Astro.params;
+
+let article;
+let contentHtml = "";
+
+if (slug) {
+  try {
+    article = await getArticleBySlug(slug);
+
+    if (article.content) {
+      contentHtml = generateHTML(article.content, [StarterKit]);
+    }
+  } catch (error) {
+    console.error(`Failed to fetch article with slug: ${slug}`, error);
+  }
+}
+
+// Redirect if article not found
+if (!article) {
+  return Astro.redirect("/404");
+}
+---
+
+<Layout title={article.title}>
+  <Navbar />
+
+  <main class="py-24 sm:py-32">
+    <div class="max-w-3xl mx-auto px-6">
+      <!-- Header -->
+      <header class="text-center mb-12">
+        <div class="flex items-center justify-center gap-4 mb-6">
+          <span
+            class={`text-label-mono border px-3 py-1 rounded-full ${CATEGORY_COLORS[article.category.name] || "bg-sage-100 border-sage-200 text-moss-600"}`}
+          >
+            {article.category.name}
+          </span>
+          <span class="text-label-mono text-moss-400"
+            >{formatDate(article.createdAt)}</span
+          >
+        </div>
+        <h1 class="text-hero-title text-ink">{article.title}</h1>
+        <p class="text-hero-subtitle text-moss-600 mt-6">
+          by {article.author}
+        </p>
+      </header>
+
+      <!-- Article Content -->
+      <article
+        class="prose prose-lg lg:prose-xl max-w-none prose-headings:text-ink prose-p:text-moss-600 prose-a:text-moss-500 prose-strong:text-ink prose-blockquote:border-l-moss-500 prose-blockquote:text-moss-500"
+        set:html={contentHtml}
+      />
+
+      <!-- Tags -->
+      <footer class="mt-16 pt-8 border-t border-sage-200">
+        <p class="text-label-mono text-moss-400 mb-4">TAGS</p>
+        <div class="flex flex-wrap gap-2">
+          {
+            article.tags.map((tag) => (
+              <span class="text-label-mono px-3 py-1 rounded-full border border-sage-200 bg-white text-moss-600">
+                #{tag.name}
+              </span>
+            ))
+          }
+        </div>
+      </footer>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

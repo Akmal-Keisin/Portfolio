@@ -42,6 +42,7 @@ export interface Article {
     title:     string;
     slug:      string;
     excerpt:   string;
+    content?:  any;
     author:    string;
     category:  Category;
     tags:      Tag[];

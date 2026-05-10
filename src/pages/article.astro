@@ -10,14 +10,14 @@ import Pagination from "@sections/article/Pagination.astro";
 import { getArticles, getCategories } from "@lib/api";
 
 const url = new URL(Astro.request.url);
-const page = parseInt(url.searchParams.get('page') || '1');
+const page = parseInt(url.searchParams.get("page") || "1");
 
 let articles;
 let categories;
 try {
   [articles, categories] = await Promise.all([
     getArticles(page),
-    getCategories()
+    getCategories(),
   ]);
 } catch (error) {
   console.error(error);
@@ -28,70 +28,75 @@ const featured = articles?.data[0];
 
 <Layout title="Articles — Akmal Keisin">
   <Navbar />
-  {articles && (
-    <>
-      <Hero 
-        total={articles.meta.total} 
-        totalPages={articles.meta.last_page} 
-        categoriesCount={categories?.meta.total || 0} 
-      />
-      <Toolbar 
-        categories={categories?.data.map(c => c.name) || []} 
-        from={articles.meta.from} 
-        to={articles.meta.to} 
-        total={articles.meta.total} 
-      />
-      <FeaturedArticle featured={featured} />
-      <ArticleGrid articles={articles} />
-      <Pagination articles={articles} />
-    </>
-  )}
+  {
+    articles && (
+      <>
+        <Hero
+          total={articles.meta.total}
+          totalPages={articles.meta.last_page}
+          categoriesCount={categories?.meta.total || 0}
+        />
+        <Toolbar
+          categories={categories?.data.map((c) => c.name) || []}
+          from={articles.meta.from}
+          to={articles.meta.to}
+          total={articles.meta.total}
+        />
+        {featured && <FeaturedArticle featured={featured} />}
+        <ArticleGrid articles={articles} />
+        <Pagination articles={articles} />
+      </>
+    )
+  }
   <Footer />
 </Layout>
 
 <script>
-  const searchInput = document.getElementById('search-input') as HTMLInputElement | null;
-  const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
-  const grid = document.getElementById('grid-container');
-  const emptyState = document.getElementById('empty-state');
-  const resultCount = document.getElementById('result-count');
+  const searchInput = document.getElementById(
+    "search-input",
+  ) as HTMLInputElement | null;
+  const filterBtns =
+    document.querySelectorAll<HTMLButtonElement>(".filter-btn");
+  const grid = document.getElementById("grid-container");
+  const emptyState = document.getElementById("empty-state");
+  const resultCount = document.getElementById("result-count");
 
-  let activeCategory = 'All';
-  let searchQuery = '';
+  let activeCategory = "All";
+  let searchQuery = "";
 
   function applyFilters() {
     if (!grid || !emptyState || !resultCount) return;
-    const cards = document.querySelectorAll<HTMLElement>('[data-category]');
+    const cards = document.querySelectorAll<HTMLElement>("[data-category]");
     let visible = 0;
 
     cards.forEach((card) => {
-      const cat = card.getAttribute('data-category') ?? '';
-      const title = card.getAttribute('data-title') ?? '';
-      const matchCat = activeCategory === 'All' || cat === activeCategory;
+      const cat = card.getAttribute("data-category") ?? "";
+      const title = card.getAttribute("data-title") ?? "";
+      const matchCat = activeCategory === "All" || cat === activeCategory;
       const matchSearch = !searchQuery || title.includes(searchQuery);
       const show = matchCat && matchSearch;
-      
-      card.style.display = show ? '' : 'none';
+
+      card.style.display = show ? "" : "none";
       if (show) {
         visible++;
-        card.classList.add('visible');
+        card.classList.add("visible");
       }
     });
 
-    emptyState.style.display = visible === 0 ? 'block' : 'none';
+    emptyState.style.display = visible === 0 ? "block" : "none";
     resultCount.textContent = `${visible} SHOWN`;
   }
 
   filterBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach((b) => b.setAttribute('data-active', 'false'));
-      btn.setAttribute('data-active', 'true');
-      activeCategory = btn.getAttribute('data-filter') ?? 'All';
+    btn.addEventListener("click", () => {
+      filterBtns.forEach((b) => b.setAttribute("data-active", "false"));
+      btn.setAttribute("data-active", "true");
+      activeCategory = btn.getAttribute("data-filter") ?? "All";
       applyFilters();
     });
   });
 
-  searchInput?.addEventListener('input', (e) => {
+  searchInput?.addEventListener("input", (e) => {
     searchQuery = (e.target as HTMLInputElement).value.toLowerCase().trim();
     applyFilters();
   });
