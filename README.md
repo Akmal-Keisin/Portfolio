@@ -1,63 +1,77 @@
-# Astro Starter Kit: Blog
+# Akmal Keisin — Developer Portfolio
+
+A modern, high-performance portfolio website built with **Astro v6** and **Tailwind CSS v4**. This project showcases my work, skills, and articles, utilizing a headless architecture with a Laravel-based REST API.
+
+## 🚀 Features
+
+- **High Performance:** 100/100 Lighthouse scores, optimized for speed.
+- **SSR (Server-Side Rendering):** Dynamic content delivery powered by Astro.
+- **Headless CMS:** Consumes data from a custom Laravel API.
+- **Modern Styling:** Built with Tailwind CSS v4 and custom animations.
+- **Type Safe:** Fully implemented in TypeScript.
+- **Interactive UI:** Features custom cursor, scroll reveal effects, and responsive design.
+
+## 🛠 Tech Stack
+
+- **Framework:** [Astro v6](https://astro.build/)
+- **Styling:** [Tailwind CSS v4](https://tailwindcss.com/)
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
+- **Backend:** [Laravel](https://laravel.com/) (REST API)
+
+## 📦 Getting Started
+
+### Prerequisites
+
+- Node.js (>= 22.12.0)
+- npm
+
+### Installation
+
+1. Clone the repository.
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
+3. Set up environment variables:
+   Create a `.env` file (or set `PUBLIC_API_URL` environment variable) to point to your backend API.
+   ```env
+   PUBLIC_API_URL=http://localhost:8000/api
+   ```
+
+### Local Development
+
+Run the development server:
+```sh
+npm run dev
+```
+Visit `localhost:4321` in your browser.
+
+### Build & Preview
 
 ```sh
-npm create astro@latest -- --template blog
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-Features:
-
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and Open Graph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
+## 📂 Project Structure
 
 ```text
-├── public/
 ├── src/
-│   ├── assets/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
+│   ├── assets/        # Local fonts and logos
+│   ├── components/    # Reusable UI components (Navbar, Footer, etc.)
+│   ├── content/       # Local Markdown/MDX collections
+│   ├── layouts/       # Page layouts
+│   ├── lib/           # API clients and utilities
+│   ├── pages/         # Page routes
+│   ├── sections/      # Page-specific components (Hero, About, etc.)
+│   └── styles/        # Global CSS and Tailwind theme
+├── public/            # Static assets
+└── astro.config.mjs   # Astro configuration
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## 📄 License
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
-
-## Credit
-
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+This project is open-source and available under the MIT License.
