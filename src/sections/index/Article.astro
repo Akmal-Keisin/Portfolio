@@ -6,11 +6,10 @@ import type { Article } from "../article/data";
 let articles: Article[] = [];
 try {
   const response = await getArticles(1);
-  articles = response.data.slice(0, 3);
+  articles = response?.data?.slice(0, 3) || [];
 } catch (error) {
   console.error("Failed to fetch articles for index:", error);
 }
-
 // Simple read time calculation helper
 const getReadTime = (content: any) => {
   // If content is a string, count words. If it's Tiptap JSON, it's more complex.
@@ -42,46 +41,55 @@ const getReadTime = (content: any) => {
     </div>
 
     <!-- Articles Grid -->
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {articles.map((article, i) => (
-        <a
-          href={`/article/${article.slug}`}
-          class={`reveal reveal-d${(i % 3) + 1} proj-card group block bg-white border border-moss-100 rounded-2xl p-7 hover:border-moss-300 hover:shadow-xl transition-all duration-500 no-underline relative overflow-hidden`}
-        >
-          <!-- Subtle top-right decorative blob -->
-          <div class="absolute -top-10 -right-10 w-24 h-24 rounded-full bg-mint/20 blur-2xl group-hover:bg-mint/40 transition-colors"></div>
+    {
+      articles.length > 0 ? (
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {articles.map((article, i) => (
+            <a
+              href={`/article/${article.slug}`}
+              class={`reveal reveal-d${(i % 3) + 1} proj-card group block bg-white border border-moss-100 rounded-2xl p-7 hover:border-moss-300 hover:shadow-xl transition-all duration-500 no-underline relative overflow-hidden`}
+            >
+              <!-- Subtle top-right decorative blob -->
+              <div class="absolute -top-10 -right-10 w-24 h-24 rounded-full bg-mint/20 blur-2xl group-hover:bg-mint/40 transition-colors"></div>
 
-          <div class="relative z-10 flex flex-col h-full justify-between gap-8">
-            <div>
-              <div class="flex items-center justify-between mb-6">
-                <span class="text-label-mono text-moss-400 bg-fog px-2.5 py-1 rounded-md">
-                  {article.category.name}
-                </span>
-                <span class="text-label-mono text-moss-300">{formatDate(article.createdAt)}</span>
+              <div class="relative z-10 flex flex-col h-full justify-between gap-8">
+                <div>
+                  <div class="flex items-center justify-between mb-6">
+                    <span class="text-label-mono text-moss-400 bg-fog px-2.5 py-1 rounded-md">
+                      {article.category.name}
+                    </span>
+                    <span class="text-label-mono text-moss-300">{formatDate(article.createdAt)}</span>
+                  </div>
+
+                  <h3 class="text-card-title text-ink group-hover:text-moss-700 transition-colors">
+                    {article.title}
+                  </h3>
+
+                  <!-- Excerpt -->
+                  <p class="text-section-desc text-moss-500 mt-4 line-clamp-3">
+                    {article.excerpt}
+                  </p>
+                </div>
+
+                <div class="flex items-center justify-between pt-6 border-t border-moss-50/80">
+                  <span class="text-label-mono text-moss-300">{getReadTime(article.content)}</span>
+                  <div class="text-moss-500 group-hover:text-moss-800 transition-colors">
+                    <svg width="16" height="16" viewBox="0 0 14 14" fill="none">
+                      <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </div>
+                </div>
               </div>
-
-              <h3 class="text-card-title text-ink group-hover:text-moss-700 transition-colors">
-                {article.title}
-              </h3>
-
-              <!-- Excerpt -->
-              <p class="text-section-desc text-moss-500 mt-4 line-clamp-3">
-                {article.excerpt}
-              </p>
-            </div>
-
-            <div class="flex items-center justify-between pt-6 border-t border-moss-50/80">
-              <span class="text-label-mono text-moss-300">{getReadTime(article.content)}</span>
-              <div class="text-moss-500 group-hover:text-moss-800 transition-colors">
-                <svg width="16" height="16" viewBox="0 0 14 14" fill="none">
-                  <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-              </div>
-            </div>
-          </div>
-        </a>
-      ))}
-    </div>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <div class="py-24 text-center border border-moss-200/50 rounded-3xl bg-white/50 backdrop-blur-sm">
+          <h3 class="text-section-title text-moss-600 font-medium tracking-widest mb-2">Check Back Soon</h3>
+          <p class="text-section-desc text-moss-500">I'm currently writing some new articles to share.</p>
+        </div>
+      )
+    }
 
   </div>
 </section>

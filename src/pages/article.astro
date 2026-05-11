@@ -8,46 +8,69 @@ import FeaturedArticle from "@sections/article/FeaturedArticle.astro";
 import ArticleGrid from "@sections/article/ArticleGrid.astro";
 import Pagination from "@sections/article/Pagination.astro";
 import { getArticles, getCategories } from "@lib/api";
+import type { Article, PaginatedResource } from "@sections/article/data";
 
 const url = new URL(Astro.request.url);
 const page = parseInt(url.searchParams.get("page") || "1");
 
-let articles;
-let categories;
+let articles: PaginatedResource<Article> = {
+  data: [],
+  meta: {
+    current_page: 1,
+    last_page: 1,
+    total: 0,
+    per_page: 15,
+    path: "/article",
+    from: null,
+    to: null,
+  },
+  links: { first: "", last: "", prev: null, next: null },
+};
+
+let categories: PaginatedResource<any> = {
+  data: [],
+  meta: {
+    current_page: 1,
+    last_page: 1,
+    total: 0,
+    per_page: 15,
+    path: "/categories",
+    from: null,
+    to: null,
+  },
+  links: { first: "", last: "", prev: null, next: null },
+};
+
 try {
-  [articles, categories] = await Promise.all([
+  const [articlesRes, categoriesRes] = await Promise.all([
     getArticles(page),
     getCategories(),
   ]);
+  if (articlesRes) articles = articlesRes;
+  if (categoriesRes) categories = categoriesRes;
 } catch (error) {
-  console.error(error);
+  console.error("Failed to fetch articles or categories:", error);
 }
 
-const featured = articles?.data[0];
+const featured = articles.data.length > 0 ? articles.data[0] : null;
 ---
 
 <Layout title="Articles — Akmal Keisin">
   <Navbar />
-  {
-    articles && (
-      <>
-        <Hero
-          total={articles.meta.total}
-          totalPages={articles.meta.last_page}
-          categoriesCount={categories?.meta.total || 0}
-        />
-        <Toolbar
-          categories={categories?.data.map((c) => c.name) || []}
-          from={articles.meta.from}
-          to={articles.meta.to}
-          total={articles.meta.total}
-        />
-        {featured && <FeaturedArticle featured={featured} />}
-        <ArticleGrid articles={articles} />
-        <Pagination articles={articles} />
-      </>
-    )
-  }
+  <Hero
+    total={articles.meta.total}
+    totalPages={articles.meta.last_page}
+    categoriesCount={categories.meta.total}
+  />
+  <Toolbar
+    categories={categories.data.map((c: any) => c.name)}
+    from={articles.meta.from}
+    to={articles.meta.to}
+    total={articles.meta.total}
+  />
+  {featured && <FeaturedArticle featured={featured} />}
+  <ArticleGrid articles={articles} />
+  <Pagination articles={articles} />
   <Footer />
 </Layout>
 

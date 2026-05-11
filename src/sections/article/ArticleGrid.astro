@@ -7,7 +7,8 @@ interface Props {
 }
 
 const { articles } = Astro.props;
-const rest = articles.data.slice(1);
+const rest = Array.isArray(articles?.data) ? articles.data.slice(1) : [];
+const isEmpty = articles.data.length === 0;
 ---
 <section class="max-w-6xl mx-auto px-6 py-12">
   <div id="grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -64,7 +65,7 @@ const rest = articles.data.slice(1);
   </div>
 
   <!-- Empty state -->
-  <div id="empty-state" class="hidden py-24 text-center">
+  <div id="empty-state" class={`${isEmpty ? "block" : "hidden"} py-24 text-center`}>
     <svg class="w-16 h-16 mx-auto mb-6 opacity-10" viewBox="0 0 80 120" fill="none" aria-hidden="true">
       <path d="M40 10C40 10 10 40 10 70C10 88 23 100 40 100C57 100 70 88 70 70C70 40 40 10 40 10Z" fill="#3e7d32"/>
       <line x1="40" y1="100" x2="40" y2="115" stroke="#3e7d32" stroke-width="2"/>

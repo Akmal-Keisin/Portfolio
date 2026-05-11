@@ -1,0 +1,131 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Navbar from "@components/Navbar.astro";
+import Footer from "@components/Footer.astro";
+import { getProjectBySlug } from "@lib/api";
+import { STATUS_COLORS } from "@sections/project/data";
+
+const { slug } = Astro.params;
+
+let project;
+
+if (slug) {
+  try {
+    project = await getProjectBySlug(slug);
+  } catch (error) {
+    console.error(`Failed to fetch project with slug: ${slug}`, error);
+  }
+}
+
+if (!project) {
+  return Astro.redirect("/404");
+}
+---
+
+<Layout title={`${project.title} — Projects`}>
+  <Navbar />
+
+  <main class="bg-fog min-h-screen pt-24 pb-32">
+    <div class="max-w-6xl mx-auto px-6">
+      <!-- Breadcrumb -->
+      <nav class="mb-12">
+        <a href="/project" class="text-label-mono text-moss-400 hover:text-moss-600 transition-colors inline-flex items-center gap-2">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 7H2M2 7l4-4M2 7l4 4"/>
+          </svg>
+          Back to Projects
+        </a>
+      </nav>
+
+      <div class="grid lg:grid-cols-2 gap-16 items-start">
+        <!-- Project Info -->
+        <div>
+          <div class="flex items-center gap-3 mb-6">
+            <span class="text-label-mono border border-moss-200 px-3 py-1 rounded-full text-moss-400 bg-white">
+              {project.tech_stacks[0]?.name || "Project"}
+            </span>
+            <div class="flex items-center gap-2 bg-white border border-moss-100 rounded-full px-3 py-1">
+              <span class={`w-2 h-2 rounded-full ${STATUS_COLORS[project.status]}`}></span>
+              <span class="text-label-mono text-moss-500 text-[10px] uppercase tracking-wider">{project.status}</span>
+            </div>
+          </div>
+
+          <h1 class="text-hero-title text-ink mb-8 leading-tight">{project.title}</h1>
+          
+          <div 
+            class="prose prose-lg prose-moss max-w-none mb-12"
+            set:html={project.description}
+          />
+
+          <!-- Tech Stack -->
+          <div class="mb-12">
+            <p class="text-label-mono text-moss-400 mb-4 text-[10px] uppercase tracking-[0.2em]">Technology Stack</p>
+            <div class="flex flex-wrap gap-2">
+              {project.tech_stacks.map((tech) => (
+                <span class="text-label-mono px-4 py-2 rounded-xl border border-sage-200 bg-white text-moss-700 shadow-sm">
+                  {tech.name}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <!-- Links -->
+          <div class="flex flex-wrap gap-4 pt-8 border-t border-sage-200">
+            {project.live_url && (
+              <a href={project.live_url} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-moss-700 text-fog px-8 py-4 rounded-full font-bold text-sm uppercase tracking-widest hover:bg-ink transition-all shadow-lg hover:shadow-moss-200">
+                Live Preview
+                <svg width="16" height="16" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12L12 2M12 2H4M12 2V10"/></svg>
+              </a>
+            )}
+            {project.repo_url && (
+              <a href={project.repo_url} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-white border border-sage-300 text-moss-700 px-8 py-4 rounded-full font-bold text-sm uppercase tracking-widest hover:border-moss-500 transition-all">
+                View Source
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+              </a>
+            )}
+          </div>
+        </div>
+
+        <!-- Visual / Featured Image -->
+        <div class="sticky top-32">
+          <div class="aspect-video lg:aspect-square bg-moss-800 rounded-[3rem] overflow-hidden relative group shadow-2xl">
+            {project.thumbnail ? (
+              <img src={project.thumbnail} alt={project.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+            ) : (
+              <div class="w-full h-full flex items-center justify-center">
+                 <div class="absolute inset-0 opacity-10">
+                  <svg width="100%" height="100%">
+                    <pattern id="hex-detail" x="0" y="0" width="40" height="35" patternUnits="userSpaceOnUse">
+                      <path d="M20 1L38 10.5V29.5L20 39L2 29.5V10.5Z" fill="none" stroke="#c8f0d0" stroke-width="1" />
+                    </pattern>
+                    <rect width="100%" height="100%" fill="url(#hex-detail)" />
+                  </svg>
+                </div>
+                <svg class="w-48 opacity-20 text-mint" viewBox="0 0 200 200" fill="currentColor">
+                  <path d="M100 20C55.8 20 20 55.8 20 100C20 144.2 55.8 180 100 180C144.2 180 180 144.2 180 100C180 55.8 144.2 20 100 20ZM100 160C66.9 160 40 133.1 40 100C40 66.9 66.9 40 100 40C133.1 40 160 66.9 160 100C160 133.1 133.1 160 100 160Z"/>
+                  <path d="M100 60L70 110H90V140L130 90H110V60Z"/>
+                </svg>
+              </div>
+            )}
+            
+            <!-- Meta Floating Info -->
+            <div class="absolute bottom-10 left-10 right-10 bg-ink/40 backdrop-blur-xl border border-white/10 p-8 rounded-3xl transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+              <div class="flex justify-between items-end">
+                <div>
+                  <p class="text-[10px] text-mint uppercase tracking-widest mb-1">Project ID</p>
+                  <p class="font-display text-2xl text-fog">#{project.id.toString().padStart(3, '0')}</p>
+                </div>
+                <div class="text-right">
+                  <p class="text-[10px] text-mint uppercase tracking-widest mb-1">Status</p>
+                  <p class="font-display text-xl text-fog capitalize">{project.status}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

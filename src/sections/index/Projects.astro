@@ -3,9 +3,17 @@
  * Projects Section Component (Index Page)
  * Displays a compact summary of recent work.
  */
-import { dummyProjects, STATUS_COLORS } from "@sections/project/data.ts";
+import { getProjects } from "@lib/api";
+import type { Project } from "@lib/api";
+import { STATUS_COLORS } from "@sections/project/data.ts";
 
-const projects = dummyProjects.data.slice(0, 3);
+let projects: Project[] = [];
+try {
+  const response = await getProjects(1);
+  projects = response?.data?.slice(0, 3) || [];
+} catch (error) {
+  console.error("Failed to fetch projects for index page:", error);
+}
 ---
 
 <section id="projects" class="py-28 bg-fog relative overflow-hidden">
@@ -76,84 +84,96 @@ const projects = dummyProjects.data.slice(0, 3);
     </div>
 
     <!-- Grid of projects -->
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {
-        projects.map((project, i) => (
-          <div class={`reveal reveal-d${(i % 3) + 1} proj-card`}>
-            <div class="group h-full bg-white border border-moss-100 rounded-2xl p-6 hover:border-moss-300 transition-all duration-300 flex flex-col justify-between">
-              <div>
-                <div class="flex items-center justify-between mb-6">
-                  <span class="text-label-mono text-moss-400 border border-moss-100 px-2 py-0.5 rounded-full text-[9px]!">
-                    {project.category}
-                  </span>
-                  <span
-                    class={`w-2 h-2 rounded-full ${STATUS_COLORS[project.status]}`}
-                  />
-                </div>
-                <h4 class="text-card-title text-ink mb-3 group-hover:text-moss-600 transition-colors">
-                  {project.title}
-                </h4>
-                <p class="text-section-desc text-moss-500 mb-6 line-clamp-3 text-sm!">
-                  {project.excerpt}
-                </p>
-                <div class="flex flex-wrap gap-1.5 mb-6">
-                  {project.stack.map((s) => (
-                    <span class="text-label-mono text-moss-400 bg-fog border border-moss-100 px-2 py-0.5 rounded-full text-[9px]!">
-                      {s}
+    {
+      projects.length > 0 ? (
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {projects.map((project, i) => (
+            <div class={`reveal reveal-d${(i % 3) + 1} proj-card`}>
+              <div class="group h-full bg-white border border-moss-100 rounded-2xl p-6 hover:border-moss-300 transition-all duration-300 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between mb-6">
+                    <span class="text-label-mono text-moss-400 border border-moss-100 px-2 py-0.5 rounded-full text-[9px]!">
+                      {project.tech_stacks[0]?.name || "Project"}
                     </span>
-                  ))}
+                    <span
+                      class={`w-2 h-2 rounded-full ${STATUS_COLORS[project.status]}`}
+                    />
+                  </div>
+                  <h4 class="text-card-title text-ink mb-3 group-hover:text-moss-600 transition-colors">
+                    {project.title}
+                  </h4>
+                  <p class="text-section-desc text-moss-500 mb-6 line-clamp-3 text-sm!">
+                    {project.excerpt}
+                  </p>
+                  <div class="flex flex-wrap gap-1.5 mb-6">
+                    {project.tech_stacks.map((s) => (
+                      <span class="text-label-mono text-moss-400 bg-fog border border-moss-100 px-2 py-0.5 rounded-full text-[9px]!">
+                        {s.name}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
 
-              <div class="flex items-center justify-between pt-5 border-t border-moss-100 mt-auto">
-                <span class="text-label-mono text-moss-300 text-[9px]!">
-                  {project.status}
-                </span>
-                <div class="flex gap-3">
-                  {project.repo_url && (
+                <div class="flex items-center justify-between pt-5 border-t border-moss-100 mt-auto">
+                  <span class="text-label-mono text-moss-300 text-[9px]!">
+                    {project.status}
+                  </span>
+                  <div class="flex gap-3">
+                    {project.repo_url && (
+                      <a
+                        href={project.repo_url}
+                        class="text-moss-300 hover:text-moss-600 transition-colors"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                        </svg>
+                      </a>
+                    )}
                     <a
-                      href={project.repo_url}
-                      class="text-moss-300 hover:text-moss-600 transition-colors"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      href={`/project/${project.slug}`}
+                      class="text-moss-500 hover:text-moss-700 transition-colors"
                     >
                       <svg
                         width="16"
                         height="16"
-                        viewBox="0 0 24 24"
+                        viewBox="0 0 16 16"
                         fill="none"
                         stroke="currentColor"
-                        stroke-width="2"
+                        stroke-width="1.5"
                         stroke-linecap="round"
                         stroke-linejoin="round"
                       >
-                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                        <path d="M3 8h10M9 4l4 4-4 4" />
                       </svg>
                     </a>
-                  )}
-                  <a
-                    href={`/project/${project.slug}`}
-                    class="text-moss-500 hover:text-moss-700 transition-colors"
-                  >
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <path d="M3 8h10M9 4l4 4-4 4" />
-                    </svg>
-                  </a>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))
-      }
-    </div>
+          ))}
+        </div>
+      ) : (
+        <div class="py-24 text-center border border-moss-200/50 rounded-3xl bg-white/50 backdrop-blur-sm">
+          <h3 class="text-section-title text-moss-600 font-medium tracking-widest mb-2">
+            Check Back Soon
+          </h3>
+          <p class="text-section-desc text-moss-500">
+            I'm currently updating my portfolio projects.
+          </p>
+        </div>
+      )
+    }
+
   </div>
 </section>

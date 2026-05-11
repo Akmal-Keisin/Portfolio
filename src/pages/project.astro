@@ -6,62 +6,98 @@ import Hero from "@sections/project/Hero.astro";
 import Toolbar from "@sections/project/Toolbar.astro";
 import ProjectGrid from "@sections/project/ProjectGrid.astro";
 import Pagination from "@sections/project/Pagination.astro";
+import { getProjects } from "@lib/api";
+import type { PaginatedResource, Project } from "@lib/api";
+
+let projects: Project[] = [];
+let meta: PaginatedResource<Project>["meta"] = {
+  current_page: 1,
+  last_page: 1,
+  total: 0,
+  per_page: 15,
+  path: "/project",
+  from: null,
+  to: null,
+};
+let links: PaginatedResource<Project>["links"] = {
+  first: "",
+  last: "",
+  prev: null,
+  next: null,
+};
+
+try {
+  const response = await getProjects();
+  if (response && response.data) {
+    projects = response.data;
+    meta = response.meta;
+    links = response.links;
+  }
+} catch (error) {
+  console.error("Failed to fetch projects:", error);
+}
 ---
 
 <Layout title="Projects — Akmal Keisin">
   <Navbar />
   <Hero />
-  <Toolbar />
+  <Toolbar projects={projects} />
   <main class="bg-fog">
-    <ProjectGrid />
+    <ProjectGrid projects={projects} />
   </main>
-  <Pagination />
+  <Pagination meta={meta} links={links} />
   <Footer />
 </Layout>
 
 <script>
-  const searchInput = document.getElementById('search-input') as HTMLInputElement | null;
-  const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
-  const grid = document.getElementById('grid-container');
-  const emptyState = document.getElementById('empty-state');
-  const resultCount = document.getElementById('result-count');
+  const searchInput = document.getElementById(
+    "search-input",
+  ) as HTMLInputElement | null;
+  const filterBtns =
+    document.querySelectorAll<HTMLButtonElement>(".filter-btn");
+  const grid = document.getElementById("grid-container");
+  const emptyState = document.getElementById("empty-state");
+  const resultCount = document.getElementById("result-count");
 
-  let activeCategory = 'All';
-  let searchQuery = '';
+  let activeCategory = "All";
+  let searchQuery = "";
 
   function applyFilters() {
     if (!grid || !emptyState || !resultCount) return;
-    const cards = document.querySelectorAll<HTMLElement>('[data-category]');
+    const cards = document.querySelectorAll<HTMLElement>("[data-tech-stacks]");
     let visible = 0;
 
     cards.forEach((card) => {
-      const cat = card.getAttribute('data-category') ?? '';
-      const title = card.getAttribute('data-title') ?? '';
-      const matchCat = activeCategory === 'All' || cat === activeCategory;
+      const stacks = card.getAttribute("data-tech-stacks") ?? "";
+      const title = card.getAttribute("data-title") ?? "";
+      const stackList = stacks.split(",");
+
+      const matchCat =
+        activeCategory === "All" || stackList.includes(activeCategory);
       const matchSearch = !searchQuery || title.includes(searchQuery);
       const show = matchCat && matchSearch;
-      
-      card.style.display = show ? '' : 'none';
+
+      card.style.display = show ? "" : "none";
       if (show) {
         visible++;
-        card.classList.add('visible');
+        card.classList.add("visible");
       }
     });
 
-    emptyState.style.display = visible === 0 ? 'block' : 'none';
+    emptyState.style.display = visible === 0 ? "block" : "none";
     resultCount.textContent = `${visible} SHOWN`;
   }
 
   filterBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach((b) => b.setAttribute('data-active', 'false'));
-      btn.setAttribute('data-active', 'true');
-      activeCategory = btn.getAttribute('data-filter') ?? 'All';
+    btn.addEventListener("click", () => {
+      filterBtns.forEach((b) => b.setAttribute("data-active", "false"));
+      btn.setAttribute("data-active", "true");
+      activeCategory = btn.getAttribute("data-filter") ?? "All";
       applyFilters();
     });
   });
 
-  searchInput?.addEventListener('input', (e) => {
+  searchInput?.addEventListener("input", (e) => {
     searchQuery = (e.target as HTMLInputElement).value.toLowerCase().trim();
     applyFilters();
   });

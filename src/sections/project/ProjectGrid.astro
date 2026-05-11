@@ -1,15 +1,21 @@
 ---
-import { dummyProjects, STATUS_COLORS } from "./data";
+import type { Project } from "@lib/api";
+import { STATUS_COLORS } from "./data";
 
-const projects = dummyProjects;
-const featured = projects.data.find((p) => p.featured);
-const rest = projects.data.filter((p) => !p.featured);
+interface Props {
+  projects: Project[];
+}
+
+const { projects = [] } = Astro.props;
+const featured = projects.find((p) => p.featured);
+const rest = projects.filter((p) => !p.featured);
+const isEmpty = projects.length === 0;
 ---
 <div class="max-w-6xl mx-auto px-6 py-24">
   
   <!-- Featured Project -->
   {featured && (
-  <section class="mb-24" data-category={featured.category} data-title={featured.title.toLowerCase()}>
+  <section class="mb-24" data-tech-stacks={featured.tech_stacks.map(t => t.name).join(',')} data-title={featured.title.toLowerCase()}>
     <div class="proj-card reveal group relative bg-white border border-moss-200 rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-xl hover:border-moss-300 transition-all duration-500 grid lg:grid-cols-2">
       <!-- Visual Side -->
       <div class="relative h-64 lg:h-auto bg-moss-800 flex items-center justify-center overflow-hidden">
@@ -36,7 +42,7 @@ const rest = projects.data.filter((p) => !p.featured);
         <div>
           <div class="flex items-center gap-3 mb-8">
             <span class="text-label-mono border border-moss-200 px-3 py-1 rounded-full text-moss-400">
-              {featured.category}
+              {featured.tech_stacks[0]?.name || "Project"}
             </span>
             <span class="text-label-mono text-mint bg-moss-700 px-3 py-1 rounded-full">
               Featured
@@ -49,9 +55,9 @@ const rest = projects.data.filter((p) => !p.featured);
             {featured.excerpt}
           </p>
           <div class="flex flex-wrap gap-2 mb-10">
-            {featured.stack.map((s) => (
+            {featured.tech_stacks.map((s) => (
               <span class="text-label-mono text-moss-500 bg-moss-100 border border-moss-200 px-3 py-1 rounded-full">
-                {s}
+                {s.name}
               </span>
             ))}
           </div>
@@ -84,7 +90,7 @@ const rest = projects.data.filter((p) => !p.featured);
       {rest.map((project, i) => (
         <div
           class={`proj-card reveal reveal-d${(i % 3) + 1} flex flex-col bg-white border border-moss-100 rounded-3xl p-8 hover:shadow-xl hover:border-moss-300 transition-all duration-300 relative overflow-hidden group`}
-          data-category={project.category}
+          data-tech-stacks={project.tech_stacks.map(t => t.name).join(',')}
           data-title={project.title.toLowerCase()}
         >
           <div aria-hidden="true" class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-mint/10 to-transparent rounded-bl-[100%] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -93,7 +99,7 @@ const rest = projects.data.filter((p) => !p.featured);
             <div>
               <div class="flex items-center justify-between mb-8">
                 <span class="text-label-mono border border-moss-100 px-3 py-1 rounded-full text-moss-400 bg-fog">
-                  {project.category}
+                  {project.tech_stacks[0]?.name || "Project"}
                 </span>
                 <span class={`w-2 h-2 rounded-full ${STATUS_COLORS[project.status]}`}></span>
               </div>
@@ -107,9 +113,9 @@ const rest = projects.data.filter((p) => !p.featured);
 
             <div>
               <div class="flex flex-wrap gap-1.5 mb-8">
-                {project.stack.slice(0, 4).map((s) => (
+                {project.tech_stacks.slice(0, 4).map((s) => (
                   <span class="text-label-mono px-2.5 py-1 rounded-full border border-sage-100 bg-fog text-moss-500">
-                    {s}
+                    {s.name}
                   </span>
                 ))}
               </div>
@@ -134,7 +140,10 @@ const rest = projects.data.filter((p) => !p.featured);
     </div>
 
     <!-- Empty state -->
-    <div id="empty-state" class="hidden py-32 text-center">
+    <div
+      id="empty-state"
+      class={`${isEmpty ? "block" : "hidden"} py-32 text-center`}
+    >
       <svg class="w-16 h-16 mx-auto mb-6 opacity-10" viewBox="0 0 80 120" fill="none">
         <path d="M40 10C40 10 10 40 10 70C10 88 23 100 40 100C57 100 70 88 70 70C70 40 40 10 40 10Z" fill="#3e7d32"/>
         <line x1="40" y1="100" x2="40" y2="115" stroke="#3e7d32" stroke-width="2"/>
