@@ -80,24 +80,79 @@
 
       <!-- Mini form -->
       <div class="reveal d2">
-        <form class="bg-white border border-moss-100 rounded-3xl p-8 shadow-sm space-y-5">
+        <div id="index-form-feedback" class="hidden mb-6 p-4 rounded-2xl font-body text-sm"></div>
+
+        <form id="index-contact-form" class="bg-white border border-moss-100 rounded-3xl p-8 shadow-sm space-y-5">
           <div class="space-y-2">
             <label for="f-name" class="text-label-mono text-moss-400 ml-1">Name</label>
-            <input type="text" id="f-name" class="w-full bg-fog/50 border border-moss-100 rounded-xl px-4 py-3 font-body text-sm focus:outline-none focus:border-moss-500 transition-colors" placeholder="Your name" />
+            <input type="text" id="f-name" name="name" required class="w-full bg-fog/50 border border-moss-100 rounded-xl px-4 py-3 font-body text-sm focus:outline-none focus:border-moss-500 transition-colors" placeholder="Your name" />
           </div>
           <div class="space-y-2">
             <label for="f-email" class="text-label-mono text-moss-400 ml-1">Email</label>
-            <input type="email" id="f-email" class="w-full bg-fog/50 border border-moss-100 rounded-xl px-4 py-3 font-body text-sm focus:outline-none focus:border-moss-500 transition-colors" placeholder="your@email.com" />
+            <input type="email" id="f-email" name="email" required class="w-full bg-fog/50 border border-moss-100 rounded-xl px-4 py-3 font-body text-sm focus:outline-none focus:border-moss-500 transition-colors" placeholder="your@email.com" />
+          </div>
+          <div class="space-y-2">
+            <label for="f-subject" class="text-label-mono text-moss-400 ml-1">Subject</label>
+            <input type="text" id="f-subject" name="subject" required class="w-full bg-fog/50 border border-moss-100 rounded-xl px-4 py-3 font-body text-sm focus:outline-none focus:border-moss-500 transition-colors" placeholder="Project Inquiry" />
           </div>
           <div class="space-y-2">
             <label for="f-msg" class="text-label-mono text-moss-400 ml-1">Message</label>
-            <textarea id="f-msg" rows="4" class="w-full bg-fog/50 border border-moss-100 rounded-xl px-4 py-3 font-body text-sm focus:outline-none focus:border-moss-500 transition-colors resize-none" placeholder="How can I help?"></textarea>
+            <textarea id="f-msg" name="message" rows="4" required class="w-full bg-fog/50 border border-moss-100 rounded-xl px-4 py-3 font-body text-sm focus:outline-none focus:border-moss-500 transition-colors resize-none" placeholder="How can I help?"></textarea>
           </div>
-          <button type="submit" class="w-full bg-moss-700 text-fog font-semibold py-4 rounded-xl hover:bg-ink transition-all shadow-md hover:shadow-lg">
-            Send Message
+          <button type="submit" class="w-full bg-moss-700 text-fog font-semibold py-4 rounded-xl hover:bg-ink transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
+            <span class="submit-text">Send Message</span>
           </button>
         </form>
       </div>
     </div>
   </div>
 </section>
+
+<script>
+  import { sendMessage } from "@lib/api";
+
+  const form = document.getElementById("index-contact-form") as HTMLFormElement;
+  const feedback = document.getElementById("index-form-feedback") as HTMLDivElement;
+  const submitBtn = form?.querySelector("button[type='submit']") as HTMLButtonElement;
+  const submitText = form?.querySelector(".submit-text") as HTMLSpanElement;
+
+  form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    
+    if (!form || !feedback || !submitBtn || !submitText) return;
+
+    // Reset feedback
+    feedback.classList.add("hidden");
+    feedback.classList.remove("bg-red-100", "text-red-700", "bg-green-100", "text-green-700");
+
+    // Loading state
+    submitBtn.disabled = true;
+    submitText.textContent = "Sending...";
+
+    const formData = new FormData(form);
+    const data = {
+      name: formData.get("name") as string,
+      email: formData.get("email") as string,
+      subject: formData.get("subject") as string,
+      message: formData.get("message") as string,
+    };
+
+    try {
+      const result = await sendMessage(data);
+      
+      // Success
+      feedback.textContent = result.message;
+      feedback.classList.add("bg-green-100", "text-green-700");
+      feedback.classList.remove("hidden");
+      form.reset();
+    } catch (error) {
+      // Error
+      feedback.textContent = error instanceof Error ? error.message : "Something went wrong. Please try again.";
+      feedback.classList.add("bg-red-100", "text-red-700");
+      feedback.classList.remove("hidden");
+    } finally {
+      submitBtn.disabled = false;
+      submitText.textContent = "Send Message";
+    }
+  });
+</script>

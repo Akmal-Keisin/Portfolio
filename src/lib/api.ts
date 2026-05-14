@@ -68,3 +68,31 @@ export async function getCategories(): Promise<PaginatedResource<any>> {
   }
   return response.json();
 }
+
+export interface ContactMessage {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}
+
+export async function sendMessage(
+  message: ContactMessage
+): Promise<{ message: string }> {
+  const response = await fetch(`${API_URL}/messages`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(message),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(
+      errorData.message || `Failed to send message: ${response.statusText}`
+    );
+  }
+
+  return response.json();
+}

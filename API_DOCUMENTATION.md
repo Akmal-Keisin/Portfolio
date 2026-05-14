@@ -363,3 +363,26 @@ Returns a single tech stack based on its slug.
   "updatedAt": "Monday, May 11, 2026"
 }
 ```
+
+---
+
+## 6. Messages
+Send contact form messages from the portfolio website.
+
+### Send Message
+Submit a new contact message.
+
+*   **URL:** `/api/messages`
+*   **Method:** `POST`
+*   **Body (JSON):**
+    *   `name` (string, required) - Sender's full name.
+    *   `email` (string, required) - Sender's email address.
+    *   `subject` (string, required) - Message subject.
+    *   `message` (string, required) - Full message content.
+
+**Response Example (201 Created):**
+```json
+{
+  "message": "Your message has been sent successfully!"
+}
+```

@@ -7,7 +7,9 @@
     
     <h2 class="text-section-title text-ink mb-8 font-semibold">Send a message</h2>
     
-    <form action="#" class="space-y-6">
+    <div id="form-feedback" class="hidden mb-6 p-4 rounded-2xl font-body text-sm"></div>
+
+    <form id="contact-form" class="space-y-6">
       <div class="grid md:grid-cols-2 gap-6">
         <div class="space-y-2">
           <label for="name" class="text-label-mono text-moss-400 ml-1">Your Name</label>
@@ -29,10 +31,59 @@
         <textarea id="message" name="message" rows="6" required class="w-full bg-fog border border-sage-200 rounded-2xl px-6 py-4 font-body text-ink focus:outline-none focus:border-moss-500 focus:ring-4 focus:ring-moss-500/5 transition-all resize-none" placeholder="Tell me about your project..."></textarea>
       </div>
       
-      <button type="submit" class="w-full bg-moss-700 text-fog font-semibold py-5 rounded-2xl hover:bg-ink transition-all shadow-lg hover:shadow-2xl flex items-center justify-center gap-3 group">
-        Send Message
+      <button type="submit" class="w-full bg-moss-700 text-fog font-semibold py-5 rounded-2xl hover:bg-ink transition-all shadow-lg hover:shadow-2xl flex items-center justify-center gap-3 group disabled:opacity-50 disabled:cursor-not-allowed">
+        <span class="submit-text">Send Message</span>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
       </button>
     </form>
   </div>
 </section>
+
+<script>
+  import { sendMessage } from "@lib/api";
+
+  const form = document.getElementById("contact-form") as HTMLFormElement;
+  const feedback = document.getElementById("form-feedback") as HTMLDivElement;
+  const submitBtn = form?.querySelector("button[type='submit']") as HTMLButtonElement;
+  const submitText = form?.querySelector(".submit-text") as HTMLSpanElement;
+
+  form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    
+    if (!form || !feedback || !submitBtn || !submitText) return;
+
+    // Reset feedback
+    feedback.classList.add("hidden");
+    feedback.classList.remove("bg-red-100", "text-red-700", "bg-green-100", "text-green-700");
+
+    // Loading state
+    submitBtn.disabled = true;
+    submitText.textContent = "Sending...";
+
+    const formData = new FormData(form);
+    const data = {
+      name: formData.get("name") as string,
+      email: formData.get("email") as string,
+      subject: formData.get("subject") as string,
+      message: formData.get("message") as string,
+    };
+
+    try {
+      const result = await sendMessage(data);
+      
+      // Success
+      feedback.textContent = result.message;
+      feedback.classList.add("bg-green-100", "text-green-700");
+      feedback.classList.remove("hidden");
+      form.reset();
+    } catch (error) {
+      // Error
+      feedback.textContent = error instanceof Error ? error.message : "Something went wrong. Please try again.";
+      feedback.classList.add("bg-red-100", "text-red-700");
+      feedback.classList.remove("hidden");
+    } finally {
+      submitBtn.disabled = false;
+      submitText.textContent = "Send Message";
+    }
+  });
+</script>
