@@ -12,7 +12,7 @@ const rest = projects.filter((p) => !p.featured);
 const isEmpty = projects.length === 0;
 ---
 <div class="max-w-6xl mx-auto px-6 py-24">
-  
+
   <!-- Featured Project -->
   {featured && (
   <section class="mb-24" data-tech-stacks={featured.tech_stacks.map(t => t.name).join(',')} data-title={featured.title.toLowerCase()}>
@@ -62,7 +62,7 @@ const isEmpty = projects.length === 0;
             ))}
           </div>
         </div>
-        
+
         <div class="flex items-center justify-between pt-10 border-t border-moss-100">
           <span class="text-label-mono text-moss-400">Project #{featured.id.toString().padStart(2, '0')}</span>
           <div class="flex gap-6">
@@ -151,4 +151,5 @@ const isEmpty = projects.length === 0;
       <h3 class="text-section-title text-moss-600 font-medium tracking-widest">No Projects Found</h3>
       <p class="text-section-desc text-moss-400 mt-2">Adjust your search or category filters.</p>
     </div>
+    </section>
 </div>
