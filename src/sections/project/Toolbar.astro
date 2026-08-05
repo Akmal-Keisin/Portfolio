@@ -6,7 +6,6 @@ interface Props {
 }
 
 const { projects = [] } = Astro.props;
-console.log(projects);
 const techStacks = [
   "All",
   ...new Set(projects.flatMap((p) => p.tech_stacks.map((t) => t.name))),

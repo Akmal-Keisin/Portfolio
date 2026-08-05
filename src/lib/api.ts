@@ -2,7 +2,6 @@ import type { Article, PaginatedResource } from "../sections/article/data";
 export type { PaginatedResource };
 
 const API_URL = import.meta.env.PUBLIC_API_URL || "http://localhost:8000/api";
-
 export interface TechStack {
   id: number;
   name: string;
@@ -29,7 +28,9 @@ export interface Project {
   updated_at: string;
 }
 
-export async function getArticles(page: number = 1): Promise<PaginatedResource<Article>> {
+export async function getArticles(
+  page: number = 1,
+): Promise<PaginatedResource<Article>> {
   const response = await fetch(`${API_URL}/articles?page=${page}`);
   if (!response.ok) {
     throw new Error(`Failed to fetch articles: ${response.statusText}`);
@@ -45,7 +46,9 @@ export async function getArticleBySlug(slug: string): Promise<Article> {
   return response.json();
 }
 
-export async function getProjects(page: number = 1): Promise<PaginatedResource<Project>> {
+export async function getProjects(
+  page: number = 1,
+): Promise<PaginatedResource<Project>> {
   const response = await fetch(`${API_URL}/projects?page=${page}`);
   if (!response.ok) {
     throw new Error(`Failed to fetch projects: ${response.statusText}`);
@@ -77,7 +80,7 @@ export interface ContactMessage {
 }
 
 export async function sendMessage(
-  message: ContactMessage
+  message: ContactMessage,
 ): Promise<{ message: string }> {
   const response = await fetch(`${API_URL}/messages`, {
     method: "POST",
@@ -90,7 +93,7 @@ export async function sendMessage(
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
     throw new Error(
-      errorData.message || `Failed to send message: ${response.statusText}`
+      errorData.message || `Failed to send message: ${response.statusText}`,
     );
   }
 
