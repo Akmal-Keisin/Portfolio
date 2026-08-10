@@ -1,0 +1,23 @@
+---
+import { portfolio } from "../../data/portfolio";
+import SectionContainer from "../layout/SectionContainer.astro";
+import SectionHeading from "../layout/SectionHeading.astro";
+import PortfolioCard from "../cards/PortfolioCard.astro";
+import Button from "../ui/Button.astro";
+---
+
+<SectionContainer id="portfolio" bg="surface">
+  <div class="flex flex-wrap items-end justify-between gap-6">
+    <SectionHeading
+      eyebrow="Portfolio"
+      title="Selected work"
+      description="A few projects that show how I think through a problem, end to end."
+      accent="folio"
+    />
+    <Button href="/portfolio" variant="ghost">See all projects →</Button>
+  </div>
+
+  <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    {portfolio.map((project) => <PortfolioCard project={project} />)}
+  </div>
+</SectionContainer>

@@ -1,42 +1,75 @@
 ---
 ---
-<section class="reveal">
-  <div class="bg-white border border-sage-200 rounded-[2.5rem] p-8 md:p-12 shadow-sm relative overflow-hidden">
-    <!-- Decorative accent -->
-    <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-mint/10 to-transparent rounded-bl-[100%] pointer-events-none"></div>
-    
-    <h2 class="text-section-title text-ink mb-8 font-semibold">Send a message</h2>
-    
-    <div id="form-feedback" class="hidden mb-6 p-4 rounded-2xl font-body text-sm"></div>
+<section class="relative overflow-hidden rounded-3xl border border-ink/10 bg-base p-6 shadow-sm sm:p-10">
+  <div class="pointer-events-none absolute right-0 top-0 h-40 w-40 rounded-tr-3xl bg-folio-tint blur-2xl" aria-hidden="true"></div>
 
-    <form id="contact-form" class="space-y-6">
-      <div class="grid md:grid-cols-2 gap-6">
-        <div class="space-y-2">
-          <label for="name" class="text-label-mono text-moss-400 ml-1">Your Name</label>
-          <input type="text" id="name" name="name" required class="w-full bg-fog border border-sage-200 rounded-2xl px-6 py-4 font-body text-ink focus:outline-none focus:border-moss-500 focus:ring-4 focus:ring-moss-500/5 transition-all" placeholder="John Doe" />
-        </div>
-        <div class="space-y-2">
-          <label for="email" class="text-label-mono text-moss-400 ml-1">Email Address</label>
-          <input type="email" id="email" name="email" required class="w-full bg-fog border border-sage-200 rounded-2xl px-6 py-4 font-body text-ink focus:outline-none focus:border-moss-500 focus:ring-4 focus:ring-moss-500/5 transition-all" placeholder="john@example.com" />
-        </div>
+  <h2 class="relative font-display text-2xl font-semibold text-ink sm:text-3xl">
+    Send a message
+  </h2>
+  <p class="relative mt-2 text-sm text-ink-soft">
+    I read every message myself and usually reply within a day or two.
+  </p>
+
+  <div id="form-feedback" class="mt-6 hidden rounded-2xl p-4 text-sm"></div>
+
+  <form id="contact-form" class="relative mt-8 space-y-5">
+    <div class="grid gap-5 sm:grid-cols-2">
+      <div>
+        <label for="name" class="mb-1.5 block text-sm font-medium text-ink">Your name *</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          required
+          placeholder="Jane Doe"
+          class="w-full rounded-xl border border-ink/15 bg-base px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft/50 focus:border-folio-deep focus:outline-none"
+        />
       </div>
-      
-      <div class="space-y-2">
-        <label for="subject" class="text-label-mono text-moss-400 ml-1">Subject</label>
-        <input type="text" id="subject" name="subject" required class="w-full bg-fog border border-sage-200 rounded-2xl px-6 py-4 font-body text-ink focus:outline-none focus:border-moss-500 focus:ring-4 focus:ring-moss-500/5 transition-all" placeholder="Project Inquiry" />
+      <div>
+        <label for="email" class="mb-1.5 block text-sm font-medium text-ink">Email address *</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          placeholder="jane@example.com"
+          class="w-full rounded-xl border border-ink/15 bg-base px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft/50 focus:border-folio-deep focus:outline-none"
+        />
       </div>
-      
-      <div class="space-y-2">
-        <label for="message" class="text-label-mono text-moss-400 ml-1">Message</label>
-        <textarea id="message" name="message" rows="6" required class="w-full bg-fog border border-sage-200 rounded-2xl px-6 py-4 font-body text-ink focus:outline-none focus:border-moss-500 focus:ring-4 focus:ring-moss-500/5 transition-all resize-none" placeholder="Tell me about your project..."></textarea>
-      </div>
-      
-      <button type="submit" class="w-full bg-moss-700 text-fog font-semibold py-5 rounded-2xl hover:bg-ink transition-all shadow-lg hover:shadow-2xl flex items-center justify-center gap-3 group disabled:opacity-50 disabled:cursor-not-allowed">
-        <span class="submit-text">Send Message</span>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-      </button>
-    </form>
-  </div>
+    </div>
+
+    <div>
+      <label for="subject" class="mb-1.5 block text-sm font-medium text-ink">Subject *</label>
+      <input
+        type="text"
+        id="subject"
+        name="subject"
+        required
+        placeholder="Project inquiry"
+        class="w-full rounded-xl border border-ink/15 bg-base px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft/50 focus:border-folio-deep focus:outline-none"
+      />
+    </div>
+
+    <div>
+      <label for="message" class="mb-1.5 block text-sm font-medium text-ink">Message *</label>
+      <textarea
+        id="message"
+        name="message"
+        rows="6"
+        required
+        placeholder="Tell me about your project..."
+        class="w-full resize-none rounded-xl border border-ink/15 bg-base px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft/50 focus:border-folio-deep focus:outline-none"
+      ></textarea>
+    </div>
+
+    <button
+      type="submit"
+      class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-exp-deep px-6 py-3 text-sm font-semibold text-base shadow-[0_4px_0_0_var(--color-ink)] transition-all duration-200 hover:translate-y-[2px] hover:bg-exp hover:shadow-[0_2px_0_0_var(--color-ink)] disabled:cursor-not-allowed disabled:opacity-50"
+    >
+      <span class="submit-text">Send Message</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+    </button>
+  </form>
 </section>
 
 <script>
@@ -49,14 +82,12 @@
 
   form?.addEventListener("submit", async (e) => {
     e.preventDefault();
-    
+
     if (!form || !feedback || !submitBtn || !submitText) return;
 
-    // Reset feedback
     feedback.classList.add("hidden");
-    feedback.classList.remove("bg-red-100", "text-red-700", "bg-green-100", "text-green-700");
+    feedback.classList.remove("bg-exp-tint", "text-exp-deep", "bg-folio-tint", "text-folio-deep");
 
-    // Loading state
     submitBtn.disabled = true;
     submitText.textContent = "Sending...";
 
@@ -70,16 +101,14 @@
 
     try {
       const result = await sendMessage(data);
-      
-      // Success
+
       feedback.textContent = result.message;
-      feedback.classList.add("bg-green-100", "text-green-700");
+      feedback.classList.add("bg-exp-tint", "text-exp-deep");
       feedback.classList.remove("hidden");
       form.reset();
     } catch (error) {
-      // Error
       feedback.textContent = error instanceof Error ? error.message : "Something went wrong. Please try again.";
-      feedback.classList.add("bg-red-100", "text-red-700");
+      feedback.classList.add("bg-folio-tint", "text-folio-deep");
       feedback.classList.remove("hidden");
     } finally {
       submitBtn.disabled = false;

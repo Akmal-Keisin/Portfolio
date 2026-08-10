@@ -1,7 +1,5 @@
 ---
 import Layout from "@layouts/Layout.astro";
-import Navbar from "@components/Navbar.astro";
-import Footer from "@components/Footer.astro";
 import Hero from "@sections/project/Hero.astro";
 import Toolbar from "@sections/project/Toolbar.astro";
 import ProjectGrid from "@sections/project/ProjectGrid.astro";
@@ -39,14 +37,10 @@ try {
 ---
 
 <Layout title="Projects — Akmal Keisin">
-  <Navbar />
   <Hero />
   <Toolbar projects={projects} />
-  <main class="bg-fog">
-    <ProjectGrid projects={projects} />
-  </main>
+  <ProjectGrid projects={projects} />
   <Pagination meta={meta} links={links} />
-  <Footer />
 </Layout>
 
 <script>

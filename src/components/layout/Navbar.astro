@@ -1,0 +1,98 @@
+---
+import { profile } from "../../data/profile";
+
+const links = [
+  { href: "/about", label: "About" },
+  { href: "/skills", label: "Skills" },
+  { href: "/project", label: "Projects" },
+  { href: "/article", label: "Articles" },
+  { href: "/contact", label: "Contact" },
+];
+---
+
+<header class="sticky top-0 z-50 border-b border-ink/10 bg-base/85 backdrop-blur">
+  <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 sm:px-8">
+    <a
+      href="/"
+      class="flex items-center gap-2.5 font-display text-lg font-semibold text-ink"
+    >
+      <span
+        class="flex h-9 w-9 items-center justify-center rounded-full bg-exp-deep text-sm text-base"
+        aria-hidden="true"
+      >
+        {profile.initials}
+      </span>
+      {profile.name}
+    </a>
+
+    <ul class="hidden items-center gap-7 font-mono text-sm text-ink-soft md:flex">
+      {
+        links.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class="relative py-1 transition-colors hover:text-ink [background-size:0%_2px] [background-position:0_100%] [background-repeat:no-repeat] hover:[background-size:100%_2px]"
+              style="background-image: linear-gradient(currentColor, currentColor);"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <a
+      href="/contact"
+      class="hidden rounded-full bg-ink px-5 py-2.5 font-mono text-sm font-medium text-base transition-colors hover:bg-exp-deep md:inline-flex"
+    >
+      Say hello
+    </a>
+
+    <button
+      id="menu-toggle"
+      type="button"
+      class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink/15 md:hidden"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      aria-label="Toggle navigation menu"
+    >
+      <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2">
+        <path id="menu-icon-open" d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round" />
+      </svg>
+    </button>
+  </nav>
+
+  <div id="mobile-menu" class="hidden border-t border-ink/10 bg-base md:hidden">
+    <ul class="flex flex-col gap-1 px-6 py-4 font-mono text-sm">
+      {
+        links.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class="mobile-link block rounded-lg px-3 py-2.5 text-ink-soft hover:bg-surface hover:text-ink"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById("menu-toggle");
+  const menu = document.getElementById("mobile-menu");
+
+  toggle?.addEventListener("click", () => {
+    const isOpen = menu?.classList.toggle("hidden") === false;
+    toggle.setAttribute("aria-expanded", String(isOpen));
+  });
+
+  document.querySelectorAll(".mobile-link").forEach((link) => {
+    link.addEventListener("click", () => {
+      menu?.classList.add("hidden");
+      toggle?.setAttribute("aria-expanded", "false");
+    });
+  });
+</script>

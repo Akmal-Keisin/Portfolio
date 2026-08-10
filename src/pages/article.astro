@@ -1,7 +1,5 @@
 ---
 import Layout from "@layouts/Layout.astro";
-import Navbar from "@components/Navbar.astro";
-import Footer from "@components/Footer.astro";
 import Hero from "@sections/article/Hero.astro";
 import Toolbar from "@sections/article/Toolbar.astro";
 import FeaturedArticle from "@sections/article/FeaturedArticle.astro";
@@ -56,7 +54,6 @@ const featured = articles.data.length > 0 ? articles.data[0] : null;
 ---
 
 <Layout title="Articles — Akmal Keisin">
-  <Navbar />
   <Hero
     total={articles.meta.total}
     totalPages={articles.meta.last_page}
@@ -71,7 +68,6 @@ const featured = articles.data.length > 0 ? articles.data[0] : null;
   {featured && <FeaturedArticle featured={featured} />}
   <ArticleGrid articles={articles} />
   <Pagination articles={articles} />
-  <Footer />
 </Layout>
 
 <script>

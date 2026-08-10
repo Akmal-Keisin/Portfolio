@@ -12,48 +12,41 @@ const techStacks = [
 ];
 ---
 
-<section
-  class="sticky top-[66px] z-40 bg-fog/95 backdrop-blur-md border-b border-sage-200"
->
-  <div class="max-w-6xl mx-auto px-6 py-3 flex items-center gap-3 flex-wrap">
-    <!-- Search -->
-    <div class="relative flex-1 min-w-[200px] max-w-[300px]">
-      <svg
-        class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-moss-400 pointer-events-none"
-        viewBox="0 0 14 14"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.5"
-      >
-        <circle cx="6" cy="6" r="4"></circle><path d="M10 10l3 3"></path>
-      </svg>
-      <input
-        type="text"
-        id="search-input"
-        placeholder="Search projects…"
-        class="w-full py-2 pr-3 pl-8 rounded-full border border-sage-200 bg-white font-body text-[13px] text-ink focus:outline-none focus:border-moss-500 transition-all"
-      />
-    </div>
+<section class="sticky top-[69px] z-40 border-b border-ink/10 bg-base/90 backdrop-blur">
+  <div class="mx-auto max-w-6xl px-6 py-3 sm:px-8">
+    <div class="flex items-center gap-3 flex-wrap">
+      <!-- Search -->
+      <div class="relative flex-1 min-w-[200px] max-w-[300px]">
+        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-ink-soft pointer-events-none" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="6" cy="6" r="4"/><path d="M10 10l3 3"/>
+        </svg>
+        <input
+          type="text"
+          id="search-input"
+          placeholder="Search projects…"
+          class="w-full rounded-full border border-ink/15 bg-base py-2 pl-8 pr-3 font-mono text-xs text-ink placeholder:text-ink-soft/60 focus:border-folio-deep focus:outline-none"
+        />
+      </div>
 
-    <!-- Tech Stack filters -->
-    <div class="flex items-center gap-1.5 flex-wrap">
-      {
-        techStacks.map((stack) => (
+      <!-- Tech stack filters -->
+      <div class="flex items-center gap-1.5 flex-wrap">
+        {techStacks.map((stack) => (
           <button
-            class={`filter-btn text-label-mono px-3.5 py-1.5 rounded-full border border-sage-200 bg-white text-moss-600 cursor-pointer transition-all hover:bg-sage-100 data-[active=true]:bg-moss-700 data-[active=true]:text-fog data-[active=true]:border-moss-700`}
+            class="filter-btn cursor-pointer rounded-full border border-ink/10 bg-base px-3.5 py-1.5 font-mono text-xs text-ink-soft transition-colors hover:border-ink/25 hover:text-ink data-[active=true]:border-ink data-[active=true]:bg-ink data-[active=true]:text-base"
             data-filter={stack}
             data-active={stack === "All" ? "true" : "false"}
           >
             {stack}
           </button>
-        ))
-      }
-    </div>
+        ))}
+      </div>
 
-    <div class="ml-auto hidden sm:block">
-      <span id="result-count" class="text-label-mono text-moss-400">
-        {projects.length} SHOWN
-      </span>
+      <!-- Result count -->
+      <div class="ml-auto hidden sm:block">
+        <span id="result-count" class="font-mono text-xs text-ink-soft">
+          {projects.length} SHOWN
+        </span>
+      </div>
     </div>
   </div>
 </section>

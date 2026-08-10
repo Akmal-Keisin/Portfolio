@@ -4,45 +4,43 @@ import { dummyProjects } from "./data";
 const projects = dummyProjects;
 const categories = ["All", ...new Set(projects.data.map((p) => p.category))];
 ---
-<section class="relative bg-moss-800 overflow-hidden pt-[66px]" aria-label="Projects hero">
-  <!-- Background textures -->
-  <div class="absolute inset-0 pointer-events-none overflow-hidden">
-    <svg class="absolute inset-0 w-full h-full opacity-[.04]">
-      <defs>
-        <pattern id="hex-projects" x="0" y="0" width="60" height="52" patternUnits="userSpaceOnUse">
-          <path d="M30 2L56 17V47L30 62L4 47V17Z" fill="none" stroke="#c8f0d0" stroke-width="1" />
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#hex-projects)" />
-    </svg>
-    <div class="absolute top-0 right-0 w-120 h-120 rounded-full bg-moss-600/20 blur-3xl" aria-hidden="true"></div>
-    <div class="absolute bottom-0 left-0 w-80 h-80 rounded-full bg-mint/10 blur-3xl" aria-hidden="true"></div>
+<section class="relative scroll-mt-20 overflow-hidden bg-base" aria-label="Selected work">
+  <!-- Ambient color field -->
+  <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+    <div class="absolute -left-24 -top-24 h-96 w-96 rounded-full bg-folio-tint blur-3xl"></div>
+    <div class="absolute right-[-6rem] top-10 h-80 w-80 rounded-full bg-exp-tint blur-3xl"></div>
+    <div class="absolute bottom-[-8rem] left-1/3 h-96 w-96 rounded-full bg-article-tint blur-3xl"></div>
   </div>
 
-  <div class="relative max-w-6xl mx-auto px-6 py-20 md:py-28">
-    <div class="reveal">
-      <span class="block w-12 h-[3px] rounded-full mb-6 bg-gradient-to-r from-mint to-moss-500"></span>
-      <p class="text-label-mono text-moss-300 mb-4">Selected Work</p>
-      <h1 class="text-hero-title text-fog">
-        Things I've<br/><em class="not-italic text-mint">shipped</em>
-      </h1>
-      <p class="text-hero-subtitle text-moss-300 mt-8 max-w-xl">
+  <div class="relative mx-auto max-w-6xl px-6 pb-20 pt-16 sm:px-8 sm:pt-24 lg:pt-28">
+    <p class="font-mono text-sm uppercase tracking-[0.3em] text-ink-soft">
+      Selected Work
+    </p>
+
+    <h1 class="mt-4 max-w-3xl font-display text-5xl font-semibold leading-[1.1] text-ink sm:text-6xl">
+      Things I've <em class="italic text-folio-deep">shipped</em>
+    </h1>
+
+    <div class="mt-6 max-w-xl">
+      <p class="text-lg leading-relaxed text-ink-soft">
         A collection of products, tools, and systems I've built professionally and as personal projects. Total {projects.meta.total} projects featured.
       </p>
     </div>
 
     <!-- Stats row -->
-    <div class="flex flex-wrap gap-10 md:gap-20 mt-16 pt-12 border-t border-moss-700/50">
-      {[
-        [String(projects.meta.total) + "+", "Projects"],
-        [String(categories.length - 1), "Categories"],
-        [String(new Set(projects.data.flatMap(p => p.stack)).size) + "+", "Tech Stack"],
-      ].map(([num, label], i) => (
-        <div class={`reveal d${i + 1}`}>
-          <div class="text-hero-title text-fog">{num}</div>
-          <div class="text-label-mono text-moss-400 mt-2">{label}</div>
-        </div>
-      ))}
+    <div class="mt-12 flex flex-wrap items-center gap-x-10 gap-y-6 border-t border-ink/10 pt-8">
+      {
+        [
+          [String(projects.meta.total) + "+", "Projects"],
+          [String(categories.length - 1), "Categories"],
+          [String(new Set(projects.data.flatMap(p => p.stack)).size) + "+", "Tech Stack"],
+        ].map(([num, label]) => (
+          <div class="flex items-baseline gap-2.5">
+            <span class="font-display text-3xl font-semibold text-ink">{num}</span>
+            <span class="font-mono text-xs uppercase tracking-widest text-ink-soft">{label}</span>
+          </div>
+        ))
+      }
     </div>
   </div>
 </section>

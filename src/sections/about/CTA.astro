@@ -1,14 +1,19 @@
 ---
+import SectionContainer from "../../components/layout/SectionContainer.astro";
+import Button from "../../components/ui/Button.astro";
 ---
-<section class="bg-fog py-24 px-6 text-center">
-  <div class="reveal">
-    <h2 class="text-section-title text-ink mb-8">Want to know more?<br/><em class="not-italic text-moss-500 underline decoration-mint/40 decoration-4">Let's talk.</em></h2>
-    <a
-      href="/contact"
-      class="inline-flex items-center gap-3 bg-moss-700 text-fog font-semibold text-sm px-10 py-4 rounded-full hover:bg-ink transition-all shadow-lg hover:shadow-2xl"
-    >
-      Send a message
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </a>
+
+<SectionContainer bg="ink">
+  <div class="flex flex-col items-start justify-between gap-8 sm:flex-row sm:items-center">
+    <div>
+      <div class="inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.2em] text-base/50">
+        <span class="h-2 w-2 rounded-full bg-folio" aria-hidden="true"></span>
+        Get in touch
+      </div>
+      <h2 class="mt-3 max-w-xl font-display text-3xl font-semibold text-base sm:text-4xl">
+        Want to know more? Let's talk.
+      </h2>
+    </div>
+    <Button href="/contact" variant="primary" class="shrink-0">Send a message</Button>
   </div>
-</section>
+</SectionContainer>

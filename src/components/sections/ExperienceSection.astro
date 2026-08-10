@@ -1,0 +1,35 @@
+---
+import { experience } from "../../data/experience";
+import SectionContainer from "../layout/SectionContainer.astro";
+import SectionHeading from "../layout/SectionHeading.astro";
+import TimelineItem from "../cards/TimelineItem.astro";
+---
+
+<SectionContainer id="experience" bg="surface">
+  <div class="grid gap-12 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)]">
+    <SectionHeading
+      eyebrow="Experience"
+      title="Where I've worked"
+      description="Six years split between in-house product teams and running my own studio."
+      accent="exp"
+    />
+
+    <div>
+      {
+        experience.map((entry, index) => (
+          <TimelineItem
+            variant="exp"
+            title={entry.role}
+            subtitle={entry.company}
+            period={entry.period}
+            location={entry.location}
+            summary={entry.summary}
+            tags={entry.tags}
+            href={`/experience/${entry.slug}`}
+            isLast={index === experience.length - 1}
+          />
+        ))
+      }
+    </div>
+  </div>
+</SectionContainer>

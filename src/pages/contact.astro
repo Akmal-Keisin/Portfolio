@@ -1,22 +1,16 @@
 ---
 import Layout from "@layouts/Layout.astro";
-import Navbar from "@components/Navbar.astro";
-import Footer from "@components/Footer.astro";
 import Hero from "@sections/contact/Hero.astro";
 import ContactForm from "@sections/contact/ContactForm.astro";
 import Sidebar from "@sections/contact/Sidebar.astro";
 ---
 
 <Layout title="Contact — Akmal Keisin">
-  <Navbar />
   <Hero />
-  <main class="bg-fog">
-    <div class="max-w-6xl mx-auto px-6 py-24">
-      <div class="grid lg:grid-cols-[1fr_400px] gap-16 items-start">
-        <ContactForm />
-        <Sidebar />
-      </div>
+  <main class="mx-auto max-w-6xl px-6 pb-24 sm:px-8">
+    <div class="grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,360px)]">
+      <ContactForm />
+      <Sidebar />
     </div>
   </main>
-  <Footer />
 </Layout>

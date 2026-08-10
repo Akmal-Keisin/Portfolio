@@ -1,0 +1,28 @@
+---
+export type BadgeVariant = "edu" | "exp" | "folio" | "article" | "neutral";
+
+interface Props {
+  variant?: BadgeVariant;
+  class?: string;
+}
+
+const { variant = "neutral", class: className = "" } = Astro.props;
+
+const variantClasses: Record<BadgeVariant, string> = {
+  edu: "bg-edu-tint text-edu-deep",
+  exp: "bg-exp-tint text-exp-deep",
+  folio: "bg-folio-tint text-folio-deep",
+  article: "bg-article-tint text-article-deep",
+  neutral: "bg-surface text-ink-soft",
+};
+---
+
+<span
+  class:list={[
+    "inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-mono font-medium tracking-wide",
+    variantClasses[variant],
+    className,
+  ]}
+>
+  <slot />
+</span>

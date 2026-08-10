@@ -1,4 +1,6 @@
 ---
+import SocialIcon from "../../components/ui/SocialIcon.astro";
+
 const socialLinks = [
   { label: "GitHub", href: "https://github.com/akmal-keisin", icon: "github" },
   {
@@ -15,144 +17,53 @@ const socialLinks = [
 ];
 ---
 
-<aside class="space-y-12">
-  <!-- Availability Card -->
-  <div
-    class="reveal d1 bg-moss-800 rounded-4xl p-8 text-center relative overflow-hidden border border-moss-600"
-  >
-    <div class="absolute inset-0 hex-pattern opacity-[.03] pointer-events-none">
+<aside class="space-y-6">
+  <!-- Availability card -->
+  <div class="relative overflow-hidden rounded-3xl border border-ink/10 bg-surface p-8 text-center">
+    <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+      <div class="absolute -left-12 -top-12 h-40 w-40 rounded-full bg-exp-tint blur-2xl"></div>
+      <div class="absolute -bottom-12 -right-12 h-40 w-40 rounded-full bg-folio-tint blur-2xl"></div>
     </div>
-    <div class="relative z-10">
-      <div
-        class="inline-flex items-center gap-2 bg-mint/10 border border-mint/20 rounded-full px-4 py-1 mb-6"
-      >
+
+    <div class="relative">
+      <span class="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-base px-4 py-1.5 font-mono text-xs text-ink-soft">
         <span class="relative flex h-2 w-2">
-          <span
-            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-mint opacity-75"
-          ></span>
-          <span class="relative inline-flex h-2 w-2 rounded-full bg-mint"
-          ></span>
+          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-exp opacity-75"></span>
+          <span class="relative inline-flex h-2 w-2 rounded-full bg-exp"></span>
         </span>
-        <span class="text-label-mono text-mint">Available for projects</span>
-      </div>
-      <h3 class="text-card-title text-fog mb-4">Current Availability</h3>
-      <p class="text-section-desc text-moss-300 leading-relaxed text-sm">
-        I'm currently accepting new freelance projects and collaborations. My
-        typical lead time is 2-4 weeks.
+        Available for projects
+      </span>
+      <h3 class="mt-5 font-display text-xl font-semibold text-ink">Current availability</h3>
+      <p class="mt-2 text-sm leading-relaxed text-ink-soft">
+        I'm currently accepting new freelance projects and collaborations. My typical lead time is 2-4 weeks.
       </p>
     </div>
   </div>
 
-  <!-- Social Links -->
-  <div class="reveal d2 space-y-6">
-    <h3 class="text-label-mono text-moss-400 font-bold ml-2">
-      Connect Elsewhere
+  <!-- Social links -->
+  <div class="space-y-3">
+    <h3 class="px-1 font-mono text-xs font-medium uppercase tracking-[0.2em] text-ink-soft">
+      Connect elsewhere
     </h3>
-    <div class="grid grid-cols-1 gap-3">
-      {
-        socialLinks.map((social) => (
-          <a
-            href={social.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="flex items-center justify-between bg-white border border-sage-200 rounded-2xl px-6 py-4 hover:border-moss-300 hover:shadow-md transition-all group no-underline"
-          >
-            <div class="flex items-center gap-4">
-              <div class="w-10 h-10 bg-fog rounded-xl flex items-center justify-center border border-sage-100 group-hover:scale-110 transition-transform">
-                {social.icon === "github" && (
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-                  </svg>
-                )}
-                {social.icon === "linkedin" && (
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-                    <rect x="2" y="9" width="4" height="12" />
-                    <circle cx="4" cy="4" r="2" />
-                  </svg>
-                )}
-                {social.icon === "instagram" && (
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-                  </svg>
-                )}
-                {social.icon === "twitter" && (
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.48 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" />
-                  </svg>
-                )}
-                {social.icon === "mail" && (
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                    <polyline points="22,6 12,13 2,6" />
-                  </svg>
-                )}
-              </div>
-              <span class="text-section-desc font-semibold text-ink group-hover:text-moss-700 transition-colors">
-                {social.label}
-              </span>
-            </div>
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 14 14"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              class="text-moss-300 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all"
-            >
-              <path d="M2 12L12 2M12 2H4M12 2V10" />
-            </svg>
-          </a>
-        ))
-      }
-    </div>
+    {socialLinks.map((social) => (
+      <a
+        href={social.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group flex items-center justify-between rounded-2xl border border-ink/10 bg-base px-5 py-4 transition-all hover:border-folio/40 hover:shadow-md no-underline"
+      >
+        <div class="flex items-center gap-4">
+          <span class="flex h-10 w-10 items-center justify-center rounded-xl border border-ink/10 bg-surface transition-transform group-hover:scale-110">
+            <SocialIcon icon={social.icon as any} class="h-4 w-4 text-ink-soft" />
+          </span>
+          <span class="text-sm font-semibold text-ink transition-colors group-hover:text-folio-deep">
+            {social.label}
+          </span>
+        </div>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" class="text-ink-soft opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100" aria-hidden="true">
+          <path d="M2 12L12 2M12 2H4M12 2V10" />
+        </svg>
+      </a>
+    ))}
   </div>
 </aside>

@@ -145,7 +145,7 @@ export const dummyProjects: PaginatedResource<Project> = {
 };
 
 export const STATUS_COLORS: Record<string, string> = {
-  completed: "bg-moss-400",
-  ongoing: "bg-mint animate-pulse",
-  archived: "bg-moss-200",
+  completed: "bg-exp",
+  ongoing: "bg-folio animate-pulse",
+  archived: "bg-ink-soft/40",
 };

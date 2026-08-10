@@ -8,25 +8,27 @@ interface Props {
 
 const { meta, links } = Astro.props;
 ---
-<section class="bg-fog px-6 pb-24">
-  <div class="max-w-6xl mx-auto flex items-center justify-between flex-wrap gap-6 border-t border-sage-200 pt-12">
-    <span class="text-label-mono text-moss-400">
-      Page {meta.current_page} / {meta.last_page} &nbsp;·&nbsp; {meta.total} Total
+<section class="mx-auto max-w-6xl px-6 pb-24 sm:px-8">
+  <div class="flex flex-wrap items-center justify-between gap-4 border-t border-ink/10 pt-8">
+    <span class="font-mono text-xs uppercase tracking-widest text-ink-soft">
+      Page {meta.current_page} of {meta.last_page} · {meta.total} total
     </span>
 
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-1.5">
       <a
         href={links.prev ?? undefined}
-        class={`inline-flex items-center justify-center w-12 h-12 rounded-2xl border transition-all no-underline ${links.prev ? 'border-sage-200 bg-white text-moss-600 hover:bg-sage-100 hover:border-moss-400' : 'border-sage-100 bg-fog text-moss-200 pointer-events-none'}`}
+        class={`inline-flex h-10 w-10 items-center justify-center rounded-xl border transition-colors no-underline ${links.prev ? "border-ink/10 bg-base text-ink hover:border-ink/25 hover:bg-surface" : "cursor-not-allowed border-ink/5 text-ink-soft/40 pointer-events-none"}`}
         aria-disabled={links.prev === null}
+        aria-label="Previous page"
       >
-        <svg width="18" height="18" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3L4 7l4 4"/></svg>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3L4 7l4 4" /></svg>
       </a>
 
       {Array.from({ length: meta.last_page }, (_, i) => i + 1).map((p) => (
         <a
           href={`${meta.path}?page=${p}`}
-          class={`inline-flex items-center justify-center w-12 h-12 rounded-2xl border text-label-mono transition-all no-underline ${p === meta.current_page ? "bg-moss-800 text-fog border-moss-800" : "border-sage-200 bg-white text-moss-600 hover:bg-sage-100 hover:border-moss-400"}`}
+          class={`inline-flex h-10 w-10 items-center justify-center rounded-xl border font-mono text-xs transition-colors no-underline ${p === meta.current_page ? "border-ink bg-ink text-base" : "border-ink/10 bg-base text-ink-soft hover:border-ink/25 hover:text-ink"}`}
+          aria-current={p === meta.current_page ? "page" : undefined}
         >
           {p}
         </a>
@@ -34,15 +36,16 @@ const { meta, links } = Astro.props;
 
       <a
         href={links.next ?? undefined}
-        class={`inline-flex items-center justify-center w-12 h-12 rounded-2xl border transition-all no-underline ${links.next ? 'border-sage-200 bg-white text-moss-600 hover:bg-sage-100 hover:border-moss-400' : 'border-sage-100 bg-fog text-moss-200 pointer-events-none'}`}
+        class={`inline-flex h-10 w-10 items-center justify-center rounded-xl border transition-colors no-underline ${links.next ? "border-ink/10 bg-base text-ink hover:border-ink/25 hover:bg-surface" : "cursor-not-allowed border-ink/5 text-ink-soft/40 pointer-events-none"}`}
         aria-disabled={links.next === null}
+        aria-label="Next page"
       >
-        <svg width="18" height="18" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3l4 4-4 4"/></svg>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3l4 4-4 4" /></svg>
       </a>
     </div>
 
-    <span class="text-label-mono text-moss-400">
-      {meta.per_page} Per Page
+    <span class="font-mono text-xs uppercase tracking-widest text-ink-soft">
+      {meta.per_page} per page
     </span>
   </div>
 </section>

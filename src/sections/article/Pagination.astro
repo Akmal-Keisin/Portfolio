@@ -18,47 +18,44 @@ const getPageLink = (url: string | null) => {
   }
 };
 ---
-<section class="max-w-6xl mx-auto px-6 pb-24">
-  <div class="flex items-center justify-between flex-wrap gap-4 border-t border-sage-200 pt-8">
-    <span class="text-label-mono text-moss-400">
-      PAGE {articles.meta.current_page} OF {articles.meta.last_page} &nbsp;·&nbsp; {articles.meta.from}–{articles.meta.to} OF {articles.meta.total}
+<section class="mx-auto max-w-6xl px-6 pb-24 sm:px-8">
+  <div class="flex flex-wrap items-center justify-between gap-4 border-t border-ink/10 pt-8">
+    <span class="font-mono text-xs uppercase tracking-widest text-ink-soft">
+      Page {articles.meta.current_page} of {articles.meta.last_page} · {articles.meta.from}–{articles.meta.to} of {articles.meta.total}
     </span>
 
-    <div class="flex items-center gap-2">
-      <!-- Prev -->
+    <div class="flex items-center gap-1.5">
       <a
         href={getPageLink(articles.links.prev)}
-        class={`inline-flex items-center justify-center w-10 h-10 rounded-xl border transition-all no-underline ${articles.links.prev ? 'border-sage-200 bg-white text-moss-600 hover:bg-sage-100 hover:border-moss-400' : 'border-sage-100 bg-fog text-moss-200 pointer-events-none'}`}
+        class={`inline-flex h-10 w-10 items-center justify-center rounded-xl border transition-colors no-underline ${articles.links.prev ? "border-ink/10 bg-base text-ink hover:border-ink/25 hover:bg-surface" : "cursor-not-allowed border-ink/5 text-ink-soft/40 pointer-events-none"}`}
         aria-disabled={articles.links.prev === null}
         aria-label="Previous page"
       >
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3L4 7l4 4"/></svg>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3L4 7l4 4" /></svg>
       </a>
 
-      <!-- Page numbers -->
       {Array.from({ length: articles.meta.last_page }, (_, i) => i + 1).map((p) => (
         <a
           href={`/article?page=${p}`}
-          class={`inline-flex items-center justify-center w-10 h-10 rounded-xl border text-label-mono transition-all no-underline ${p === articles.meta.current_page ? "bg-moss-700 text-fog border-moss-700" : "border-sage-200 bg-white text-moss-600 hover:bg-sage-100 hover:border-moss-400"}`}
+          class={`inline-flex h-10 w-10 items-center justify-center rounded-xl border font-mono text-xs transition-colors no-underline ${p === articles.meta.current_page ? "border-ink bg-ink text-base" : "border-ink/10 bg-base text-ink-soft hover:border-ink/25 hover:text-ink"}`}
           aria-current={p === articles.meta.current_page ? "page" : undefined}
         >
           {p}
         </a>
       ))}
 
-      <!-- Next -->
       <a
         href={getPageLink(articles.links.next)}
-        class={`inline-flex items-center justify-center w-10 h-10 rounded-xl border transition-all no-underline ${articles.links.next ? 'border-sage-200 bg-white text-moss-600 hover:bg-sage-100 hover:border-moss-400' : 'border-sage-100 bg-fog text-moss-200 pointer-events-none'}`}
+        class={`inline-flex h-10 w-10 items-center justify-center rounded-xl border transition-colors no-underline ${articles.links.next ? "border-ink/10 bg-base text-ink hover:border-ink/25 hover:bg-surface" : "cursor-not-allowed border-ink/5 text-ink-soft/40 pointer-events-none"}`}
         aria-disabled={articles.links.next === null}
         aria-label="Next page"
       >
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3l4 4-4 4"/></svg>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3l4 4-4 4" /></svg>
       </a>
     </div>
 
-    <span class="text-label-mono text-moss-400">
-      {articles.meta.per_page} ARTICLES PER PAGE
+    <span class="font-mono text-xs uppercase tracking-widest text-ink-soft">
+      {articles.meta.per_page} articles per page
     </span>
   </div>
 </section>

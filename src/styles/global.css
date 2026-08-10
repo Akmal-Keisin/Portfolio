@@ -1,299 +1,94 @@
 @import "tailwindcss";
+
 /*
-  The CSS in this style tag is based off of Bear Blog's default CSS.
-  https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
-  License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
- */
-
+  Design tokens — warm, colorful editorial palette.
+  Each hue family is tied to a specific meaning across the site:
+    amber/brown  -> Education   (growth, foundation)
+    green        -> Experience  (work, momentum)
+    purple       -> Portfolio   (making, imagination)
+    terracotta   -> Articles    (voice, ideas)
+  This mapping repeats everywhere (badges, timeline dots, card borders,
+  nav underline) so color always tells you what *kind* of content you're
+  looking at, not just decoration.
+*/
 @theme {
-  --fog: #f2f5f0;
-  --moss-5: #3e7d32;
-  --moss-6: #2e5f25;
-  --moss-7: #1e4118;
-  --ink: #1a2e18;
-  --mint: #c8f0d0;
-  --sage-2: #ccdfc6;
+  --font-display: "Fraunces", "Iowan Old Style", ui-serif, Georgia, serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
 
-  /* --- Colors --- */
-  --color-fog: #f2f5f0;
-  --color-fog-50: #f8faf6;
-  --color-fog-100: #f2f5f0;
-  --color-fog-200: #e4ede0;
+  /* Base */
+  --color-base: #fafaf8;
+  --color-surface: #f1efe8;
+  --color-ink: #2c2c2a;
+  --color-ink-soft: #5b5b56;
 
-  --color-moss-100: #d6e8d0;
-  --color-moss-200: #b4d4ab;
-  --color-moss-300: #88bb7c;
-  --color-moss-400: #5d9f4f;
-  --color-moss-500: #3e7d32;
-  --color-moss-600: #2e5f25;
-  --color-moss-700: #1e4118;
-  --color-moss-800: #112810;
-  --color-moss-900: #081508;
+  /* Education — amber / brown */
+  --color-edu-tint: #faeeda;
+  --color-edu: #ef9f27;
+  --color-edu-deep: #b26b00;
 
-  --color-sage-100: #e8f0e5;
-  --color-sage-200: #ccdfc6;
-  --color-sage-300: #a8c8a0;
-  --color-sage-400: #7aab70;
+  /* Experience — green */
+  --color-exp-tint: #e1f5ee;
+  --color-exp: #1d9e75;
+  --color-exp-deep: #085041;
 
-  --color-mint: #c8f0d0;
-  --color-mint-light: #e4f8ea;
+  /* Portfolio — purple */
+  --color-folio-tint: #eeedfe;
+  --color-folio: #857dff;
+  --color-folio-deep: #5d58ad;
 
-  --color-ink: #1a2e18;
-  --color-ink-light: #2d4a2a;
-
-  /* --- Fonts --- */
-  --font-display: "Zilla Slab", Georgia, serif;
-  --font-body: "Outfit", sans-serif;
-  --font-mono: "Fira Code", monospace;
-
-  /* --- Animations & Keyframes --- */
-  --animate-fade-up: fade-up 0.8s ease both;
-  --animate-fade-in: fadeIn 0.6s ease both;
-  --animate-draw-line: drawLine 2s ease forwards;
-  --animate-float: float 5s ease-in-out infinite;
-
-  @keyframes fade-up {
-    0% {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    100% {
-      opacity: 1;
-      transform: none;
-    }
-  }
-  @keyframes fadeIn {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-  @keyframes drawLine {
-    0% {
-      stroke-dashoffset: 1000;
-    }
-    100% {
-      stroke-dashoffset: 0;
-    }
-  }
-  @keyframes float {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
-  }
+  /* Articles — terracotta */
+  --color-article-tint: #faece7;
+  --color-article: #d85a30;
+  --color-article-deep: #712b13;
 }
 
 html {
   scroll-behavior: smooth;
 }
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
 
-/* Subtle paper texture */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%23f2f5f0'/%3E%3Ccircle cx='1' cy='1' r='.4' fill='%23d6e8d0' opacity='.5'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 9998;
-  opacity: 0.35;
-}
-
-/* Scroll reveal */
-.reveal {
-  opacity: 0;
-  transform: translateY(32px);
-  transition:
-    opacity 0.75s ease,
-    transform 0.75s ease;
-}
-.reveal.visible {
-  opacity: 1;
-  transform: none;
-}
-.reveal-d1 {
-  transition-delay: 0.1s;
-}
-.reveal-d2 {
-  transition-delay: 0.2s;
-}
-.reveal-d3 {
-  transition-delay: 0.3s;
-}
-.reveal-d4 {
-  transition-delay: 0.4s;
-}
-
-/* Nav underline */
-.nav-link {
-  position: relative;
-}
-.nav-link::after {
-  content: "";
-  position: absolute;
-  bottom: -3px;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: var(--moss-5);
-  border-radius: 1px;
-  transition: width 0.3s ease;
-}
-.nav-link:hover::after {
-  width: 100%;
-}
-
-/* Section accent line */
-.accent-line {
-  display: block;
-  width: 40px;
-  height: 3px;
-  background: linear-gradient(90deg, var(--moss-5), var(--mint));
-  border-radius: 2px;
-}
-
-/* Skill bars */
-.bar-fill {
-  width: 0;
-  transition: width 1.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.bar-fill.go {
-  width: var(--w);
-}
-
-/* Card hover */
-.proj-card {
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
-}
-.proj-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 24px 56px rgba(30, 65, 24, 0.12);
-}
-
-/* Input focus */
-input:focus,
-textarea:focus {
-  outline: none;
-  border-color: var(--moss-5);
-  box-shadow: 0 0 0 3px rgba(62, 125, 50, 0.13);
-}
-
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 5px;
-}
-::-webkit-scrollbar-track {
-  background: var(--fog);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--sage-2);
-  border-radius: 3px;
-}
-
-/* Typography Standardization */
-@utility text-hero-title {
-  font-family: var(--font-display);
-  font-size: var(--text-5xl);
-  line-height: 1.1;
-  font-weight: var(--font-semibold);
-  @media (width >= 768px) {
-    font-size: var(--text-7xl);
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
-  @media (width >= 1024px) {
-    font-size: var(--text-8xl);
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
-@utility text-hero-subtitle {
+body {
+  background-color: var(--color-base);
+  color: var(--color-ink);
   font-family: var(--font-body);
-  font-size: var(--text-lg);
-  line-height: var(--leading-relaxed);
-  @media (width >= 768px) {
-    font-size: var(--text-xl);
-  }
 }
 
-@utility text-section-title {
+/* Consistent, visible focus ring for keyboard users */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-folio-deep);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Hand-set underline squiggle used sparingly as an accent under key words */
+.squiggle-underline {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 10' preserveAspectRatio='none'%3E%3Cpath d='M0 6 Q 12 0, 25 6 T 50 6 T 75 6 T 100 6' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 0 92%;
+  background-size: 100% 0.4em;
+}
+
+.font-display {
   font-family: var(--font-display);
-  font-size: var(--text-3xl);
-  line-height: var(--leading-tight);
-  font-weight: var(--font-semibold);
-  @media (width >= 768px) {
-    font-size: var(--text-4xl);
-  }
-  @media (width >= 1024px) {
-    font-size: var(--text-5xl);
-  }
 }
 
-@utility text-section-desc {
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  line-height: var(--leading-relaxed);
-  @media (width >= 768px) {
-    font-size: var(--text-lg);
-  }
-}
-
-@utility text-card-title {
-  font-family: var(--font-display);
-  font-size: var(--text-xl);
-  line-height: var(--leading-tight);
-  font-weight: var(--font-semibold);
-  @media (width >= 768px) {
-    font-size: var(--text-2xl);
-  }
-}
-
-@utility text-label-mono {
+.font-mono {
   font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  @media (width >= 768px) {
-    font-size: var(--text-xs);
-  }
-}
-
-/* Cursor dot */
-.cursor-dot {
-  width: 8px;
-  height: 8px;
-  background: var(--moss-5);
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  transition:
-    transform 0.1s ease,
-    opacity 0.3s ease;
-}
-.cursor-ring {
-  width: 32px;
-  height: 32px;
-  border: 1.5px solid var(--moss-5);
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  transition:
-    transform 0.18s ease,
-    width 0.2s ease,
-    height 0.2s ease,
-    opacity 0.3s ease;
-  opacity: 0.5;
 }

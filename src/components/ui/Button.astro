@@ -1,0 +1,40 @@
+---
+export type ButtonVariant = "primary" | "secondary" | "ghost";
+
+interface Props {
+  href?: string;
+  variant?: ButtonVariant;
+  class?: string;
+  type?: "button" | "submit";
+}
+
+const {
+  href,
+  variant = "primary",
+  class: className = "",
+  type = "button",
+} = Astro.props;
+
+const base =
+  "inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-200 focus-visible:outline-none";
+
+const variantClasses: Record<ButtonVariant, string> = {
+  primary:
+    "bg-exp-deep text-base hover:bg-exp shadow-[0_4px_0_0_var(--color-ink)] hover:shadow-[0_2px_0_0_var(--color-ink)] hover:translate-y-[2px]",
+  secondary:
+    "bg-transparent text-ink border-2 border-ink hover:bg-ink hover:text-base",
+  ghost: "bg-transparent text-ink-soft hover:text-ink underline underline-offset-4",
+};
+
+const classes = [base, variantClasses[variant], className].join(" ");
+
+const Tag = href ? "a" : "button";
+---
+
+<Tag
+  class={classes}
+  href={href}
+  type={!href ? type : undefined}
+>
+  <slot />
+</Tag>

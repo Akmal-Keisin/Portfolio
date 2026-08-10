@@ -1,0 +1,34 @@
+---
+import { education } from "../../data/education";
+import SectionContainer from "../layout/SectionContainer.astro";
+import SectionHeading from "../layout/SectionHeading.astro";
+import TimelineItem from "../cards/TimelineItem.astro";
+---
+
+<SectionContainer id="education" bg="base">
+  <div class="grid gap-12 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)]">
+    <SectionHeading
+      eyebrow="Education"
+      title="How I got here"
+      description="Formal study and the courses I came back for once I knew what I needed."
+      accent="edu"
+    />
+
+    <div>
+      {
+        education.map((entry, index) => (
+          <TimelineItem
+            variant="edu"
+            title={entry.degree}
+            subtitle={entry.institution}
+            period={entry.period}
+            location={entry.location}
+            summary={entry.summary}
+            href={`/education/${entry.slug}`}
+            isLast={index === education.length - 1}
+          />
+        ))
+      }
+    </div>
+  </div>
+</SectionContainer>

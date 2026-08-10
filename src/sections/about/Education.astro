@@ -1,23 +1,28 @@
 ---
+import SectionContainer from "../../components/layout/SectionContainer.astro";
+import SectionHeading from "../../components/layout/SectionHeading.astro";
+import TimelineItem from "../../components/cards/TimelineItem.astro";
 ---
-<section class="reveal">
-  <div class="bg-moss-800 rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden">
-    <div class="absolute inset-0 hex-pattern opacity-[.03] pointer-events-none"></div>
-    <div class="flex flex-col items-center">
-      <div class="text-label-mono text-mint mb-6">Foundation</div>
-      <h2 class="text-hero-title text-fog mb-8">Education</h2>
-      <div class="max-w-md mx-auto">
-        <div class="text-label-mono text-moss-400 mb-2">2019 – 2022</div>
-        <div class="text-card-title text-fog font-medium mb-1">Multimedia</div>
-        <div class="text-hero-subtitle text-moss-300">SMKN 11 Semarang</div>
-      </div>
-      <div class="flex flex-wrap justify-center gap-3 mt-12">
-        {["UI Design", "Photography", "Full-stack Dev", "Database Architecture"].map((t) => (
-          <span class="text-label-mono text-mint border border-moss-600/60 bg-moss-700/40 px-6 py-3 rounded-full">
-            {t}
-          </span>
-        ))}
-      </div>
+
+<SectionContainer id="education" bg="surface">
+  <div class="grid gap-12 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)]">
+    <SectionHeading
+      eyebrow="Education"
+      title="Where I started"
+      description="The foundation that taught me how to learn."
+      accent="edu"
+    />
+
+    <div>
+      <TimelineItem
+        variant="edu"
+        title="Multimedia"
+        subtitle="SMKN 11 Semarang"
+        period="2019 – 2022"
+        summary="Focused on design, photography, and web development — where my journey as a builder began."
+        tags={["UI Design", "Photography", "Full-stack Dev", "Database Architecture"]}
+        isLast
+      />
     </div>
   </div>
-</section>
+</SectionContainer>

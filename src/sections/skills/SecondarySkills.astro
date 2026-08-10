@@ -1,4 +1,7 @@
 ---
+import SectionContainer from "../../components/layout/SectionContainer.astro";
+import SectionHeading from "../../components/layout/SectionHeading.astro";
+
 const secondarySkills = [
   "Git & GitHub",
   "Docker",
@@ -13,26 +16,20 @@ const secondarySkills = [
 ];
 ---
 
-<section class="mt-40 reveal">
-  <div class="bg-moss-800 p-12 md:p-20 text-center relative overflow-hidden">
-    <!-- Background accent -->
-    <div class="absolute inset-0 hex-pattern opacity-[.03] pointer-events-none">
-    </div>
+<SectionContainer bg="surface">
+  <SectionHeading
+    eyebrow="Complementary"
+    title="Tools I pair with the core stack"
+    description="Beyond the core stack, I use a variety of tools and methodologies to ensure robust, modern deployment and collaboration."
+    accent="exp"
+    align="center"
+  />
 
-    <h2 class="text-section-title text-fog mb-6">Complementary Tools</h2>
-    <p class="text-hero-subtitle text-moss-300 max-w-2xl mx-auto mb-16">
-      Beyond the core stack, I use a variety of tools and methodologies to
-      ensure robust, modern deployment and collaboration.
-    </p>
-
-    <div class="flex flex-wrap justify-center gap-4">
-      {
-        secondarySkills.map((skill) => (
-          <span class="text-label-mono text-mint border border-moss-600/60 bg-moss-700/40 px-6 py-3 rounded-full hover:border-mint transition-colors cursor-default">
-            {skill}
-          </span>
-        ))
-      }
-    </div>
+  <div class="mt-12 flex flex-wrap justify-center gap-3">
+    {secondarySkills.map((skill) => (
+      <span class="cursor-default rounded-full border border-ink/10 bg-base px-5 py-2.5 font-mono text-sm text-ink-soft transition-colors hover:border-exp/50 hover:text-exp-deep">
+        {skill}
+      </span>
+    ))}
   </div>
-</section>
+</SectionContainer>

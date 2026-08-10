@@ -11,127 +11,114 @@ const featured = projects.find((p) => p.featured);
 const rest = projects.filter((p) => !p.featured);
 const isEmpty = projects.length === 0;
 ---
-<div class="max-w-6xl mx-auto px-6 py-24">
-
+<div class="mx-auto max-w-6xl px-6 py-14 sm:px-8">
   <!-- Featured Project -->
   {featured && (
-  <section class="mb-24" data-tech-stacks={featured.tech_stacks.map(t => t.name).join(',')} data-title={featured.title.toLowerCase()}>
-    <div class="proj-card reveal group relative bg-white border border-moss-200 rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-xl hover:border-moss-300 transition-all duration-500 grid lg:grid-cols-2">
-      <!-- Visual Side -->
-      <div class="relative h-64 lg:h-auto bg-moss-800 flex items-center justify-center overflow-hidden">
-        <div class="absolute inset-0 opacity-10">
-          <svg width="100%" height="100%">
-            <pattern id="hex-featured-proj" x="0" y="0" width="30" height="26" patternUnits="userSpaceOnUse">
-              <path d="M15 1L28 8.5V22.5L15 30L2 22.5V8.5Z" fill="none" stroke="#c8f0d0" stroke-width="1" />
-            </pattern>
-            <rect width="100%" height="100%" fill="url(#hex-featured-proj)" />
+    <section class="mb-16" data-tech-stacks={featured.tech_stacks.map(t => t.name).join(',')} data-title={featured.title.toLowerCase()}>
+      <div class="group grid overflow-hidden rounded-[2.5rem] border border-ink/10 bg-base shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl lg:grid-cols-2">
+        <!-- Visual side -->
+        <div class="relative flex h-64 items-center justify-center overflow-hidden lg:h-auto" aria-hidden="true">
+          <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--color-folio-tint),transparent_70%)]"></div>
+          <div class="absolute bottom-[-4rem] left-[-4rem] h-72 w-72 rounded-full bg-folio blur-[90px] opacity-20"></div>
+          <svg class="relative z-10 h-40 w-24 opacity-40 transition-transform duration-700 group-hover:scale-110" viewBox="0 0 200 280" fill="none">
+            <path d="M100 10C100 10 20 60 20 140C20 188 55 220 100 220C145 220 180 188 180 140C180 60 100 10 100 10Z" fill="var(--color-folio-deep)" />
+            <line x1="100" y1="220" x2="100" y2="270" stroke="var(--color-folio-deep)" stroke-width="4" stroke-linecap="round" />
           </svg>
-        </div>
-        <svg class="w-32 opacity-20 relative z-10 group-hover:scale-110 transition-transform duration-700" viewBox="0 0 200 280" fill="none">
-          <path d="M100 10C100 10 20 60 20 140C20 188 55 220 100 220C145 220 180 188 180 140C180 60 100 10 100 10Z" fill="#c8f0d0"/>
-          <line x1="100" y1="220" x2="100" y2="270" stroke="#c8f0d0" stroke-width="4" stroke-linecap="round"/>
-        </svg>
-        <div class="absolute top-8 left-8 flex items-center gap-2 bg-ink/40 backdrop-blur-md border border-moss-500/30 rounded-full px-4 py-1.5">
-          <span class={`w-2 h-2 rounded-full ${STATUS_COLORS[featured.status]}`}></span>
-          <span class="text-label-mono text-mint">{featured.status}</span>
-        </div>
-      </div>
-
-      <!-- Content Side -->
-      <div class="p-10 lg:p-16 flex flex-col justify-between">
-        <div>
-          <div class="flex items-center gap-3 mb-8">
-            <span class="text-label-mono border border-moss-200 px-3 py-1 rounded-full text-moss-400">
-              {featured.tech_stacks[0]?.name || "Project"}
-            </span>
-            <span class="text-label-mono text-mint bg-moss-700 px-3 py-1 rounded-full">
-              Featured
-            </span>
+          <div class="absolute left-6 top-6 flex items-center gap-2 rounded-full bg-base/90 px-3 py-1.5 backdrop-blur">
+            <span class:list={["h-2 w-2 rounded-full", STATUS_COLORS[featured.status]]}></span>
+            <span class="font-mono text-xs capitalize text-ink-soft">{featured.status}</span>
           </div>
-          <h2 class="text-section-title text-ink mb-6">
-            {featured.title}
-          </h2>
-          <p class="text-hero-subtitle text-moss-600 mb-10 max-w-xl">
-            {featured.excerpt}
-          </p>
-          <div class="flex flex-wrap gap-2 mb-10">
-            {featured.tech_stacks.map((s) => (
-              <span class="text-label-mono text-moss-500 bg-moss-100 border border-moss-200 px-3 py-1 rounded-full">
-                {s.name}
+        </div>
+
+        <!-- Content side -->
+        <div class="flex flex-col justify-between p-8 lg:p-12">
+          <div>
+            <div class="flex items-center gap-3">
+              <span class="inline-flex items-center gap-1.5 rounded-full bg-folio-tint px-3 py-1 font-mono text-xs text-folio-deep">
+                <svg class="h-3 w-3" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><path d="M7 1l1.8 4.2L13 5.2 9.6 7.8 10.9 12 7 9.4 3.1 12 4.4 7.8 1 5.2h5.2z" /></svg>
+                Featured
               </span>
-            ))}
-          </div>
-        </div>
+              <span class="rounded-full border border-ink/10 bg-surface px-3 py-1 font-mono text-xs text-ink-soft">
+                {featured.tech_stacks[0]?.name || "Project"}
+              </span>
+            </div>
 
-        <div class="flex items-center justify-between pt-10 border-t border-moss-100">
-          <span class="text-label-mono text-moss-400">Project #{featured.id.toString().padStart(2, '0')}</span>
-          <div class="flex gap-6">
-            {featured.repo_url && (
-              <a href={featured.repo_url} class="text-moss-400 hover:text-moss-700 transition-colors" title="View Source">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-              </a>
-            )}
-            {featured.live_url && (
-              <a href={featured.live_url} class="inline-flex items-center gap-2 font-body text-sm font-bold text-moss-700 hover:text-ink transition-colors uppercase tracking-widest">
-                Live Project
-                <svg width="16" height="16" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12L12 2M12 2H4M12 2V10"/></svg>
-              </a>
-            )}
+            <h2 class="mt-6 font-display text-3xl font-semibold leading-snug text-ink transition-colors group-hover:text-folio-deep">
+              {featured.title}
+            </h2>
+            <p class="mt-4 max-w-xl text-base leading-relaxed text-ink-soft sm:text-lg">
+              {featured.excerpt}
+            </p>
+
+            <div class="mt-6 flex flex-wrap gap-2">
+              {featured.tech_stacks.map((s) => (
+                <span class="rounded-full border border-ink/10 px-3 py-1 font-mono text-xs text-ink-soft">{s.name}</span>
+              ))}
+            </div>
+          </div>
+
+          <div class="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-ink/10 pt-6">
+            <span class="font-mono text-xs text-ink-soft">Project #{featured.id.toString().padStart(2, '0')}</span>
+            <div class="flex items-center gap-6">
+              {featured.repo_url && (
+                <a href={featured.repo_url} class="text-ink-soft transition-colors hover:text-ink" title="View source" aria-label={`${featured.title} source code`}>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                </a>
+              )}
+              {featured.live_url && (
+                <a href={featured.live_url} class="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-folio-deep transition-colors hover:text-ink">
+                  Live Project
+                  <svg width="16" height="16" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12L12 2M12 2H4M12 2V10"/></svg>
+                </a>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
   )}
 
   <!-- Other Projects Grid -->
   <section>
-    <div id="grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div id="grid-container" class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
       {rest.map((project, i) => (
         <div
-          class={`proj-card reveal reveal-d${(i % 3) + 1} flex flex-col bg-white border border-moss-100 rounded-3xl p-8 hover:shadow-xl hover:border-moss-300 transition-all duration-300 relative overflow-hidden group`}
+          class="group flex flex-col rounded-3xl border border-ink/10 bg-base p-6 transition-all hover:-translate-y-1 hover:border-folio/40 hover:shadow-lg"
           data-tech-stacks={project.tech_stacks.map(t => t.name).join(',')}
           data-title={project.title.toLowerCase()}
         >
-          <div aria-hidden="true" class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-mint/10 to-transparent rounded-bl-[100%] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-          <div class="flex flex-col h-full justify-between gap-8">
-            <div>
-              <div class="flex items-center justify-between mb-8">
-                <span class="text-label-mono border border-moss-100 px-3 py-1 rounded-full text-moss-400 bg-fog">
-                  {project.tech_stacks[0]?.name || "Project"}
-                </span>
-                <span class={`w-2 h-2 rounded-full ${STATUS_COLORS[project.status]}`}></span>
-              </div>
-              <h3 class="text-card-title text-ink mb-4 group-hover:text-moss-700 transition-colors">
-                {project.title}
-              </h3>
-              <p class="text-section-desc text-moss-600 line-clamp-3">
-                {project.excerpt}
-              </p>
+          <div class="flex flex-1 flex-col">
+            <div class="flex items-center justify-between gap-3">
+              <span class="inline-flex items-center gap-2 rounded-full border border-ink/10 px-3 py-1 font-mono text-xs text-ink transition-colors group-hover:border-folio/40 group-hover:text-folio-deep">
+                {project.tech_stacks[0]?.name || "Project"}
+              </span>
+              <span class:list={["h-2 w-2 rounded-full", STATUS_COLORS[project.status]]}></span>
             </div>
 
-            <div>
-              <div class="flex flex-wrap gap-1.5 mb-8">
-                {project.tech_stacks.slice(0, 4).map((s) => (
-                  <span class="text-label-mono px-2.5 py-1 rounded-full border border-sage-100 bg-fog text-moss-500">
-                    {s.name}
-                  </span>
-                ))}
-              </div>
+            <h3 class="mt-5 font-display text-xl font-semibold leading-snug text-ink transition-colors group-hover:text-folio-deep">
+              {project.title}
+            </h3>
+            <p class="mt-3 flex-1 text-sm leading-relaxed text-ink-soft line-clamp-3">
+              {project.excerpt}
+            </p>
 
-              <div class="flex items-center justify-between pt-6 border-t border-moss-100">
-                <span class="text-label-mono text-moss-300">{project.status}</span>
-                <div class="flex gap-4">
-                  {project.repo_url && (
-                    <a href={project.repo_url} class="text-moss-300 hover:text-moss-600 transition-colors">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                    </a>
-                  )}
-                  <a href={`/project/${project.slug}`} class="text-moss-700 hover:text-ink transition-colors">
-                    <svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            <div class="mt-6 flex flex-wrap gap-1.5">
+              {project.tech_stacks.slice(0, 4).map((s) => (
+                <span class="rounded-full border border-ink/10 px-2.5 py-0.5 font-mono text-xs text-ink-soft">{s.name}</span>
+              ))}
+            </div>
+
+            <div class="mt-6 flex items-center justify-between border-t border-ink/10 pt-4">
+              <span class="font-mono text-xs capitalize text-ink-soft">{project.status}</span>
+              <div class="flex items-center gap-4">
+                {project.repo_url && (
+                  <a href={project.repo_url} class="text-ink-soft transition-colors hover:text-ink" title="View source" aria-label={`${project.title} source code`}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
                   </a>
-                </div>
+                )}
+                <a href={`/project/${project.slug}`} class="text-ink-soft transition-colors hover:text-folio-deep" aria-label={`Read more about ${project.title}`}>
+                  <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+                </a>
               </div>
             </div>
           </div>
@@ -140,16 +127,15 @@ const isEmpty = projects.length === 0;
     </div>
 
     <!-- Empty state -->
-    <div
-      id="empty-state"
-      class={`${isEmpty ? "block" : "hidden"} py-32 text-center`}
-    >
-      <svg class="w-16 h-16 mx-auto mb-6 opacity-10" viewBox="0 0 80 120" fill="none">
-        <path d="M40 10C40 10 10 40 10 70C10 88 23 100 40 100C57 100 70 88 70 70C70 40 40 10 40 10Z" fill="#3e7d32"/>
-        <line x1="40" y1="100" x2="40" y2="115" stroke="#3e7d32" stroke-width="2"/>
-      </svg>
-      <h3 class="text-section-title text-moss-600 font-medium tracking-widest">No Projects Found</h3>
-      <p class="text-section-desc text-moss-400 mt-2">Adjust your search or category filters.</p>
+    <div id="empty-state" class={`${isEmpty ? "block" : "hidden"} py-24 text-center`}>
+      <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-folio-tint">
+        <svg class="h-7 w-7 text-folio-deep" viewBox="0 0 80 120" fill="none" aria-hidden="true">
+          <path d="M40 10C40 10 10 40 10 70C10 88 23 100 40 100C57 100 70 88 70 70C70 40 40 10 40 10Z" fill="currentColor" />
+          <line x1="40" y1="100" x2="40" y2="115" stroke="currentColor" stroke-width="2" />
+        </svg>
+      </div>
+      <h3 class="font-display text-2xl font-semibold text-ink">No projects found</h3>
+      <p class="mt-2 font-mono text-sm text-ink-soft">Adjust your search or tech-stack filters.</p>
     </div>
-    </section>
+  </section>
 </div>

@@ -1,0 +1,69 @@
+---
+import { profile } from "../../data/profile";
+import Button from "../ui/Button.astro";
+
+const legend = [
+  { href: "#education", label: "Education", dot: "bg-edu" },
+  { href: "#experience", label: "Experience", dot: "bg-exp" },
+  { href: "#portfolio", label: "Portfolio", dot: "bg-folio" },
+  { href: "#article", label: "Articles", dot: "bg-article" },
+];
+---
+
+<section id="top" class="relative overflow-hidden bg-base">
+  <!-- Ambient color field: the three hero hues, soft and out of focus -->
+  <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+    <div class="absolute -left-24 -top-24 h-96 w-96 rounded-full bg-exp-tint blur-3xl"></div>
+    <div class="absolute right-[-6rem] top-10 h-80 w-80 rounded-full bg-folio-tint blur-3xl"></div>
+    <div class="absolute bottom-[-8rem] left-1/3 h-96 w-96 rounded-full bg-article-tint blur-3xl"></div>
+  </div>
+
+  <div class="relative mx-auto max-w-6xl px-6 pb-20 pt-16 sm:px-8 sm:pt-24 lg:pt-28">
+    <div
+      class="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-base/80 px-4 py-1.5 font-mono text-xs text-ink-soft backdrop-blur"
+    >
+      <span class="relative flex h-2 w-2">
+        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-exp opacity-75"></span>
+        <span class="relative inline-flex h-2 w-2 rounded-full bg-exp-deep"></span>
+      </span>
+      {profile.availability}
+    </div>
+
+    <p class="mt-8 font-mono text-sm uppercase tracking-[0.3em] text-ink-soft">
+      Hi, I'm
+    </p>
+
+    <h1 class="mt-3 max-w-3xl font-display text-5xl font-semibold leading-[1.05] text-ink sm:text-6xl lg:text-7xl">
+      {profile.name}
+    </h1>
+
+    <p class="mt-6 max-w-xl font-display text-2xl leading-snug text-ink-soft sm:text-3xl">
+      {profile.tagline}
+    </p>
+
+    <p class="mt-3 max-w-lg text-base text-ink-soft">
+      {profile.role} based in {profile.location}.
+    </p>
+
+    <div class="mt-9 flex flex-wrap items-center gap-4">
+      <Button href="#portfolio" variant="primary">View my work</Button>
+      <Button href="#contact" variant="secondary">Get in touch</Button>
+    </div>
+
+    <!-- Signature element: a functional legend mapping each hue to a section, -->
+    <!-- doubling as quick navigation and as the visual key for the whole site. -->
+    <div class="mt-16 flex flex-wrap gap-3 border-t border-ink/10 pt-8">
+      {
+        legend.map((item) => (
+          <a
+            href={item.href}
+            class="group flex items-center gap-2 rounded-full border border-ink/10 bg-base px-4 py-2 text-sm text-ink-soft transition-colors hover:border-ink/25 hover:text-ink"
+          >
+            <span class:list={["h-2.5 w-2.5 rounded-full transition-transform group-hover:scale-125", item.dot]} />
+            {item.label}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>

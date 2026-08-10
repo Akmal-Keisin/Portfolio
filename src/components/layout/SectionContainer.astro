@@ -1,0 +1,21 @@
+---
+interface Props {
+  id?: string;
+  bg?: "base" | "surface" | "ink";
+  class?: string;
+}
+
+const { id, bg = "base", class: className = "" } = Astro.props;
+
+const bgClasses: Record<string, string> = {
+  base: "bg-base",
+  surface: "bg-surface",
+  ink: "bg-ink text-base",
+};
+---
+
+<section id={id} class:list={["scroll-mt-20 py-20 sm:py-28", bgClasses[bg]]}>
+  <div class:list={["mx-auto max-w-6xl px-6 sm:px-8", className]}>
+    <slot />
+  </div>
+</section>

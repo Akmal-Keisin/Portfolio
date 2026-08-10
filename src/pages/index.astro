@@ -1,24 +1,22 @@
 ---
-import Layout from "@layouts/Layout.astro";
-import Navbar from "@components/Navbar.astro";
-import Footer from "@components/Footer.astro";
-import Hero from "@sections/index/Hero.astro";
-import About from "@sections/index/About.astro";
-import Skills from "@sections/index/Skills.astro";
-import Projects from "@sections/index/Projects.astro";
-import Contact from "@sections/index/Contact.astro";
-import Article from "@sections/index/Article.astro";
+import Layout from "../layouts/Layout.astro";
+import Hero from "../components/sections/Hero.astro";
+import About from "../components/sections/About.astro";
+import EducationSection from "../components/sections/EducationSection.astro";
+import ExperienceSection from "../components/sections/ExperienceSection.astro";
+import ArticleSection from "../components/sections/ArticleSection.astro";
+import PortfolioSection from "../components/sections/PortfolioSection.astro";
+import ContactSection from "../components/sections/ContactSection.astro";
 ---
 
-<Layout title="Akmal Keisin — Software Developer">
-  <Navbar />
+<Layout>
   <main>
     <Hero />
     <About />
-    <Article />
-    <Skills />
-    <Projects />
-    <Contact />
+    <EducationSection />
+    <ExperienceSection />
+    <PortfolioSection />
+    <ArticleSection />
+    <ContactSection />
   </main>
-  <Footer />
 </Layout>

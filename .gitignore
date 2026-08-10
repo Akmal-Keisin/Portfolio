@@ -30,3 +30,8 @@ GEMINI.md
 # Editor
 .vscode
 .zed
+
+# Agents
+.agents
+graphify-out
+skills-lock.json

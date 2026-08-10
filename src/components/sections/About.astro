@@ -1,0 +1,60 @@
+---
+import { profile } from "../../data/profile";
+import SectionContainer from "../layout/SectionContainer.astro";
+import SectionHeading from "../layout/SectionHeading.astro";
+import Badge from "../ui/Badge.astro";
+import Button from "../ui/Button.astro";
+import SocialIcon from "../ui/SocialIcon.astro";
+---
+
+<SectionContainer id="about" bg="surface">
+  <div class="grid gap-14 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-center">
+    <div class="relative mx-auto w-full max-w-sm lg:mx-0">
+      <div
+        class="absolute -inset-4 -z-10 rounded-[2.5rem] bg-[conic-gradient(from_140deg,var(--color-exp-tint),var(--color-folio-tint),var(--color-article-tint),var(--color-exp-tint))] opacity-70 blur-lg"
+        aria-hidden="true"
+      >
+      </div>
+      <div
+        class="flex aspect-[4/5] w-full items-center justify-center rounded-[2.5rem] border border-ink/10 bg-base shadow-xl"
+      >
+        <span class="font-display text-8xl font-semibold text-exp-deep/80">
+          {profile.initials}
+        </span>
+      </div>
+    </div>
+
+    <div>
+      <SectionHeading
+        eyebrow="About me"
+        title="A little more about how I work"
+        accent="exp"
+      />
+
+      <div class="mt-6 space-y-4 text-base leading-relaxed text-ink-soft">
+        {profile.bio.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+
+      <div class="mt-8 flex flex-wrap gap-2">
+        {profile.skills.map((skill) => <Badge variant="neutral">{skill}</Badge>)}
+      </div>
+
+      <div class="mt-9 flex flex-wrap items-center gap-4">
+        <Button href={profile.resumeUrl} variant="primary">Download résumé</Button>
+        <div class="flex gap-3">
+          {
+            profile.socials.map((social) => (
+              <a
+                href={social.href}
+                aria-label={social.label}
+                class="flex h-10 w-10 items-center justify-center rounded-full border border-ink/10 text-ink-soft transition-colors hover:border-exp hover:text-exp-deep"
+              >
+                <SocialIcon icon={social.icon as any} class="h-4 w-4" />
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</SectionContainer>
