@@ -11,33 +11,43 @@ export interface ExperienceEntry {
 // Each `slug` is meant to back a future /experience/[slug] detail page.
 export const experience: ExperienceEntry[] = [
   {
-    slug: "kirana-studio-lead-product-designer",
-    role: "Lead Product Designer",
-    company: "Kirana Studio (Independent)",
-    period: "2022 — Present",
+    slug: "reprime-web-developer",
+    role: "Web Developer",
+    company: "Reprime ID",
+    period: "Jun 2024 — Now",
     location: "Semarang, Indonesia",
     summary:
-      "Running an independent design & development practice, partnering with early-stage startups to design and ship their product from 0 to 1.",
-    tags: ["Product Strategy", "Design Systems", "Astro"],
+      "Returned with more experience. Focus on developing the new version of the core product, optimizing performance, and architecting scalable backend systems.",
+    tags: ["PHP", "Laravel", "MySQL", "PostgreSQL", "TypeScript", "Vue", "Go", "Fiber", "Astro"],
   },
   {
-    slug: "nusantara-tech-senior-designer",
-    role: "Senior Product Designer",
-    company: "Nusantara Tech",
-    period: "2020 — 2022",
-    location: "Jakarta, Indonesia",
-    summary:
-      "Led the design of the company's core dashboard product, and built the design system used across four product teams.",
-    tags: ["Design Systems", "React", "Figma"],
-  },
-  {
-    slug: "ruangkerja-product-designer",
-    role: "Product Designer",
-    company: "Ruang Kerja",
-    period: "2018 — 2020",
+    slug: "crocodic-web-developer",
+    role: "Web Developer",
+    company: "Crocodic",
+    period: "Oct 2023 — Jun 2024",
     location: "Semarang, Indonesia",
     summary:
-      "First design hire at an early-stage coworking marketplace; owned onboarding, booking flows, and the mobile app redesign.",
-    tags: ["Mobile", "Onboarding", "Research"],
+      "Engineered a complex HR project for a large factory client with thousands of active daily users. Managed intricate payroll logic and shift scheduling systems.",
+    tags: ["PHP", "Laravel", "MySQL", "TypeScript"],
+  },
+  {
+    slug: "reprime-web-developer-first",
+    role: "Web Developer",
+    company: "Reprime ID",
+    period: "Sep 2022 — Sep 2023",
+    location: "Semarang, Indonesia",
+    summary:
+      "Full developer role post-internship. Responsible for new feature delivery, infrastructure maintenance, and resolving critical production bugs.",
+    tags: ["PHP", "Laravel", "Lumen", "PostgreSQL", "MySQL"],
+  },
+  {
+    slug: "reprime-intern",
+    role: "Intern",
+    company: "Reprime ID",
+    period: "Jun 2022 — Aug 2022",
+    location: "Semarang, Indonesia",
+    summary:
+      "Gained hands-on experience in production environments, contributing to feature updates and learning enterprise development best practices.",
+    tags: ["PHP", "Laravel", "MySQL"],
   },
 ];

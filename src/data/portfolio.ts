@@ -11,33 +11,33 @@ export interface PortfolioEntry {
 // Each `slug` is meant to back a future /portfolio/[slug] detail page.
 export const portfolio: PortfolioEntry[] = [
   {
-    slug: "lumen-finance-dashboard",
-    title: "Lumen — Finance Dashboard",
-    role: "Product Design + Frontend",
-    year: "2025",
+    slug: "reprime",
+    title: "Reprime — Business Management Platform",
+    role: "Full-stack Development",
+    year: "2022 — Now",
     excerpt:
-      "A reporting dashboard for a fintech startup, rebuilt around a token-based design system and real-time charts.",
-    tags: ["Product Design", "React"],
-    cover: "lumen",
+      "A full-featured ERP and HR platform serving thousands of active users across multiple companies. Covers attendance, payroll, project tracking, and asset management.",
+    tags: ["Laravel", "Vue", "PostgreSQL", "Go", "Astro"],
+    cover: "reprime",
   },
   {
-    slug: "warung-pintar-pos",
-    title: "Warung Pintar — POS App",
-    role: "Product Design",
-    year: "2024",
-    excerpt:
-      "A point-of-sale app designed for low-literacy, low-connectivity contexts, tested in five small warungs across Java.",
-    tags: ["Mobile", "Research"],
-    cover: "warung",
-  },
-  {
-    slug: "studio-kirana-brand-site",
-    title: "Studio Kirana — Brand Site",
-    role: "Design + Development",
+    slug: "hr-factory",
+    title: "HR Module — Factory Workforce System",
+    role: "Full-stack Development",
     year: "2023",
     excerpt:
-      "The identity and website for my own studio: a warm, editorial system built to hold both case studies and writing.",
-    tags: ["Branding", "Astro"],
-    cover: "brand",
+      "Complex HR project built for a large factory client with thousands of active daily users. Covers shift scheduling, overtime calculation, and multi-branch payroll.",
+    tags: ["Laravel", "MySQL", "TypeScript"],
+    cover: "hr",
+  },
+  {
+    slug: "go-fiber-gateway",
+    title: "REST API Gateway with Go Fiber",
+    role: "Backend Engineering",
+    year: "2024",
+    excerpt:
+      "High-performance API gateway built with Go Fiber. Includes JWT auth, rate limiting, request logging, and a Redis caching layer. Benchmarked at 40k req/s.",
+    tags: ["Go", "Fiber", "Redis", "PostgreSQL"],
+    cover: "gateway",
   },
 ];
