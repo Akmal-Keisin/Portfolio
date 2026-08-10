@@ -11,33 +11,33 @@ export interface ArticleEntry {
 // Each `slug` is meant to back a future /article/[slug] detail page.
 export const articles: ArticleEntry[] = [
   {
-    slug: "designing-with-constraints",
-    title: "Designing with constraints, not around them",
+    slug: "from-html-tables-to-eloquent-relationships",
+    title: "From HTML tables to Eloquent relationships",
     excerpt:
-      "Why the tightest client briefs I've worked with produced the best design decisions, and how to invite constraints in on purpose.",
+      "How my first database designs — tables for everything, keys for nothing — taught me to model data properly in Laravel.",
     date: "2026-06-12",
     readingTime: "6 min read",
-    tags: ["Design"],
-    cover: "constraints",
+    tags: ["Laravel", "Database"],
+    cover: "eloquent",
   },
   {
-    slug: "component-libraries-that-survive-contact",
-    title: "Component libraries that survive contact with real product work",
+    slug: "go-fiber-gateway-what-i-learned",
+    title: "What building an API gateway with Go Fiber taught me",
     excerpt:
-      "Most design systems fall apart at the edges. Notes on building components that flex instead of break.",
+      "High-concurrency routing, middleware, and why a language that compiles fast forces you to think slower.",
     date: "2026-04-03",
     readingTime: "8 min read",
-    tags: ["Systems", "Frontend"],
-    cover: "systems",
+    tags: ["Go", "Backend"],
+    cover: "gateway",
   },
   {
-    slug: "a-year-of-freelance-design",
-    title: "A year of running my own studio",
+    slug: "self-taught-engineer-discipline",
+    title: "The autodidact's stack: discipline over tutorials",
     excerpt:
-      "What changed, what I got wrong, and the three habits that kept the pipeline full without burning out.",
+      "Four years in, the habit that moves the needle isn't another course — it's reading source code and shipping daily.",
     date: "2026-01-20",
     readingTime: "5 min read",
-    tags: ["Career"],
-    cover: "freelance",
+    tags: ["Career", "Learning"],
+    cover: "discipline",
   },
 ];

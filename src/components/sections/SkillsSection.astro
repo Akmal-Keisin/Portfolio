@@ -1,0 +1,84 @@
+---
+import AstroLogo from "@assets/logos/astro-logo-light-gradient.svg";
+import PHPLogo from "@assets/logos/php-logo.svg";
+import GoLogo from "@assets/logos/go-logo.svg";
+import GoFiberLogo from "@assets/logos/go-fiber-logo.svg";
+import JavascriptLogo from "@assets/logos/javascript-logo.svg";
+import VueJSLogo from "@assets/logos/vue-js-logo.svg";
+import LaravelLogo from "@assets/logos/laravel-logo.svg";
+import PostgreSQLLogo from "@assets/logos/postgresql-logo.svg";
+import MySQLLogo from "@assets/logos/mysql-logo.svg";
+import { Image } from "astro:assets";
+import SectionContainer from "../layout/SectionContainer.astro";
+import SectionHeading from "../layout/SectionHeading.astro";
+
+const categories = [
+  {
+    label: "Languages",
+    items: [
+      { label: "PHP", logo: PHPLogo },
+      { label: "Go", logo: GoLogo },
+      { label: "JavaScript", logo: JavascriptLogo },
+    ],
+  },
+  {
+    label: "Frameworks",
+    items: [
+      { label: "Laravel", logo: LaravelLogo },
+      { label: "Go Fiber", logo: GoFiberLogo },
+      { label: "Vue.js", logo: VueJSLogo },
+      { label: "Astro", logo: AstroLogo },
+    ],
+  },
+  {
+    label: "Databases",
+    items: [
+      { label: "PostgreSQL", logo: PostgreSQLLogo },
+      { label: "MySQL", logo: MySQLLogo },
+    ],
+  },
+];
+
+const pills = [
+  "4+ years professional",
+  "Production-grade code",
+  "REST APIs",
+  "Full-stack delivery",
+];
+---
+
+<SectionContainer id="skills" bg="base">
+  <SectionHeading
+    eyebrow="Skills"
+    title="My expertise"
+    description="Four years of daily practice across the full web stack, from pixel to pipeline."
+    accent="exp"
+  />
+
+  <div class="mt-12 grid gap-6 md:grid-cols-3">
+    {categories.map((cat) => (
+      <div class="flex flex-col gap-5 rounded-3xl border border-ink/10 bg-surface p-7">
+        <div class="flex items-center gap-2.5">
+          <span class="h-2 w-2 rounded-full bg-exp" aria-hidden="true"></span>
+          <h3 class="font-display text-lg font-semibold text-ink">{cat.label}</h3>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          {cat.items.map((item) => (
+            <div class="flex flex-1 min-w-20 flex-col items-center gap-2.5 rounded-2xl border border-ink/10 bg-base px-4 py-4 transition-all hover:border-exp/40">
+              <Image src={item.logo} alt={item.label} class="h-9 w-auto object-contain" />
+              <span class="font-mono text-[10px] text-ink-soft">{item.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <div class="mt-10 flex flex-wrap items-center justify-center gap-3">
+    {pills.map((pill) => (
+      <span class="rounded-full border border-ink/10 bg-surface px-4 py-2 font-mono text-xs text-ink-soft">
+        {pill}
+      </span>
+    ))}
+  </div>
+</SectionContainer>

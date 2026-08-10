@@ -11,7 +11,7 @@ const { project } = Astro.props;
 ---
 
 <article class="group overflow-hidden rounded-3xl border border-ink/10 bg-base transition-all hover:-translate-y-1 hover:border-folio/40 hover:shadow-lg">
-  <a href={`/portfolio/${project.slug}`} class="block">
+  <a href={`/project/${project.slug}`} class="block">
     <div
       class="flex h-44 items-center justify-center bg-folio-tint bg-[radial-gradient(circle_at_30%_20%,var(--color-folio-tint),transparent_60%)] p-6"
     >
@@ -28,7 +28,7 @@ const { project } = Astro.props;
     </div>
 
     <h3 class="mt-4 font-display text-xl font-semibold text-ink">
-      <a href={`/portfolio/${project.slug}`} class="squiggle-underline text-folio-deep decoration-folio">
+      <a href={`/project/${project.slug}`} class="squiggle-underline text-folio-deep decoration-folio">
         {project.title}
       </a>
     </h3>
@@ -40,7 +40,7 @@ const { project } = Astro.props;
         {project.tags.map((tag) => <Badge variant="neutral">{tag}</Badge>)}
       </div>
       <a
-        href={`/portfolio/${project.slug}`}
+        href={`/project/${project.slug}`}
         class="inline-flex items-center gap-1 text-sm font-medium text-folio-deep transition-transform group-hover:translate-x-0.5"
       >
         View <SocialIcon icon="arrow-up-right" class="h-3.5 w-3.5" />
