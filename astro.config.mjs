@@ -11,7 +11,7 @@ import node from "@astrojs/node";
 // https://astro.build/config
 export default defineConfig({
   output: "server",
-  site: "http://localhost:4321",
+  site: "https://akmalkeisin.com",
   integrations: [mdx(), sitemap()],
 
   fonts: [
