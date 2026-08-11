@@ -1,8 +1,16 @@
 ---
-import { dummyProjects } from "./data";
+import type { Project } from "@lib/api";
 
-const projects = dummyProjects;
-const categories = ["All", ...new Set(projects.data.map((p) => p.category))];
+interface Props {
+  projects: Project[];
+  total: number;
+}
+
+const { projects = [], total = 0 } = Astro.props;
+const techStacks = new Set(
+  projects.flatMap((p) => p.tech_stacks.map((t) => t.name)),
+);
+const statuses = new Set(projects.map((p) => p.status));
 ---
 <section class="relative scroll-mt-20 overflow-hidden bg-base" aria-label="Selected work">
   <!-- Ambient color field -->
@@ -23,7 +31,7 @@ const categories = ["All", ...new Set(projects.data.map((p) => p.category))];
 
     <div class="mt-6 max-w-xl">
       <p class="text-lg leading-relaxed text-ink-soft">
-        A collection of products, tools, and systems I've built professionally and as personal projects. Total {projects.meta.total} projects featured.
+        A collection of products, tools, and systems I've built professionally and as personal projects. Total {total} projects featured.
       </p>
     </div>
 
@@ -31,9 +39,9 @@ const categories = ["All", ...new Set(projects.data.map((p) => p.category))];
     <div class="mt-12 flex flex-wrap items-center gap-x-10 gap-y-6 border-t border-ink/10 pt-8">
       {
         [
-          [String(projects.meta.total) + "+", "Projects"],
-          [String(categories.length - 1), "Categories"],
-          [String(new Set(projects.data.flatMap(p => p.stack)).size) + "+", "Tech Stack"],
+          [String(total) + "+", "Projects"],
+          [String(statuses.size), "Statuses"],
+          [String(techStacks.size) + "+", "Tech Stack"],
         ].map(([num, label]) => (
           <div class="flex items-baseline gap-2.5">
             <span class="font-display text-3xl font-semibold text-ink">{num}</span>

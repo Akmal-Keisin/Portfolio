@@ -1,9 +1,18 @@
 ---
-import { articles } from "../../data/articles";
+import { getArticles } from "../../lib/api";
+import type { Article } from "../../sections/article/data";
 import SectionContainer from "../layout/SectionContainer.astro";
 import SectionHeading from "../layout/SectionHeading.astro";
 import ArticleCard from "../cards/ArticleCard.astro";
 import Button from "../ui/Button.astro";
+
+let posts: Article[] = [];
+try {
+  const res = await getArticles(1);
+  posts = res?.data ?? [];
+} catch (error) {
+  console.error("Failed to fetch articles:", error);
+}
 ---
 
 <SectionContainer id="article" bg="base">
@@ -17,7 +26,19 @@ import Button from "../ui/Button.astro";
     <Button href="/article" variant="ghost">See all articles →</Button>
   </div>
 
-  <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-    {articles.map((post) => <ArticleCard post={post} />)}
-  </div>
+  {posts.length > 0 ? (
+    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {posts.map((post) => <ArticleCard post={post} />)}
+    </div>
+  ) : (
+    <div class="mt-12 flex flex-col items-center rounded-3xl border border-dashed border-ink/15 bg-surface px-6 py-20 text-center">
+      <span class="font-mono text-xs uppercase tracking-[0.2em] text-article-deep">Coming soon</span>
+      <p class="mt-4 max-w-md font-display text-2xl font-semibold text-ink">
+        Articles are on their way
+      </p>
+      <p class="mt-2 max-w-md text-sm leading-relaxed text-ink-soft">
+        I'm still drafting the first post. Check back soon.
+      </p>
+    </div>
+  )}
 </SectionContainer>

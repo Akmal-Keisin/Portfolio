@@ -1,15 +1,15 @@
 ---
 import Badge from "../ui/Badge.astro";
 import SocialIcon from "../ui/SocialIcon.astro";
-import type { ArticleEntry } from "../../data/articles";
+import type { Article } from "../../sections/article/data";
 
 interface Props {
-  post: ArticleEntry;
+  post: Article;
 }
 
 const { post } = Astro.props;
 
-const formattedDate = new Date(post.date).toLocaleDateString("en-US", {
+const formattedDate = new Date(post.createdAt).toLocaleDateString("en-US", {
   month: "short",
   day: "numeric",
   year: "numeric",
@@ -19,9 +19,9 @@ const formattedDate = new Date(post.date).toLocaleDateString("en-US", {
 <article class="group flex flex-col rounded-3xl border border-ink/10 bg-base p-6 transition-all hover:-translate-y-1 hover:border-article/40 hover:shadow-lg">
   <div class="flex items-center justify-between">
     <div class="flex flex-wrap gap-2">
-      {post.tags.map((tag) => <Badge variant="article">{tag}</Badge>)}
+      {post.tags.map((tag) => <Badge variant="article">{tag.name}</Badge>)}
     </div>
-    <span class="font-mono text-xs text-ink-soft">{post.readingTime}</span>
+    <span class="font-mono text-xs text-ink-soft">{post.category.name}</span>
   </div>
 
   <h3 class="mt-5 font-display text-xl font-semibold leading-snug text-ink">
@@ -35,7 +35,7 @@ const formattedDate = new Date(post.date).toLocaleDateString("en-US", {
   </p>
 
   <div class="mt-6 flex items-center justify-between border-t border-ink/10 pt-4">
-    <time class="font-mono text-xs text-ink-soft" datetime={post.date}>
+    <time class="font-mono text-xs text-ink-soft" datetime={post.createdAt}>
       {formattedDate}
     </time>
     <a

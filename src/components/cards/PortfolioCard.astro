@@ -1,10 +1,10 @@
 ---
 import Badge from "../ui/Badge.astro";
 import SocialIcon from "../ui/SocialIcon.astro";
-import type { PortfolioEntry } from "../../data/portfolio";
+import type { Project } from "../../lib/api";
 
 interface Props {
-  project: PortfolioEntry;
+  project: Project;
 }
 
 const { project } = Astro.props;
@@ -23,8 +23,8 @@ const { project } = Astro.props;
 
   <div class="p-6">
     <div class="flex items-center justify-between">
-      <Badge variant="folio">{project.role}</Badge>
-      <span class="font-mono text-xs text-ink-soft">{project.year}</span>
+      <Badge variant="folio">{project.tech_stacks[0]?.name || "Project"}</Badge>
+      <span class="font-mono text-xs uppercase text-ink-soft">{project.status}</span>
     </div>
 
     <h3 class="mt-4 font-display text-xl font-semibold text-ink">
@@ -37,7 +37,7 @@ const { project } = Astro.props;
 
     <div class="mt-5 flex flex-wrap items-center justify-between gap-3">
       <div class="flex flex-wrap gap-2">
-        {project.tags.map((tag) => <Badge variant="neutral">{tag}</Badge>)}
+        {project.tech_stacks.map((tech) => <Badge variant="neutral">{tech.name}</Badge>)}
       </div>
       <a
         href={`/project/${project.slug}`}

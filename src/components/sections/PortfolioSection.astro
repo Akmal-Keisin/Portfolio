@@ -1,9 +1,18 @@
 ---
-import { portfolio } from "../../data/portfolio";
+import { getProjects } from "../../lib/api";
+import type { Project } from "../../lib/api";
 import SectionContainer from "../layout/SectionContainer.astro";
 import SectionHeading from "../layout/SectionHeading.astro";
 import PortfolioCard from "../cards/PortfolioCard.astro";
 import Button from "../ui/Button.astro";
+
+let projects: Project[] = [];
+try {
+  const res = await getProjects(1);
+  projects = res?.data ?? [];
+} catch (error) {
+  console.error("Failed to fetch projects:", error);
+}
 ---
 
 <SectionContainer id="portfolio" bg="surface">
@@ -17,7 +26,19 @@ import Button from "../ui/Button.astro";
     <Button href="/project" variant="ghost">All projects →</Button>
   </div>
 
-  <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-    {portfolio.map((project) => <PortfolioCard project={project} />)}
-  </div>
+  {projects.length > 0 ? (
+    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {projects.map((project) => <PortfolioCard project={project} />)}
+    </div>
+  ) : (
+    <div class="mt-12 flex flex-col items-center rounded-3xl border border-dashed border-ink/15 bg-base px-6 py-20 text-center">
+      <span class="font-mono text-xs uppercase tracking-[0.2em] text-folio-deep">Coming soon</span>
+      <p class="mt-4 max-w-md font-display text-2xl font-semibold text-ink">
+        Projects are on their way
+      </p>
+      <p class="mt-2 max-w-md text-sm leading-relaxed text-ink-soft">
+        I'm still polishing the details. Check back soon.
+      </p>
+    </div>
+  )}
 </SectionContainer>

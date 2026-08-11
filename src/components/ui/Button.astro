@@ -6,6 +6,7 @@ interface Props {
   variant?: ButtonVariant;
   class?: string;
   type?: "button" | "submit";
+  disabled?: boolean;
 }
 
 const {
@@ -13,6 +14,7 @@ const {
   variant = "primary",
   class: className = "",
   type = "button",
+  disabled = false,
 } = Astro.props;
 
 const base =
@@ -26,15 +28,21 @@ const variantClasses: Record<ButtonVariant, string> = {
   ghost: "bg-transparent text-ink-soft hover:text-ink underline underline-offset-4",
 };
 
-const classes = [base, variantClasses[variant], className].join(" ");
+const disabledClass = disabled
+  ? "cursor-not-allowed opacity-50 shadow-none hover:translate-y-0 hover:bg-exp-deep hover:shadow-none"
+  : "";
+
+const classes = [base, variantClasses[variant], className, disabledClass].join(" ");
 
 const Tag = href ? "a" : "button";
 ---
 
 <Tag
   class={classes}
-  href={href}
+  href={disabled ? undefined : href}
   type={!href ? type : undefined}
+  disabled={!href ? disabled : undefined}
+  aria-disabled={disabled}
 >
   <slot />
 </Tag>

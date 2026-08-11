@@ -8,7 +8,7 @@ interface Props {
 
 const { articles } = Astro.props;
 const rest = Array.isArray(articles?.data) ? articles.data.slice(1) : [];
-const isEmpty = articles.data.length === 0;
+const isEmpty = articles.meta.total === 0;
 ---
 <section class="mx-auto max-w-6xl px-6 py-6 sm:px-8">
   <div id="grid-container" class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -68,7 +68,13 @@ const isEmpty = articles.data.length === 0;
         <line x1="40" y1="100" x2="40" y2="115" stroke="currentColor" stroke-width="2" />
       </svg>
     </div>
-    <h3 class="font-display text-2xl font-semibold text-ink">No matches found</h3>
-    <p class="mt-2 font-mono text-sm text-ink-soft">Adjust your search or filters to find what you're looking for.</p>
+    <h3 class="font-display text-2xl font-semibold text-ink">
+      {isEmpty ? "Coming soon" : "No matches found"}
+    </h3>
+    <p class="mt-2 font-mono text-sm text-ink-soft">
+      {isEmpty
+        ? "I'm still drafting the first post. Check back soon."
+        : "Adjust your search or filters to find what you're looking for."}
+    </p>
   </div>
 </section>

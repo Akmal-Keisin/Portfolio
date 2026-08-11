@@ -40,7 +40,10 @@ import SocialIcon from "../ui/SocialIcon.astro";
       </div>
 
       <div class="mt-9 flex flex-wrap items-center gap-4">
-        <Button href={profile.resumeUrl} variant="primary">Download résumé</Button>
+        <div>
+          <Button href={profile.resumeUrl} variant="primary" disabled>Download résumé</Button>
+          <p class="mt-2 font-mono text-xs uppercase tracking-widest text-ink-soft">Coming soon</p>
+        </div>
         <div class="flex gap-3">
           {
             profile.socials.map((social) => (

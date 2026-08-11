@@ -134,8 +134,14 @@ const isEmpty = projects.length === 0;
           <line x1="40" y1="100" x2="40" y2="115" stroke="currentColor" stroke-width="2" />
         </svg>
       </div>
-      <h3 class="font-display text-2xl font-semibold text-ink">No projects found</h3>
-      <p class="mt-2 font-mono text-sm text-ink-soft">Adjust your search or tech-stack filters.</p>
+      <h3 class="font-display text-2xl font-semibold text-ink">
+      {isEmpty ? "Coming soon" : "No projects found"}
+    </h3>
+    <p class="mt-2 font-mono text-sm text-ink-soft">
+      {isEmpty
+        ? "I'm still polishing the details. Check back soon."
+        : "Adjust your search or tech-stack filters."}
+    </p>
     </div>
   </section>
 </div>

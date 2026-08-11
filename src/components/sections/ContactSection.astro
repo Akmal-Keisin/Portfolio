@@ -10,14 +10,14 @@ import SocialIcon from "../ui/SocialIcon.astro";
     <div>
       <div class="inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.2em] text-base/50">
         <span class="h-2 w-2 rounded-full bg-folio" aria-hidden="true"></span>
-        Contact
+        Get In Touch
       </div>
       <h2 class="mt-3 font-display text-3xl font-semibold text-base sm:text-4xl">
-        Let's build something together
+        Let's start a conversation
       </h2>
       <p class="mt-4 max-w-md text-base text-base/60">
-        Have a project in mind, or just want to talk shop about design systems?
-        My inbox is open — I read every message myself.
+        Currently open to new projects and interesting collaborations. Feel free
+        to reach out if you have something in mind.
       </p>
 
       <div class="mt-8 space-y-3">
@@ -85,9 +85,13 @@ import SocialIcon from "../ui/SocialIcon.astro";
         </label>
       </div>
 
-      <Button type="submit" variant="primary" class="mt-6 w-full sm:w-auto">
+      <Button type="submit" variant="primary" class="mt-6 w-full sm:w-auto" disabled>
         Send message
       </Button>
+
+      <p class="mt-3 font-mono text-xs uppercase tracking-widest text-base/50">
+        Contact form is in progress — working on it.
+      </p>
 
       <!--
         This form has no backend wired up yet. Point the `action` attribute
