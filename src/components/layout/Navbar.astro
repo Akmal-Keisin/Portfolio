@@ -1,5 +1,7 @@
 ---
 import { profile } from "../../data/profile";
+import { Image } from "astro:assets";
+import PersonalLogo from "@assets/logos/personal-logo.webp"
 
 const links = [
   { href: "/about", label: "About" },
@@ -17,10 +19,11 @@ const links = [
       class="flex items-center gap-2.5 font-display text-lg font-semibold text-ink"
     >
       <span
-        class="flex h-9 w-9 items-center justify-center rounded-full bg-exp-deep text-sm text-base"
+        class="h-9 w-9 overflow-hidden rounded-full "
         aria-hidden="true"
       >
-        {profile.initials}
+        <!-- {profile.initials} -->
+        <Image src={PersonalLogo} width={36} height={36} alt="Akmal Keisin's Logo"/>
       </span>
       {profile.name}
     </a>
