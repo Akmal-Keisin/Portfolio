@@ -9,7 +9,7 @@ services:
       - 4321:4321
     restart: unless-stopped
     networks:
-      - traefik-proxy
+      - proxy
     environment:
       PUBLIC_API_URL: http://host.docker.internal:8000/api
     extra_hosts:
@@ -20,3 +20,7 @@ services:
       - "traefik.http.routers.portfolio.entrypoints=websecure"
       - "traefik.http.routers.portfolio.tls=true"
       - "traefik.http.routers.portfolio.tls.certresolver=le"
+networks:
+  proxy:
+    name: traefik-proxy
+    external: true
