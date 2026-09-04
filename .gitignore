@@ -24,14 +24,14 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
-# GEMINI
-GEMINI.md
-
 # Editor
 .vscode
 .zed
 
 # Agents
 .agents
+.opencode
 graphify-out
 skills-lock.json
+AGENTS.md
+GEMINI.md
