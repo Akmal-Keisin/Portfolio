@@ -1,95 +1,44 @@
 ---
 import { getArticles } from "@lib/api";
-import { formatDate } from "../article/data";
-import type { Article } from "../article/data";
+import type { Article } from "@sections/article/data";
+import SectionContainer from "@components/layout/SectionContainer.astro";
+import SectionHeading from "@components/layout/SectionHeading.astro";
+import ArticleCard from "@components/cards/ArticleCard.astro";
+import Button from "@components/ui/Button.astro";
 
-let articles: Article[] = [];
+let posts: Article[] = [];
 try {
-  const response = await getArticles(1);
-  articles = response?.data?.slice(0, 3) || [];
+  const res = await getArticles(1);
+  posts = res?.data ?? [];
 } catch (error) {
-  console.error("Failed to fetch articles for index:", error);
+  console.error("Failed to fetch articles:", error);
 }
-// Simple read time calculation helper
-const getReadTime = (content: any) => {
-  // If content is a string, count words. If it's Tiptap JSON, it's more complex.
-  // For now, let's just return a placeholder or implement a basic one if needed.
-  return "5 min read";
-};
 ---
 
-<section id="article" class="py-28 relative overflow-hidden bg-fog">
-  <div class="relative max-w-6xl mx-auto px-6">
-    <!-- Header row -->
-    <div class="reveal mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
-      <div>
-        <span class="accent-line mb-4"></span>
-        <p class="text-label-mono text-moss-400 mt-4">Writing</p>
-        <h2 class="text-section-title text-ink mt-2">
-          Latest from the<br /><em class="text-moss-500">notebook</em>
-        </h2>
-      </div>
-      <a
-        href="/article"
-        class="proj-card group inline-flex items-center gap-2 bg-white border border-moss-100 px-6 py-3 rounded-full text-moss-600 font-semibold text-sm hover:border-moss-300 hover:text-moss-800 transition-all no-underline shadow-sm"
-      >
-        All articles
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" class="group-hover:translate-x-1 transition-transform">
-          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-      </a>
-    </div>
-
-    <!-- Articles Grid -->
-    {
-      articles.length > 0 ? (
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {articles.map((article, i) => (
-            <a
-              href={`/article/${article.slug}`}
-              class={`reveal reveal-d${(i % 3) + 1} proj-card group block bg-white border border-moss-100 rounded-2xl p-7 hover:border-moss-300 hover:shadow-xl transition-all duration-500 no-underline relative overflow-hidden`}
-            >
-              <!-- Subtle top-right decorative blob -->
-              <div class="absolute -top-10 -right-10 w-24 h-24 rounded-full bg-mint/20 blur-2xl group-hover:bg-mint/40 transition-colors"></div>
-
-              <div class="relative z-10 flex flex-col h-full justify-between gap-8">
-                <div>
-                  <div class="flex items-center justify-between mb-6">
-                    <span class="text-label-mono text-moss-400 bg-fog px-2.5 py-1 rounded-md">
-                      {article.category.name}
-                    </span>
-                    <span class="text-label-mono text-moss-300">{formatDate(article.createdAt)}</span>
-                  </div>
-
-                  <h3 class="text-card-title text-ink group-hover:text-moss-700 transition-colors">
-                    {article.title}
-                  </h3>
-
-                  <!-- Excerpt -->
-                  <p class="text-section-desc text-moss-500 mt-4 line-clamp-3">
-                    {article.excerpt}
-                  </p>
-                </div>
-
-                <div class="flex items-center justify-between pt-6 border-t border-moss-50/80">
-                  <span class="text-label-mono text-moss-300">{getReadTime(article.content)}</span>
-                  <div class="text-moss-500 group-hover:text-moss-800 transition-colors">
-                    <svg width="16" height="16" viewBox="0 0 14 14" fill="none">
-                      <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </a>
-          ))}
-        </div>
-      ) : (
-        <div class="py-24 text-center border border-moss-200/50 rounded-3xl bg-white/50 backdrop-blur-sm">
-          <h3 class="text-section-title text-moss-600 font-medium tracking-widest mb-2">Check Back Soon</h3>
-          <p class="text-section-desc text-moss-500">I'm currently writing some new articles to share.</p>
-        </div>
-      )
-    }
-
+<SectionContainer id="article" bg="base">
+  <div class="flex flex-wrap items-end justify-between gap-6">
+    <SectionHeading
+      eyebrow="Writing"
+      title="Latest from the notebook"
+      description="Notes on engineering, the full stack, and the occasional rabbit hole."
+      accent="article"
+    />
+    <Button href="/article" variant="ghost">See all articles →</Button>
   </div>
-</section>
+
+  {posts.length > 0 ? (
+    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {posts.map((post) => <ArticleCard post={post} />)}
+    </div>
+  ) : (
+    <div class="mt-12 flex flex-col items-center rounded-3xl border border-dashed border-ink/15 bg-surface px-6 py-20 text-center">
+      <span class="font-mono text-xs uppercase tracking-[0.2em] text-article-deep">Coming soon</span>
+      <p class="mt-4 max-w-md font-display text-2xl font-semibold text-ink">
+        Articles are on their way
+      </p>
+      <p class="mt-2 max-w-md text-sm leading-relaxed text-ink-soft">
+        I'm still drafting the first post. Check back soon.
+      </p>
+    </div>
+  )}
+</SectionContainer>

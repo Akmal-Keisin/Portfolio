@@ -1,6 +1,6 @@
 ---
-import { profile } from "../../data/profile";
-import SocialIcon from "../../components/ui/SocialIcon.astro";
+import { profile } from "@data/profile";
+import SocialIcon from "@components/ui/SocialIcon.astro";
 ---
 
 <section id="contact" class="py-28 bg-surface relative overflow-hidden">
@@ -77,28 +77,79 @@ import SocialIcon from "../../components/ui/SocialIcon.astro";
       </div>
 
       <!-- Contact form -->
-      <div>
-        <div id="index-form-feedback" class="mb-6 hidden rounded-2xl p-4 text-sm"></div>
+      <div class="relative overflow-hidden rounded-3xl border border-ink/10 bg-base p-6 shadow-sm sm:p-10">
+        <div class="pointer-events-none absolute right-0 top-0 h-40 w-40 rounded-tr-3xl bg-folio-tint blur-2xl" aria-hidden="true"></div>
 
-        <form id="index-contact-form" class="rounded-3xl border border-ink/10 bg-base p-8 shadow-sm space-y-5">
-          <div class="space-y-2">
-            <label for="f-name" class="block text-sm font-medium text-ink">Name *</label>
-            <input type="text" id="f-name" name="name" required placeholder="Your name" class="w-full rounded-xl border border-ink/15 bg-base px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft/50 focus:border-folio-deep focus:outline-none transition-colors" />
+        <h3 class="relative font-display text-2xl font-semibold text-ink">
+          Send a message
+        </h3>
+        <p class="relative mt-2 text-sm text-ink-soft">
+          I read every message myself and usually reply within a day or two.
+        </p>
+
+        <div id="index-form-feedback" class="mt-6 hidden rounded-2xl p-4 text-sm"></div>
+
+        <form id="index-contact-form" class="relative mt-8 space-y-5">
+          <div class="grid gap-5 sm:grid-cols-2">
+            <div>
+              <label for="f-name" class="mb-1.5 block text-sm font-medium text-ink">Your name *</label>
+              <input
+                type="text"
+                id="f-name"
+                name="name"
+                required
+                placeholder="Jane Doe"
+                class="w-full rounded-xl border border-ink/15 bg-base px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft/50 focus:border-folio-deep focus:outline-none"
+              />
+            </div>
+            <div>
+              <label for="f-email" class="mb-1.5 block text-sm font-medium text-ink">Email address *</label>
+              <input
+                type="email"
+                id="f-email"
+                name="email"
+                required
+                placeholder="jane@example.com"
+                class="w-full rounded-xl border border-ink/15 bg-base px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft/50 focus:border-folio-deep focus:outline-none"
+              />
+            </div>
           </div>
-          <div class="space-y-2">
-            <label for="f-email" class="block text-sm font-medium text-ink">Email *</label>
-            <input type="email" id="f-email" name="email" required placeholder="your@email.com" class="w-full rounded-xl border border-ink/15 bg-base px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft/50 focus:border-folio-deep focus:outline-none transition-colors" />
+
+          <div>
+            <label for="f-subject" class="mb-1.5 block text-sm font-medium text-ink">Subject *</label>
+            <input
+              type="text"
+              id="f-subject"
+              name="subject"
+              required
+              placeholder="Project inquiry"
+              class="w-full rounded-xl border border-ink/15 bg-base px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft/50 focus:border-folio-deep focus:outline-none"
+            />
           </div>
-          <div class="space-y-2">
-            <label for="f-subject" class="block text-sm font-medium text-ink">Subject *</label>
-            <input type="text" id="f-subject" name="subject" required placeholder="Project Inquiry" class="w-full rounded-xl border border-ink/15 bg-base px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft/50 focus:border-folio-deep focus:outline-none transition-colors" />
+
+          <div>
+            <label for="f-msg" class="mb-1.5 block text-sm font-medium text-ink">Message *</label>
+            <textarea
+              id="f-msg"
+              name="message"
+              rows="6"
+              required
+              placeholder="Tell me about your project..."
+              class="w-full resize-none rounded-xl border border-ink/15 bg-base px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft/50 focus:border-folio-deep focus:outline-none"
+            ></textarea>
           </div>
-          <div class="space-y-2">
-            <label for="f-msg" class="block text-sm font-medium text-ink">Message *</label>
-            <textarea id="f-msg" name="message" rows="4" required placeholder="How can I help?" class="w-full resize-none rounded-xl border border-ink/15 bg-base px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft/50 focus:border-folio-deep focus:outline-none transition-colors"></textarea>
+
+          <div aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;">
+            <label for="f-website">Leave this empty</label>
+            <input type="text" id="f-website" name="website" tabindex="-1" autocomplete="off" value="">
           </div>
-          <button type="submit" class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-exp-deep px-6 py-3 text-sm font-semibold text-base shadow-[0_4px_0_0_var(--color-ink)] transition-all duration-200 hover:translate-y-[2px] hover:bg-exp hover:shadow-[0_2px_0_0_var(--color-ink)] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:hover:translate-y-0 disabled:hover:bg-exp-deep disabled:hover:shadow-none">
+
+          <button
+            type="submit"
+            class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-exp-deep px-6 py-3 text-sm font-semibold text-base shadow-[0_4px_0_0_var(--color-ink)] transition-all duration-200 hover:translate-y-[2px] hover:bg-exp hover:shadow-[0_2px_0_0_var(--color-ink)] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:hover:translate-y-0 disabled:hover:bg-exp-deep disabled:hover:shadow-none"
+          >
             <span class="submit-text">Send Message</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
           </button>
         </form>
       </div>
@@ -131,6 +182,7 @@ import SocialIcon from "../../components/ui/SocialIcon.astro";
       email: formData.get("email") as string,
       subject: formData.get("subject") as string,
       message: formData.get("message") as string,
+      website: formData.get("website") as string,
     };
 
     try {

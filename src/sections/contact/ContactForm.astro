@@ -62,6 +62,11 @@
       ></textarea>
     </div>
 
+    <div aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;">
+      <label for="website">Leave this empty</label>
+      <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" value="">
+    </div>
+
     <button
       type="submit"
       class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-exp-deep px-6 py-3 text-sm font-semibold text-base shadow-[0_4px_0_0_var(--color-ink)] transition-all duration-200 hover:translate-y-[2px] hover:bg-exp hover:shadow-[0_2px_0_0_var(--color-ink)] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:hover:translate-y-0 disabled:hover:bg-exp-deep disabled:hover:shadow-none"
@@ -97,6 +102,7 @@
       email: formData.get("email") as string,
       subject: formData.get("subject") as string,
       message: formData.get("message") as string,
+      website: formData.get("website") as string,
     };
 
     try {

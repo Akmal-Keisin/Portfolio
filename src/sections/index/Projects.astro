@@ -1,179 +1,44 @@
 ---
-/**
- * Projects Section Component (Index Page)
- * Displays a compact summary of recent work.
- */
 import { getProjects } from "@lib/api";
 import type { Project } from "@lib/api";
-import { STATUS_COLORS } from "@sections/project/data.ts";
+import SectionContainer from "@components/layout/SectionContainer.astro";
+import SectionHeading from "@components/layout/SectionHeading.astro";
+import PortfolioCard from "@components/cards/PortfolioCard.astro";
+import Button from "@components/ui/Button.astro";
 
 let projects: Project[] = [];
 try {
-  const response = await getProjects(1);
-  projects = response?.data?.slice(0, 3) || [];
+  const res = await getProjects(1);
+  projects = res?.data ?? [];
 } catch (error) {
-  console.error("Failed to fetch projects for index page:", error);
+  console.error("Failed to fetch projects:", error);
 }
 ---
 
-<section id="projects" class="py-28 bg-fog relative overflow-hidden">
-  <!-- Watermark numeral -->
-  <div
-    class="absolute top-6 right-6 font-display text-[180px] leading-none select-none pointer-events-none text-moss-100"
-    aria-hidden="true"
-  >
-    05
+<SectionContainer id="portfolio" bg="surface">
+  <div class="flex flex-wrap items-end justify-between gap-6">
+    <SectionHeading
+      eyebrow="Selected Work"
+      title="Things I've shipped"
+      description="A few projects that show how I think through a problem, end to end."
+      accent="folio"
+    />
+    <Button href="/project" variant="ghost">All projects →</Button>
   </div>
 
-  <!-- Background texture -->
-  <div
-    class="absolute inset-0 pointer-events-none opacity-[0.05]"
-    aria-hidden="true"
-  >
-    <svg width="100%" height="100%">
-      <defs>
-        <pattern
-          id="dotPattern"
-          x="0"
-          y="0"
-          width="32"
-          height="32"
-          patternUnits="userSpaceOnUse"
-        >
-          <circle cx="2" cy="2" r="1.5" fill="#3e7d32"></circle>
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#dotPattern)"></rect>
-    </svg>
-  </div>
-
-  <div class="relative max-w-6xl mx-auto px-6">
-    <!-- Section header -->
-    <div
-      class="reveal mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6"
-    >
-      <div>
-        <span class="accent-line mb-4"></span>
-        <p class="text-label-mono text-moss-400 mt-4">Selected Work</p>
-        <h2 class="text-section-title text-ink mt-2">
-          Things I've<br /><em class="text-moss-500">shipped</em>
-        </h2>
-      </div>
-
-      <a
-        href="/project"
-        class="proj-card group inline-flex items-center gap-2 bg-white border border-moss-100 px-6 py-3 rounded-full text-moss-600 font-semibold text-sm hover:border-moss-300 hover:text-moss-800 transition-all no-underline shadow-sm"
-      >
-        All projects
-        <svg
-          width="14"
-          height="14"
-          viewBox="0 0 14 14"
-          fill="none"
-          aria-hidden="true"
-          class="group-hover:translate-x-1 transition-transform"
-        >
-          <path
-            d="M2 7h10M8 3l4 4-4 4"
-            stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"></path>
-        </svg>
-      </a>
+  {projects.length > 0 ? (
+    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {projects.map((project) => <PortfolioCard project={project} />)}
     </div>
-
-    <!-- Grid of projects -->
-    {
-      projects.length > 0 ? (
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project, i) => (
-            <div class={`reveal reveal-d${(i % 3) + 1} proj-card`}>
-              <div class="group h-full bg-white border border-moss-100 rounded-2xl p-6 hover:border-moss-300 transition-all duration-300 flex flex-col justify-between">
-                <div>
-                  <div class="flex items-center justify-between mb-6">
-                    <span class="text-label-mono text-moss-400 border border-moss-100 px-2 py-0.5 rounded-full text-[9px]!">
-                      {project.tech_stacks[0]?.name || "Project"}
-                    </span>
-                    <span
-                      class={`w-2 h-2 rounded-full ${STATUS_COLORS[project.status]}`}
-                    />
-                  </div>
-                  <h4 class="text-card-title text-ink mb-3 group-hover:text-moss-600 transition-colors">
-                    {project.title}
-                  </h4>
-                  <p class="text-section-desc text-moss-500 mb-6 line-clamp-3 text-sm!">
-                    {project.excerpt}
-                  </p>
-                  <div class="flex flex-wrap gap-1.5 mb-6">
-                    {project.tech_stacks.map((s) => (
-                      <span class="text-label-mono text-moss-400 bg-fog border border-moss-100 px-2 py-0.5 rounded-full text-[9px]!">
-                        {s.name}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div class="flex items-center justify-between pt-5 border-t border-moss-100 mt-auto">
-                  <span class="text-label-mono text-moss-300 text-[9px]!">
-                    {project.status}
-                  </span>
-                  <div class="flex gap-3">
-                    {project.repo_url && (
-                      <a
-                        href={project.repo_url}
-                        class="text-moss-300 hover:text-moss-600 transition-colors"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        >
-                          <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-                        </svg>
-                      </a>
-                    )}
-                    <a
-                      href={`/project/${project.slug}`}
-                      class="text-moss-500 hover:text-moss-700 transition-colors"
-                    >
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 16 16"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path d="M3 8h10M9 4l4 4-4 4" />
-                      </svg>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div class="py-24 text-center border border-moss-200/50 rounded-3xl bg-white/50 backdrop-blur-sm">
-          <h3 class="text-section-title text-moss-600 font-medium tracking-widest mb-2">
-            Check Back Soon
-          </h3>
-          <p class="text-section-desc text-moss-500">
-            I'm currently updating my portfolio projects.
-          </p>
-        </div>
-      )
-    }
-
-  </div>
-</section>
+  ) : (
+    <div class="mt-12 flex flex-col items-center rounded-3xl border border-dashed border-ink/15 bg-base px-6 py-20 text-center">
+      <span class="font-mono text-xs uppercase tracking-[0.2em] text-folio-deep">Coming soon</span>
+      <p class="mt-4 max-w-md font-display text-2xl font-semibold text-ink">
+        Projects are on their way
+      </p>
+      <p class="mt-2 max-w-md text-sm leading-relaxed text-ink-soft">
+        I'm still polishing the details. Check back soon.
+      </p>
+    </div>
+  )}
+</SectionContainer>
