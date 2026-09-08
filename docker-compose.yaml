@@ -15,6 +15,7 @@ services:
       - proxy
     environment:
       PUBLIC_API_URL: http://host.docker.internal:8000/api
+      FRONTEND_URL: http://host.docker.internal:4321
     extra_hosts:
       - "host.docker.internal:host-gateway"
     labels:
