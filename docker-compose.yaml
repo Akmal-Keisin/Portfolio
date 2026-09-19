@@ -26,5 +26,5 @@ services:
       - "traefik.http.routers.portfolio.tls.certresolver=le"
 networks:
   proxy:
-    name: traefik-proxy
+    name: traefik_prod_edge
     external: true
