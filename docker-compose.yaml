@@ -24,5 +24,5 @@ services:
       - "traefik.http.services.portfolio.loadbalancer.server.port=4321"
 networks:
   proxy:
-    name: ${TRAEFIK_NETWORK:-traefik_prod_edge}
+    name: traefik_prod_edge
     external: true
