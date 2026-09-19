@@ -20,7 +20,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.portfolio.rule=Host(`akmalkeisin.com`)"
-      - "traefik.http.routers.portfolio.entrypoints=web"
+      - "traefik.http.routers.portfolio.entrypoints=websecure"
+      - "traefik.http.routers.portfolio.tls.certresolver=letsencrypt"
       - "traefik.http.services.portfolio.loadbalancer.server.port=4321"
 networks:
   proxy:
