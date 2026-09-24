@@ -5,59 +5,71 @@ import SectionHeading from "@components/layout/SectionHeading.astro";
 import Badge from "@components/ui/Badge.astro";
 import Button from "@components/ui/Button.astro";
 import SocialIcon from "@components/ui/SocialIcon.astro";
+
+const details = [
+  { label: "Role", value: profile.role },
+  { label: "Based in", value: profile.location },
+  { label: "Status", value: profile.availability },
+];
 ---
 
 <SectionContainer id="about" bg="surface">
-  <div class="grid gap-14 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-center">
-    <div class="relative mx-auto w-full max-w-sm lg:mx-0">
-      <div
-        class="absolute -inset-4 -z-10 rounded-[2.5rem] bg-[conic-gradient(from_140deg,var(--color-exp-tint),var(--color-folio-tint),var(--color-article-tint),var(--color-exp-tint))] opacity-70 blur-lg"
-        aria-hidden="true"
-      >
-      </div>
-      <div
-        class="flex aspect-[4/5] w-full items-center justify-center rounded-[2.5rem] border border-ink/10 bg-base shadow-xl"
-      >
-        <span class="font-display text-8xl font-semibold text-exp-deep/80">
-          {profile.initials}
-        </span>
-      </div>
-    </div>
-
+  <div class="grid gap-12 lg:grid-cols-[1.35fr_1fr] lg:items-start">
     <div>
       <SectionHeading
-        eyebrow="About me"
-        title="A little more about how I work"
-        accent="exp"
+        title="Four years shipping web software"
+        description="I work across the stack on products that have to stay reliable once real people depend on them."
       />
 
-      <div class="mt-6 space-y-4 text-base leading-relaxed text-ink-soft">
-        {profile.bio.map((paragraph) => <p>{paragraph}</p>)}
+      <div class="mt-6 max-w-prose space-y-5">
+        {
+          profile.bio.map((paragraph) => (
+            <p class="text-base leading-relaxed text-ink-soft">{paragraph}</p>
+          ))
+        }
       </div>
 
       <div class="mt-8 flex flex-wrap gap-2">
         {profile.skills.map((skill) => <Badge variant="neutral">{skill}</Badge>)}
       </div>
 
-      <div class="mt-9 flex flex-wrap items-center gap-4">
-        <div>
-          <Button href={profile.resumeUrl} variant="primary" disabled>Download résumé</Button>
-          <p class="mt-2 font-mono text-xs uppercase tracking-widest text-ink-soft">Coming soon</p>
-        </div>
-        <div class="flex gap-3">
-          {
-            profile.socials.map((social) => (
-              <a
-                href={social.href}
-                aria-label={social.label}
-                class="flex h-10 w-10 items-center justify-center rounded-full border border-ink/10 text-ink-soft transition-colors hover:border-exp hover:text-exp-deep"
-              >
-                <SocialIcon icon={social.icon as any} class="h-4 w-4" />
-              </a>
-            ))
-          }
-        </div>
+      <div class="mt-8 flex flex-wrap items-center gap-4">
+        <Button href="/contact">Get in touch</Button>
+        <Button href={profile.resumeUrl} variant="ghost" disabled>
+          Résumé (coming soon)
+        </Button>
       </div>
     </div>
+
+    <aside class="rounded-2xl border border-ink/10 bg-base p-8">
+      <h3 class="font-mono text-xs uppercase tracking-[0.18em] text-ink-soft">
+        Details
+      </h3>
+      <dl class="mt-5 divide-y divide-ink/10 text-sm">
+        {
+          details.map((detail) => (
+            <div class="flex items-baseline justify-between gap-4 py-3">
+              <dt class="text-ink-soft">{detail.label}</dt>
+              <dd class="text-right font-medium text-ink">{detail.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+      <div class="mt-6 flex gap-2">
+        {
+          profile.socials.filter((social) => social.label !== "Email").map((social) => (
+            <a
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={social.label}
+              class="flex h-9 w-9 items-center justify-center rounded-full border border-ink/10 text-ink-soft transition-colors hover:border-accent/40 hover:text-accent"
+            >
+              <SocialIcon icon={social.icon as any} class="h-4 w-4" />
+            </a>
+          ))
+        }
+      </div>
+    </aside>
   </div>
 </SectionContainer>

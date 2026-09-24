@@ -13,9 +13,9 @@ export const education: EducationEntry[] = [
     slug: "smkn-11-multimedia",
     degree: "Multimedia",
     institution: "SMKN 11 Semarang",
-    period: "2019 – 2022",
+    period: "2019-2022",
     location: "Semarang, Indonesia",
     summary:
-      "Focused on design, photography, and web development — where my journey as a builder began.",
+      "Focused on design, photography, and web development, where my journey as a builder began.",
   },
 ];

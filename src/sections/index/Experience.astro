@@ -6,15 +6,13 @@ import TimelineItem from "@components/cards/TimelineItem.astro";
 ---
 
 <SectionContainer id="experience" bg="surface">
-  <div class="grid gap-12 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)]">
+  <div class="grid gap-12 lg:grid-cols-[1fr_2fr] lg:items-start">
     <SectionHeading
-      eyebrow="Experience"
-      title="Where I've worked"
-      description="Six years split between in-house product teams and running my own studio."
-      accent="exp"
+      title="Experience"
+      description="Four years of in-house product work, from intern to owning features end to end."
     />
 
-    <div>
+    <div class="lg:pl-4">
       {
         experience.map((entry, index) => (
           <TimelineItem

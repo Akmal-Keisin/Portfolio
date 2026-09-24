@@ -5,15 +5,9 @@ import Button from "../../components/ui/Button.astro";
 
 <SectionContainer bg="ink">
   <div class="flex flex-col items-start justify-between gap-8 sm:flex-row sm:items-center">
-    <div>
-      <div class="inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.2em] text-base/50">
-        <span class="h-2 w-2 rounded-full bg-folio" aria-hidden="true"></span>
-        Get in touch
-      </div>
-      <h2 class="mt-3 max-w-xl font-display text-3xl font-semibold text-base sm:text-4xl">
-        Want to know more? Let's talk.
-      </h2>
-    </div>
-    <Button href="/contact" variant="primary" class="shrink-0">Send a message</Button>
+    <h2 class="max-w-xl font-display text-3xl font-semibold tracking-tight text-base sm:text-4xl">
+      Want to know more? Let's talk.
+    </h2>
+    <Button href="/contact" variant="inverted" class="shrink-0">Get in touch</Button>
   </div>
 </SectionContainer>

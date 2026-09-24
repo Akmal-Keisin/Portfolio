@@ -57,7 +57,7 @@ export const dummyArticles: PaginatedResource<Article> = {
       title: "Building a High-Performance REST API with Laravel and Go Fiber",
       slug: "laravel-go-fiber-api",
       excerpt:
-        "A hands-on comparison of building the same API in both frameworks — benchmarks, DX tradeoffs, and when to reach for each one.",
+        "A hands-on comparison of building the same API in both frameworks: benchmarks, DX tradeoffs, and when to reach for each one.",
       author: "Akmal Keisin",
       category: { id: 1, name: "Backend" },
       tags: [
@@ -118,7 +118,7 @@ export const dummyArticles: PaginatedResource<Article> = {
       title: "Understanding Go Fiber Middleware from Scratch",
       slug: "go-fiber-middleware",
       excerpt:
-        "Demystifying the middleware chain in Go Fiber — how to write, compose, and test your own middleware cleanly.",
+        "Demystifying the middleware chain in Go Fiber: how to write, compose, and test your own middleware cleanly.",
       author: "Akmal Keisin",
       category: { id: 1, name: "Backend" },
       tags: [
@@ -159,10 +159,10 @@ export const dummyArticles: PaginatedResource<Article> = {
 };
 
 export const CATEGORY_COLORS: Record<string, string> = {
-  Backend: "bg-moss-700 text-mint border-moss-600",
-  Frontend: "bg-mint-light text-moss-700 border-mint",
-  Database: "bg-sage-200 text-ink border-sage-300",
-  Architecture: "bg-ink text-fog border-ink-light",
+  Backend: "bg-folio-tint text-folio-deep border-folio/30",
+  Frontend: "bg-exp-tint text-exp-deep border-exp/30",
+  Database: "bg-edu-tint text-edu-deep border-edu/30",
+  Architecture: "bg-article-tint text-article-deep border-article/30",
 };
 
 export function formatDate(iso: string) {

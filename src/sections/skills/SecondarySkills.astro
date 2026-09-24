@@ -18,18 +18,17 @@ const secondarySkills = [
 
 <SectionContainer bg="surface">
   <SectionHeading
-    eyebrow="Complementary"
     title="Tools I pair with the core stack"
-    description="Beyond the core stack, I use a variety of tools and methodologies to ensure robust, modern deployment and collaboration."
-    accent="exp"
-    align="center"
+    description="The supporting tools and practices I use to deploy and maintain software."
   />
 
-  <div class="mt-12 flex flex-wrap justify-center gap-3">
-    {secondarySkills.map((skill) => (
-      <span class="cursor-default rounded-full border border-ink/10 bg-base px-5 py-2.5 font-mono text-sm text-ink-soft transition-colors hover:border-exp/50 hover:text-exp-deep">
-        {skill}
-      </span>
-    ))}
-  </div>
+  <ul class="mt-12 flex flex-wrap gap-2.5">
+    {
+      secondarySkills.map((skill) => (
+        <li class="rounded-full border border-ink/15 px-4 py-2 font-mono text-sm text-ink-soft">
+          {skill}
+        </li>
+      ))
+    }
+  </ul>
 </SectionContainer>

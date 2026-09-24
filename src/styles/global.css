@@ -1,46 +1,87 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 /*
-  Design tokens — warm, colorful editorial palette.
-  Each hue family is tied to a specific meaning across the site:
-    amber/brown  -> Education   (growth, foundation)
-    green        -> Experience  (work, momentum)
-    purple       -> Portfolio   (making, imagination)
-    terracotta   -> Articles    (voice, ideas)
-  This mapping repeats everywhere (badges, timeline dots, card borders,
-  nav underline) so color always tells you what *kind* of content you're
-  looking at, not just decoration.
+  Design tokens.
+
+  The site has one action accent: --color-accent (deep green). Every button
+  and the focus ring use it, so the interactive color never changes from
+  section to section.
+
+  Four hue families are content keys, not decoration. They appear only where
+  they label real content:
+    amber  -> Education
+    green  -> Experience
+    iris   -> Portfolio
+    clay   -> Articles
+  Badges, timeline markers, and card edges use these. They are never used as
+  competing button colors.
+
+  Surface/ink tokens flip under prefers-color-scheme: dark so the whole page
+  changes theme together; no section inverts on its own.
 */
 @theme {
-  --font-display: "Fraunces", "Iowan Old Style", ui-serif, Georgia, serif;
-  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
 
-  /* Base */
+  /* Surfaces and text */
   --color-base: #fafaf8;
   --color-surface: #f1efe8;
   --color-ink: #2c2c2a;
   --color-ink-soft: #5b5b56;
 
-  /* Education — amber / brown */
+  /* Action accent (Experience green) */
+  --color-accent: #0b6b4f;
+  --color-accent-hover: #085041;
+
+  /* Education - amber */
   --color-edu-tint: #faeeda;
   --color-edu: #ef9f27;
-  --color-edu-deep: #b26b00;
+  --color-edu-deep: #8a5200;
 
-  /* Experience — green */
+  /* Experience - green */
   --color-exp-tint: #e1f5ee;
   --color-exp: #1d9e75;
   --color-exp-deep: #085041;
 
-  /* Portfolio — purple */
-  --color-folio-tint: #eeedfe;
-  --color-folio: #857dff;
-  --color-folio-deep: #5d58ad;
+  /* Portfolio - iris */
+  --color-folio-tint: #e8e7f6;
+  --color-folio: #6b5cc4;
+  --color-folio-deep: #3f367f;
 
-  /* Articles — terracotta */
+  /* Articles - clay */
   --color-article-tint: #faece7;
   --color-article: #d85a30;
   --color-article-deep: #712b13;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-base: #161513;
+    --color-surface: #201f1c;
+    --color-ink: #f2f0ea;
+    --color-ink-soft: #a8a69e;
+
+    --color-accent: #2fa87e;
+    --color-accent-hover: #3fbf95;
+
+    --color-edu-tint: #2e2314;
+    --color-edu: #e0a341;
+    --color-edu-deep: #f0c88a;
+
+    --color-exp-tint: #10261f;
+    --color-exp: #3fbf95;
+    --color-exp-deep: #9fe3cb;
+
+    --color-folio-tint: #1c1a33;
+    --color-folio: #8d80e0;
+    --color-folio-deep: #c3bcf2;
+
+    --color-article-tint: #2b1a12;
+    --color-article: #e07a55;
+    --color-article-deep: #f0b39c;
+  }
 }
 
 html {
@@ -67,28 +108,39 @@ body {
   font-family: var(--font-body);
 }
 
-/* Consistent, visible focus ring for keyboard users */
+/* One visible focus ring, matched to the action accent */
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
-textarea:focus-visible {
-  outline: 2px solid var(--color-folio-deep);
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--color-accent);
   outline-offset: 3px;
   border-radius: 4px;
 }
 
-/* Hand-set underline squiggle used sparingly as an accent under key words */
+/*
+  Scroll reveal. The hidden state is opt-in via .reveal-ready on <html>, which
+  a tiny inline script only adds when JS is on and motion is allowed. Without
+  JS, or with reduced motion, content renders fully visible.
+*/
+.reveal-ready .reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-ready .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Inline squiggle accent, used only on free-standing text links */
 .squiggle-underline {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 10' preserveAspectRatio='none'%3E%3Cpath d='M0 6 Q 12 0, 25 6 T 50 6 T 75 6 T 100 6' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: 0 92%;
   background-size: 100% 0.4em;
-}
-
-.font-display {
-  font-family: var(--font-display);
-}
-
-.font-mono {
-  font-family: var(--font-mono);
 }

@@ -1,44 +1,59 @@
 ---
 import { getArticles } from "@lib/api";
 import type { Article } from "@sections/article/data";
+import { formatDate } from "@sections/article/data";
 import SectionContainer from "@components/layout/SectionContainer.astro";
 import SectionHeading from "@components/layout/SectionHeading.astro";
-import ArticleCard from "@components/cards/ArticleCard.astro";
 import Button from "@components/ui/Button.astro";
 
-let posts: Article[] = [];
+let articles: Article[] = [];
 try {
   const res = await getArticles(1);
-  posts = res?.data ?? [];
+  articles = res?.data ?? [];
 } catch (error) {
   console.error("Failed to fetch articles:", error);
 }
+
+const latest = articles.slice(0, 4);
 ---
 
 <SectionContainer id="article" bg="base">
   <div class="flex flex-wrap items-end justify-between gap-6">
     <SectionHeading
-      eyebrow="Writing"
-      title="Latest from the notebook"
-      description="Notes on engineering, the full stack, and the occasional rabbit hole."
-      accent="article"
+      title="Writing"
+      description="Notes on the tools and problems I run into while building."
     />
-    <Button href="/article" variant="ghost">See all articles →</Button>
+    <Button href="/article" variant="ghost">All articles</Button>
   </div>
 
-  {posts.length > 0 ? (
-    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {posts.map((post) => <ArticleCard post={post} />)}
-    </div>
-  ) : (
-    <div class="mt-12 flex flex-col items-center rounded-3xl border border-dashed border-ink/15 bg-surface px-6 py-20 text-center">
-      <span class="font-mono text-xs uppercase tracking-[0.2em] text-article-deep">Coming soon</span>
-      <p class="mt-4 max-w-md font-display text-2xl font-semibold text-ink">
-        Articles are on their way
+  {
+    latest.length > 0 ? (
+      <ul class="mt-10 max-w-3xl divide-y divide-ink/10 border-y border-ink/10">
+        {latest.map((article) => (
+          <li>
+            <a
+              href={`/article/${article.slug}`}
+              class="group grid gap-2 py-6 sm:grid-cols-[7rem_1fr] sm:items-baseline sm:gap-6"
+            >
+              <span class="font-mono text-xs text-ink-soft">
+                {formatDate(article.createdAt)}
+              </span>
+              <div>
+                <h3 class="font-display text-lg font-semibold text-ink transition-colors group-hover:text-article-deep">
+                  {article.title}
+                </h3>
+                <p class="mt-2 line-clamp-2 max-w-prose text-sm leading-relaxed text-ink-soft">
+                  {article.excerpt}
+                </p>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p class="mt-10 max-w-3xl rounded-2xl border border-dashed border-ink/15 bg-surface p-10 text-sm leading-relaxed text-ink-soft">
+        Nothing is published yet. New notes will appear here first.
       </p>
-      <p class="mt-2 max-w-md text-sm leading-relaxed text-ink-soft">
-        I'm still drafting the first post. Check back soon.
-      </p>
-    </div>
-  )}
+    )
+  }
 </SectionContainer>

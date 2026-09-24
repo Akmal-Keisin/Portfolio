@@ -2,33 +2,34 @@
 import { education } from "@data/education";
 import SectionContainer from "@components/layout/SectionContainer.astro";
 import SectionHeading from "@components/layout/SectionHeading.astro";
-import TimelineItem from "@components/cards/TimelineItem.astro";
 ---
 
 <SectionContainer id="education" bg="base">
-  <div class="grid gap-12 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)]">
-    <SectionHeading
-      eyebrow="Education"
-      title="How I got here"
-      description="Formal study and the courses I came back for once I knew what I needed."
-      accent="edu"
-    />
+  <SectionHeading
+    title="Education"
+    description="Where the foundation came from. Most of what I use daily I picked up building things after this."
+  />
 
-    <div>
-      {
-        education.map((entry, index) => (
-          <TimelineItem
-            variant="edu"
-            title={entry.degree}
-            subtitle={entry.institution}
-            period={entry.period}
-            location={entry.location}
-            summary={entry.summary}
-            href={`/education/${entry.slug}`}
-            isLast={index === education.length - 1}
-          />
-        ))
-      }
-    </div>
-  </div>
+  <ul class="mt-10 max-w-3xl divide-y divide-ink/10 border-y border-ink/10">
+    {
+      education.map((entry) => (
+        <li class="grid gap-3 py-7 sm:grid-cols-[1fr_auto] sm:items-baseline sm:gap-8">
+          <div>
+            <h3 class="font-display text-lg font-semibold text-ink">
+              {entry.degree}
+            </h3>
+            <p class="mt-1 text-sm text-ink-soft">
+              {entry.institution}, {entry.location}
+            </p>
+            <p class="mt-3 max-w-prose text-sm leading-relaxed text-ink-soft">
+              {entry.summary}
+            </p>
+          </div>
+          <p class="font-mono text-xs text-ink-soft sm:text-right">
+            {entry.period}
+          </p>
+        </li>
+      ))
+    }
+  </ul>
 </SectionContainer>

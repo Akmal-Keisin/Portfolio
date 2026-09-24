@@ -3,32 +3,37 @@ import SectionContainer from "../../components/layout/SectionContainer.astro";
 import SectionHeading from "../../components/layout/SectionHeading.astro";
 
 const principles = [
-  { title: "Accessibility First", desc: "Everyone deserves great software. I prioritize semantic HTML and WCAG standards to ensure my work is inclusive." },
-  { title: "Deep Understanding", desc: "I believe in learning the fundamentals before frameworks. Understanding the 'how' and 'why' makes for better architectural decisions." },
-  { title: "Continuous Learning", desc: "The modern tech stack shifts constantly. My autodidactic mindset drives me to master new systems through disciplined study." },
-  { title: "Ship Iteratively", desc: "I favor getting code into production early and improving it through real-world usage and feedback loops." },
+  {
+    title: "Accessibility first",
+    desc: "Everyone deserves working software. I start from semantic HTML and WCAG standards so the result is usable by more people, not fewer.",
+  },
+  {
+    title: "Understand the system",
+    desc: "I learn the fundamentals before the framework. Knowing how the pieces work underneath makes for better architectural decisions.",
+  },
+  {
+    title: "Keep learning",
+    desc: "The stack moves fast. I stay current by reading, rebuilding, and testing ideas in real projects rather than at a distance.",
+  },
+  {
+    title: "Ship, then improve",
+    desc: "I favor getting code into production early and making it better from real usage and feedback, instead of perfecting it in a vacuum.",
+  },
 ];
 ---
 
 <SectionContainer id="principles" bg="surface">
   <SectionHeading
-    eyebrow="Principles"
     title="How I work"
-    description="Guidelines I follow so every project stays robust, inclusive, and maintainable."
-    accent="folio"
+    description="Four guidelines I use to keep projects robust, inclusive, and maintainable."
   />
 
-  <div class="mt-12 grid gap-5 sm:grid-cols-2">
+  <div class="mt-12 grid gap-x-12 gap-y-10 sm:grid-cols-2">
     {
-      principles.map((p, i) => (
-        <div class="rounded-2xl border border-ink/10 bg-base p-7 transition-colors hover:border-folio/40">
-          <div class="flex items-start gap-4">
-            <span class="font-mono text-sm text-folio-deep">0{i + 1}</span>
-            <div>
-              <h3 class="font-display text-lg font-semibold text-ink">{p.title}</h3>
-              <p class="mt-2 text-sm leading-relaxed text-ink-soft">{p.desc}</p>
-            </div>
-          </div>
+      principles.map((p) => (
+        <div class="border-t border-ink/15 pt-6">
+          <h3 class="font-display text-lg font-semibold text-ink">{p.title}</h3>
+          <p class="mt-2 text-sm leading-relaxed text-ink-soft">{p.desc}</p>
         </div>
       ))
     }

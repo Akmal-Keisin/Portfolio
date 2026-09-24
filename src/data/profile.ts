@@ -1,13 +1,13 @@
-// Replace every value here with your own — every section pulls from this file.
+// Values here are placeholders for local development; every section pulls from this file.
 export const profile = {
   name: "Akmal Keisin",
   initials: "AK",
   role: "Full-Stack Developer",
   location: "Semarang, Indonesia",
-  tagline: "Learn more purposeful software",
+  tagline: "I build and maintain web software, from database to interface.",
   bio: [
     "I'm Akmal Keisin, a full-stack developer with four years of experience turning complex problems into elegant, maintainable software. I started building websites at 18 and never stopped.",
-    "The modern tech stack shifts constantly. Mastering it requires an autodidactic mindset — driven by continuous learning and highly disciplined study. We are engineers, not magicians: true expertise means understanding how the underlying systems work.",
+    "The modern tech stack shifts constantly. Mastering it requires an autodidactic mindset: continuous learning and highly disciplined study. We are engineers, not magicians. True expertise means understanding how the underlying systems work.",
   ],
   availability: "Open to new opportunities",
   email: "helloakmalkeisin@gmail.com",

@@ -1,6 +1,7 @@
 ---
 import { formatDate } from "./data";
 import type { Article } from "./data";
+import Icon from "../../components/ui/Icon.astro";
 
 interface Props {
   featured: Article;
@@ -8,23 +9,21 @@ interface Props {
 
 const { featured } = Astro.props;
 ---
-{featured && (
-  <section class="mx-auto max-w-6xl px-6 pb-16 sm:px-8" data-category={featured.category.name}>
-    <a
-      href={`/article/${featured.slug}`}
-      class="group relative grid overflow-hidden rounded-[2.5rem] border border-ink/10 bg-base shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl no-underline lg:grid-cols-5"
-      aria-label={`Read featured article: ${featured.title}`}
-    >
-      <!-- Content -->
-      <div class="relative z-10 p-8 lg:col-span-3 lg:p-12">
+
+{
+  featured && (
+    <section class="mx-auto max-w-6xl px-6 pb-16 sm:px-8" data-category={featured.category.name}>
+      <a
+        href={`/article/${featured.slug}`}
+        class="group block rounded-2xl border border-article/30 bg-article-tint/40 p-8 transition-colors hover:border-article no-underline sm:p-12"
+        aria-label={`Read featured article: ${featured.title}`}
+      >
         <div class="flex flex-wrap items-center gap-3">
           <span class="inline-flex items-center gap-1.5 rounded-full bg-article-tint px-3 py-1 font-mono text-xs text-article-deep">
-            <svg class="h-3 w-3" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
-              <path d="M7 1l1.8 4.2L13 5.2 9.6 7.8 10.9 12 7 9.4 3.1 12 4.4 7.8 1 5.2h5.2z" />
-            </svg>
+            <Icon name="star" class="h-3 w-3" />
             Featured
           </span>
-          <span class="rounded-full border border-ink/10 bg-surface px-3 py-1 font-mono text-xs text-ink-soft">
+          <span class="rounded-full border border-ink/10 bg-base px-3 py-1 font-mono text-xs text-ink-soft">
             {featured.category.name}
           </span>
           <time class="font-mono text-xs text-ink-soft" datetime={featured.createdAt}>
@@ -32,11 +31,11 @@ const { featured } = Astro.props;
           </time>
         </div>
 
-        <h2 class="mt-6 font-display text-3xl font-semibold leading-snug text-ink transition-colors group-hover:text-article-deep sm:text-4xl">
+        <h2 class="mt-6 max-w-3xl font-display text-3xl font-semibold leading-snug text-ink transition-colors group-hover:text-article-deep sm:text-4xl">
           {featured.title}
         </h2>
 
-        <p class="mt-4 max-w-xl text-base leading-relaxed text-ink-soft sm:text-lg">
+        <p class="mt-4 max-w-2xl text-base leading-relaxed text-ink-soft sm:text-lg">
           {featured.excerpt}
         </p>
 
@@ -48,26 +47,17 @@ const { featured } = Astro.props;
           ))}
         </div>
 
-        <div class="mt-10 flex items-center justify-between border-t border-ink/10 pt-6">
+        <div class="mt-8 flex items-center justify-between border-t border-ink/10 pt-6">
           <span class="font-mono text-xs text-ink-soft">by {featured.author}</span>
           <span class="inline-flex items-center gap-2 text-sm font-semibold text-article-deep">
             Read article
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" class="transition-transform group-hover:translate-x-1">
-              <path d="M2 7h10M8 3l4 4-4 4" />
-            </svg>
+            <Icon
+              name="arrow-right"
+              class="h-4 w-4 transition-transform group-hover:translate-x-1"
+            />
           </span>
         </div>
-      </div>
-
-      <!-- Visual field -->
-      <div class="relative lg:col-span-2" aria-hidden="true">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--color-article-tint),transparent_70%)]"></div>
-        <div class="absolute bottom-[-4rem] right-[-4rem] h-72 w-72 rounded-full bg-article blur-[90px] opacity-20"></div>
-        <svg class="absolute inset-0 h-full w-full opacity-[0.07]" viewBox="0 0 200 280" fill="none">
-          <path d="M100 10C100 10 20 60 20 140C20 188 55 220 100 220C145 220 180 188 180 140C180 60 100 10 100 10Z" fill="var(--color-article-deep)" />
-          <line x1="100" y1="220" x2="100" y2="270" stroke="var(--color-article-deep)" stroke-width="4" stroke-linecap="round" />
-        </svg>
-      </div>
-    </a>
-  </section>
-)}
+      </a>
+    </section>
+  )
+}

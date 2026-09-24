@@ -1,161 +1,160 @@
 ---
 import { profile } from "@data/profile";
+import SectionContainer from "@components/layout/SectionContainer.astro";
+import SectionHeading from "@components/layout/SectionHeading.astro";
 import SocialIcon from "@components/ui/SocialIcon.astro";
+import Icon from "@components/ui/Icon.astro";
 ---
 
-<section id="contact" class="py-28 bg-surface relative overflow-hidden">
-  <div class="pointer-events-none absolute inset-0" aria-hidden="true">
-    <div class="absolute -left-24 -top-24 h-96 w-96 rounded-full bg-exp-tint blur-3xl"></div>
-    <div class="absolute right-[-6rem] top-10 h-80 w-80 rounded-full bg-folio-tint blur-3xl"></div>
-    <div class="absolute bottom-[-8rem] left-1/3 h-96 w-96 rounded-full bg-article-tint blur-3xl"></div>
-  </div>
+<SectionContainer id="contact" bg="surface">
+  <SectionHeading
+    align="center"
+    title="Get in touch"
+    description="Open to new projects and collaborations. Tell me what you are working on and I will reply within a day or two."
+  />
 
-  <div class="relative mx-auto max-w-6xl px-6 sm:px-8">
-    <div class="mb-16 text-center">
-      <div class="inline-flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.2em] text-ink-soft">
-        <span class="h-2 w-2 rounded-full bg-exp" aria-hidden="true"></span>
-        Get In Touch
+  <div class="mt-14 grid items-start gap-10 lg:grid-cols-2">
+    <div class="space-y-6">
+      <div class="rounded-2xl border border-ink/10 bg-base p-8">
+        <h3 class="font-display text-lg font-semibold text-ink">Contact details</h3>
+        <div class="mt-6 space-y-5">
+          <a href={`mailto:${profile.email}`} class="group flex items-center gap-4">
+            <span
+              class="flex h-11 w-11 items-center justify-center rounded-full bg-exp-tint text-exp-deep"
+            >
+              <SocialIcon icon="mail" class="h-5 w-5" />
+            </span>
+            <span>
+              <span class="block font-mono text-xs uppercase tracking-[0.18em] text-ink-soft">
+                Email
+              </span>
+              <span class="text-sm font-medium text-ink transition-colors group-hover:text-accent">
+                {profile.email}
+              </span>
+            </span>
+          </a>
+          <div class="flex items-center gap-4">
+            <span
+              class="flex h-11 w-11 items-center justify-center rounded-full bg-surface text-ink-soft"
+            >
+              <Icon name="map-pin" class="h-5 w-5" />
+            </span>
+            <span>
+              <span class="block font-mono text-xs uppercase tracking-[0.18em] text-ink-soft">
+                Location
+              </span>
+              <span class="text-sm font-medium text-ink">{profile.location}</span>
+            </span>
+          </div>
+        </div>
       </div>
-      <h2 class="mt-3 font-display text-3xl font-semibold text-ink sm:text-4xl">
-        Let's start a <em class="italic text-exp-deep">conversation</em>
-      </h2>
-      <p class="mt-4 max-w-lg text-base text-ink-soft mx-auto">
-        Currently open to new projects and interesting collaborations. Feel free
-        to reach out if you have something in mind.
-      </p>
+
+      <div class="flex items-center gap-4 px-1">
+        <span class="font-mono text-xs uppercase tracking-[0.18em] text-ink-soft">
+          Find me on
+        </span>
+        <div class="flex gap-2">
+          {
+            profile.socials
+              .filter((social) => social.label !== "Email")
+              .map((social) => (
+                <a
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.label}
+                  class="flex h-9 w-9 items-center justify-center rounded-full border border-ink/10 bg-base text-ink-soft transition-colors hover:border-accent/40 hover:text-accent"
+                >
+                  <SocialIcon icon={social.icon as any} class="h-4 w-4" />
+                </a>
+              ))
+          }
+        </div>
+      </div>
     </div>
 
-    <div class="grid gap-12 lg:grid-cols-2 items-start">
-      <!-- Contact info -->
-      <div class="space-y-6">
-        <div class="rounded-3xl border border-ink/10 bg-base p-8 shadow-sm">
-          <h3 class="font-display text-xl font-semibold text-ink mb-6">Contact Details</h3>
-          <div class="space-y-6">
-            <a href={`mailto:${profile.email}`} class="flex items-center gap-4 group no-underline">
-              <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-exp-tint text-exp-deep transition-colors group-hover:bg-exp group-hover:text-base">
-                <SocialIcon icon="mail" class="h-5 w-5" />
-              </div>
-              <div>
-                <div class="font-mono text-xs uppercase tracking-widest text-ink-soft">Email</div>
-                <div class="text-sm font-semibold text-ink group-hover:text-exp-deep transition-colors">
-                  {profile.email}
-                </div>
-              </div>
-            </a>
-            <div class="flex items-center gap-4">
-              <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-surface text-ink-soft">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                  <circle cx="12" cy="10" r="3"></circle>
-                </svg>
-              </div>
-              <div>
-                <div class="font-mono text-xs uppercase tracking-widest text-ink-soft">Location</div>
-                <div class="text-sm font-semibold text-ink">{profile.location}</div>
-              </div>
-            </div>
-          </div>
-        </div>
+    <div class="rounded-2xl border border-ink/10 bg-base p-6 sm:p-8">
+      <h3 class="font-display text-xl font-semibold text-ink">Tell me about your project</h3>
+      <p class="mt-2 text-sm text-ink-soft">
+        I read every message myself.
+      </p>
 
-        <!-- Socials -->
-        <div class="flex items-center gap-4 px-2">
-          <span class="font-mono text-xs uppercase tracking-widest text-ink-soft">Find me on</span>
-          <div class="flex gap-2">
-            {profile.socials.filter((s) => s.label !== "Email").map((social) => (
-              <a
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="flex h-9 w-9 items-center justify-center rounded-full border border-ink/10 bg-base text-ink-soft transition-colors hover:border-exp/40 hover:text-exp-deep"
-                aria-label={social.label}
-              >
-                <SocialIcon icon={social.icon as any} class="h-4 w-4" />
-              </a>
-            ))}
-          </div>
-        </div>
-      </div>
+      <div id="index-form-feedback" class="mt-6 hidden rounded-lg p-4 text-sm"></div>
 
-      <!-- Contact form -->
-      <div class="relative overflow-hidden rounded-3xl border border-ink/10 bg-base p-6 shadow-sm sm:p-10">
-        <div class="pointer-events-none absolute right-0 top-0 h-40 w-40 rounded-tr-3xl bg-folio-tint blur-2xl" aria-hidden="true"></div>
-
-        <h3 class="relative font-display text-2xl font-semibold text-ink">
-          Send a message
-        </h3>
-        <p class="relative mt-2 text-sm text-ink-soft">
-          I read every message myself and usually reply within a day or two.
-        </p>
-
-        <div id="index-form-feedback" class="mt-6 hidden rounded-2xl p-4 text-sm"></div>
-
-        <form id="index-contact-form" class="relative mt-8 space-y-5">
-          <div class="grid gap-5 sm:grid-cols-2">
-            <div>
-              <label for="f-name" class="mb-1.5 block text-sm font-medium text-ink">Your name *</label>
-              <input
-                type="text"
-                id="f-name"
-                name="name"
-                required
-                placeholder="Jane Doe"
-                class="w-full rounded-xl border border-ink/15 bg-base px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft/50 focus:border-folio-deep focus:outline-none"
-              />
-            </div>
-            <div>
-              <label for="f-email" class="mb-1.5 block text-sm font-medium text-ink">Email address *</label>
-              <input
-                type="email"
-                id="f-email"
-                name="email"
-                required
-                placeholder="jane@example.com"
-                class="w-full rounded-xl border border-ink/15 bg-base px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft/50 focus:border-folio-deep focus:outline-none"
-              />
-            </div>
-          </div>
-
+      <form id="index-contact-form" class="mt-6 space-y-5">
+        <div class="grid gap-5 sm:grid-cols-2">
           <div>
-            <label for="f-subject" class="mb-1.5 block text-sm font-medium text-ink">Subject *</label>
+            <label for="f-name" class="mb-1.5 block text-sm font-medium text-ink">
+              Your name *
+            </label>
             <input
               type="text"
-              id="f-subject"
-              name="subject"
+              id="f-name"
+              name="name"
               required
-              placeholder="Project inquiry"
-              class="w-full rounded-xl border border-ink/15 bg-base px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft/50 focus:border-folio-deep focus:outline-none"
+              placeholder="Your full name"
+              class="w-full rounded-lg border border-ink/15 bg-base px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft focus:border-accent"
             />
           </div>
-
           <div>
-            <label for="f-msg" class="mb-1.5 block text-sm font-medium text-ink">Message *</label>
-            <textarea
-              id="f-msg"
-              name="message"
-              rows="6"
+            <label for="f-email" class="mb-1.5 block text-sm font-medium text-ink">
+              Email address *
+            </label>
+            <input
+              type="email"
+              id="f-email"
+              name="email"
               required
-              placeholder="Tell me about your project..."
-              class="w-full resize-none rounded-xl border border-ink/15 bg-base px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft/50 focus:border-folio-deep focus:outline-none"
-            ></textarea>
+              placeholder="you@example.com"
+              class="w-full rounded-lg border border-ink/15 bg-base px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft focus:border-accent"
+            />
           </div>
+        </div>
 
-          <div aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;">
-            <label for="f-website">Leave this empty</label>
-            <input type="text" id="f-website" name="website" tabindex="-1" autocomplete="off" value="">
-          </div>
+        <div>
+          <label for="f-subject" class="mb-1.5 block text-sm font-medium text-ink">
+            Subject *
+          </label>
+          <input
+            type="text"
+            id="f-subject"
+            name="subject"
+            required
+            placeholder="Project inquiry"
+            class="w-full rounded-lg border border-ink/15 bg-base px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft focus:border-accent"
+          />
+        </div>
 
-          <button
-            type="submit"
-            class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-exp-deep px-6 py-3 text-sm font-semibold text-base shadow-[0_4px_0_0_var(--color-ink)] transition-all duration-200 hover:translate-y-[2px] hover:bg-exp hover:shadow-[0_2px_0_0_var(--color-ink)] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:hover:translate-y-0 disabled:hover:bg-exp-deep disabled:hover:shadow-none"
-          >
-            <span class="submit-text">Send Message</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-          </button>
-        </form>
-      </div>
+        <div>
+          <label for="f-msg" class="mb-1.5 block text-sm font-medium text-ink">
+            Message *
+          </label>
+          <textarea
+            id="f-msg"
+            name="message"
+            rows="6"
+            required
+            placeholder="What are you building, and what do you need from me?"
+            class="w-full resize-none rounded-lg border border-ink/15 bg-base px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft focus:border-accent"
+          ></textarea>
+        </div>
+
+        <div aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;">
+          <label for="f-website">Leave this empty</label>
+          <input type="text" id="f-website" name="website" tabindex="-1" autocomplete="off" value="" />
+        </div>
+
+        <button
+          type="submit"
+          class="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-accent px-6 py-3 text-sm font-semibold text-base shadow-[0_3px_0_0_var(--color-ink)] transition-all duration-200 hover:translate-y-[2px] hover:bg-accent-hover hover:shadow-[0_1px_0_0_var(--color-ink)] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:hover:translate-y-0"
+        >
+          <span class="submit-text">Send message</span>
+          <Icon name="send" class="h-4 w-4" />
+        </button>
+      </form>
     </div>
   </div>
-</section>
+</SectionContainer>
 
 <script>
   import { sendMessage } from "@lib/api";
@@ -193,12 +192,13 @@ import SocialIcon from "@components/ui/SocialIcon.astro";
       feedback.classList.remove("hidden");
       form.reset();
     } catch (error) {
-      feedback.textContent = error instanceof Error ? error.message : "Something went wrong. Please try again.";
+      feedback.textContent =
+        error instanceof Error ? error.message : "Something went wrong. Please try again.";
       feedback.classList.add("bg-article-tint", "text-article-deep");
       feedback.classList.remove("hidden");
     } finally {
       submitBtn.disabled = false;
-      submitText.textContent = "Send Message";
+      submitText.textContent = "Send message";
     }
   });
 </script>

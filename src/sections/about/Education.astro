@@ -2,27 +2,31 @@
 import SectionContainer from "../../components/layout/SectionContainer.astro";
 import SectionHeading from "../../components/layout/SectionHeading.astro";
 import TimelineItem from "../../components/cards/TimelineItem.astro";
+import { education } from "../../data/education";
 ---
 
 <SectionContainer id="education" bg="surface">
-  <div class="grid gap-12 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)]">
+  <div class="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
     <SectionHeading
-      eyebrow="Education"
       title="Where I started"
       description="The foundation that taught me how to learn."
-      accent="edu"
     />
 
     <div>
-      <TimelineItem
-        variant="edu"
-        title="Multimedia"
-        subtitle="SMKN 11 Semarang"
-        period="2019 – 2022"
-        summary="Focused on design, photography, and web development — where my journey as a builder began."
-        tags={["UI Design", "Photography", "Full-stack Dev", "Database Architecture"]}
-        isLast
-      />
+      {
+        education.map((entry, index) => (
+          <TimelineItem
+            variant="edu"
+            title={entry.degree}
+            subtitle={entry.institution}
+            period={entry.period}
+            location={entry.location}
+            summary={entry.summary}
+            tags={["UI Design", "Photography", "Full-stack Dev", "Database Architecture"]}
+            isLast={index === education.length - 1}
+          />
+        ))
+      }
     </div>
   </div>
 </SectionContainer>

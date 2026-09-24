@@ -1,6 +1,6 @@
 ---
 import Badge from "../ui/Badge.astro";
-import SocialIcon from "../ui/SocialIcon.astro";
+import Icon from "../ui/Icon.astro";
 import type { Project } from "../../lib/api";
 
 interface Props {
@@ -8,43 +8,58 @@ interface Props {
 }
 
 const { project } = Astro.props;
+
+const statusVariant =
+  ({ completed: "exp", ongoing: "folio", archived: "neutral" } as const)[
+    project.status
+  ] ?? "neutral";
 ---
 
-<article class="group overflow-hidden rounded-3xl border border-ink/10 bg-base transition-all hover:-translate-y-1 hover:border-folio/40 hover:shadow-lg">
-  <a href={`/project/${project.slug}`} class="block">
-    <div
-      class="flex h-44 items-center justify-center bg-folio-tint bg-[radial-gradient(circle_at_30%_20%,var(--color-folio-tint),transparent_60%)] p-6"
-    >
-      <span class="font-display text-4xl font-semibold text-folio-deep/70">
-        {project.title.slice(0, 1)}
-      </span>
-    </div>
+<article
+  class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-base transition-colors hover:border-folio/40"
+>
+  <a href={`/project/${project.slug}`} class="block overflow-hidden border-b border-ink/10">
+    {
+      project.thumbnail ? (
+        <img
+          src={project.thumbnail}
+          alt={`Screenshot of ${project.title}`}
+          loading="lazy"
+          class="aspect-[16/10] w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+        />
+      ) : (
+        <div class="flex aspect-[16/10] items-center justify-center bg-surface p-6">
+          <span class="font-mono text-xs uppercase tracking-[0.18em] text-ink-soft">
+            {project.tech_stacks[0]?.name ?? "Project"}
+          </span>
+        </div>
+      )
+    }
   </a>
 
-  <div class="p-6">
-    <div class="flex items-center justify-between">
-      <Badge variant="folio">{project.tech_stacks[0]?.name || "Project"}</Badge>
-      <span class="font-mono text-xs uppercase text-ink-soft">{project.status}</span>
+  <div class="flex flex-1 flex-col p-6">
+    <div class="flex items-center justify-between gap-3">
+      <Badge variant="folio">{project.tech_stacks[0]?.name ?? "Project"}</Badge>
+      <Badge variant={statusVariant}>{project.status}</Badge>
     </div>
 
-    <h3 class="mt-4 font-display text-xl font-semibold text-ink">
-      <a href={`/project/${project.slug}`} class="squiggle-underline text-folio-deep decoration-folio">
+    <h3 class="mt-4 font-display text-lg font-semibold text-ink">
+      <a
+        href={`/project/${project.slug}`}
+        class="transition-colors group-hover:text-folio-deep"
+      >
         {project.title}
       </a>
     </h3>
 
-    <p class="mt-3 text-sm leading-relaxed text-ink-soft">{project.excerpt}</p>
+    <p class="mt-3 flex-1 text-sm leading-relaxed text-ink-soft">{project.excerpt}</p>
 
-    <div class="mt-5 flex flex-wrap items-center justify-between gap-3">
-      <div class="flex flex-wrap gap-2">
-        {project.tech_stacks.map((tech) => <Badge variant="neutral">{tech.name}</Badge>)}
-      </div>
-      <a
-        href={`/project/${project.slug}`}
-        class="inline-flex items-center gap-1 text-sm font-medium text-folio-deep transition-transform group-hover:translate-x-0.5"
-      >
-        View <SocialIcon icon="arrow-up-right" class="h-3.5 w-3.5" />
-      </a>
-    </div>
+    <a
+      href={`/project/${project.slug}`}
+      class="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-folio-deep"
+    >
+      View project
+      <Icon name="arrow-right" class="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+    </a>
   </div>
 </article>

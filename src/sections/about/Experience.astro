@@ -2,46 +2,14 @@
 import SectionContainer from "../../components/layout/SectionContainer.astro";
 import SectionHeading from "../../components/layout/SectionHeading.astro";
 import TimelineItem from "../../components/cards/TimelineItem.astro";
-
-const experience = [
-  {
-    period: "Jun 2024 – Now",
-    role: "Web Developer",
-    org: "Reprime ID",
-    stacks: ["PHP", "Laravel", "MySQL", "PostgreSQL", "TypeScript", "Vue", "Go", "Fiber", "Astro"],
-    note: "Returned with more experience. Focus on developing the new version of the core product, optimizing performance, and architecting scalable backend systems.",
-  },
-  {
-    period: "Oct 2023 – Jun 2024",
-    role: "Web Developer",
-    org: "Crocodic",
-    stacks: ["PHP", "Laravel", "MySQL", "TypeScript"],
-    note: "Engineered a complex HR project for a large factory client with thousands of active daily users. Managed intricate payroll logic and shift scheduling systems.",
-  },
-  {
-    period: "Sep 2022 – Sep 2023",
-    role: "Web Developer",
-    org: "Reprime ID",
-    stacks: ["PHP", "Laravel", "Lumen", "PostgreSQL", "MySQL"],
-    note: "Full developer role post-internship. Responsible for new feature delivery, infrastructure maintenance, and resolving critical production bugs.",
-  },
-  {
-    period: "Jun 2022 – Aug 2022",
-    role: "Intern",
-    org: "Reprime ID",
-    stacks: ["PHP", "Laravel", "MySQL"],
-    note: "Gained hands-on experience in production environments, contributing to feature updates and learning enterprise development best practices.",
-  },
-];
+import { experience } from "../../data/experience";
 ---
 
 <SectionContainer id="experience" bg="base">
-  <div class="grid gap-12 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)]">
+  <div class="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
     <SectionHeading
-      eyebrow="Experience"
       title="Where I've worked"
       description="The roles and projects that shaped how I build software."
-      accent="exp"
     />
 
     <div>
@@ -50,10 +18,11 @@ const experience = [
           <TimelineItem
             variant="exp"
             title={item.role}
-            subtitle={item.org}
+            subtitle={item.company}
             period={item.period}
-            summary={item.note}
-            tags={item.stacks}
+            location={item.location}
+            summary={item.summary}
+            tags={item.tags}
             isLast={index === experience.length - 1}
           />
         ))

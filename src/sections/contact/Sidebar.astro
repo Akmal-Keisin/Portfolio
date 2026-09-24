@@ -1,5 +1,6 @@
 ---
 import SocialIcon from "../../components/ui/SocialIcon.astro";
+import Icon from "../../components/ui/Icon.astro";
 
 const socialLinks = [
   { label: "GitHub", href: "https://github.com/akmal-keisin", icon: "github" },
@@ -18,52 +19,50 @@ const socialLinks = [
 ---
 
 <aside class="space-y-6">
-  <!-- Availability card -->
-  <div class="relative overflow-hidden rounded-3xl border border-ink/10 bg-surface p-8 text-center">
-    <div class="pointer-events-none absolute inset-0" aria-hidden="true">
-      <div class="absolute -left-12 -top-12 h-40 w-40 rounded-full bg-exp-tint blur-2xl"></div>
-      <div class="absolute -bottom-12 -right-12 h-40 w-40 rounded-full bg-folio-tint blur-2xl"></div>
-    </div>
-
-    <div class="relative">
-      <span class="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-base px-4 py-1.5 font-mono text-xs text-ink-soft">
-        <span class="relative flex h-2 w-2">
-          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-exp opacity-75"></span>
-          <span class="relative inline-flex h-2 w-2 rounded-full bg-exp"></span>
-        </span>
-        Available for projects
+  <div class="rounded-2xl border border-ink/10 bg-surface p-8 text-center">
+    <span
+      class="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-base px-4 py-1.5 font-mono text-xs text-ink-soft"
+    >
+      <span class="relative flex h-2 w-2">
+        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75"
+        ></span>
+        <span class="relative inline-flex h-2 w-2 rounded-full bg-accent"></span>
       </span>
-      <h3 class="mt-5 font-display text-xl font-semibold text-ink">Current availability</h3>
-      <p class="mt-2 text-sm leading-relaxed text-ink-soft">
-        I'm currently accepting new freelance projects and collaborations. My typical lead time is 2-4 weeks.
-      </p>
-    </div>
+      Available for projects
+    </span>
+    <h3 class="mt-5 font-display text-xl font-semibold text-ink">Current availability</h3>
+    <p class="mt-2 text-sm leading-relaxed text-ink-soft">
+      I'm currently accepting new freelance projects and collaborations. My typical lead time is 2 to
+      4 weeks.
+    </p>
   </div>
 
-  <!-- Social links -->
   <div class="space-y-3">
     <h3 class="px-1 font-mono text-xs font-medium uppercase tracking-[0.2em] text-ink-soft">
       Connect elsewhere
     </h3>
-    {socialLinks.map((social) => (
-      <a
-        href={social.href}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="group flex items-center justify-between rounded-2xl border border-ink/10 bg-base px-5 py-4 transition-all hover:border-folio/40 hover:shadow-md no-underline"
-      >
-        <div class="flex items-center gap-4">
-          <span class="flex h-10 w-10 items-center justify-center rounded-xl border border-ink/10 bg-surface transition-transform group-hover:scale-110">
-            <SocialIcon icon={social.icon as any} class="h-4 w-4 text-ink-soft" />
-          </span>
-          <span class="text-sm font-semibold text-ink transition-colors group-hover:text-folio-deep">
-            {social.label}
-          </span>
-        </div>
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" class="text-ink-soft opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100" aria-hidden="true">
-          <path d="M2 12L12 2M12 2H4M12 2V10" />
-        </svg>
-      </a>
-    ))}
+    {
+      socialLinks.map((social) => (
+        <a
+          href={social.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group flex items-center justify-between rounded-xl border border-ink/10 bg-base px-5 py-4 transition-colors hover:border-folio/40 no-underline"
+        >
+          <div class="flex items-center gap-4">
+            <span class="flex h-10 w-10 items-center justify-center rounded-lg border border-ink/10 bg-surface">
+              <SocialIcon icon={social.icon as any} class="h-4 w-4 text-ink-soft" />
+            </span>
+            <span class="text-sm font-semibold text-ink transition-colors group-hover:text-folio-deep">
+              {social.label}
+            </span>
+          </div>
+          <Icon
+            name="arrow-up-right"
+            class="h-4 w-4 text-ink-soft transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+          />
+        </a>
+      ))
+    }
   </div>
 </aside>

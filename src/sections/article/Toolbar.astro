@@ -1,4 +1,6 @@
 ---
+import Icon from "../../components/ui/Icon.astro";
+
 interface Props {
   categories: string[];
   from: number | null;
@@ -9,39 +11,40 @@ interface Props {
 const { categories, from, to, total } = Astro.props;
 const allCategories = ["All", ...categories];
 ---
+
 <section class="sticky top-[69px] z-40 border-b border-ink/10 bg-base/90 backdrop-blur">
   <div class="mx-auto max-w-6xl px-6 py-3 sm:px-8">
-    <div class="flex items-center gap-3 flex-wrap">
-      <!-- Search -->
-      <div class="relative flex-1 min-w-[200px] max-w-[300px]">
-        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-ink-soft pointer-events-none" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
-          <circle cx="6" cy="6" r="4"/><path d="M10 10l3 3"/>
-        </svg>
+    <div class="flex flex-wrap items-center gap-3">
+      <div class="relative min-w-[200px] max-w-[300px] flex-1">
+        <Icon
+          name="search"
+          class="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-ink-soft"
+        />
         <input
           type="text"
           id="search-input"
-          placeholder="Search articles…"
-          class="w-full rounded-full border border-ink/15 bg-base py-2 pl-8 pr-3 font-mono text-xs text-ink placeholder:text-ink-soft/60 focus:border-article-deep focus:outline-none"
+          placeholder="Search articles"
+          class="w-full rounded-full border border-ink/15 bg-base py-2 pl-8 pr-3 font-mono text-xs text-ink placeholder:text-ink-soft focus:border-accent"
         />
       </div>
 
-      <!-- Category filters -->
-      <div class="flex items-center gap-1.5 flex-wrap">
-        {allCategories.map((cat) => (
-          <button
-            class="filter-btn cursor-pointer rounded-full border border-ink/10 bg-base px-3.5 py-1.5 font-mono text-xs text-ink-soft transition-colors hover:border-ink/25 hover:text-ink data-[active=true]:border-ink data-[active=true]:bg-ink data-[active=true]:text-base"
-            data-filter={cat}
-            data-active={cat === "All" ? "true" : "false"}
-          >
-            {cat}
-          </button>
-        ))}
+      <div class="flex flex-wrap items-center gap-1.5">
+        {
+          allCategories.map((cat) => (
+            <button
+              class="filter-btn cursor-pointer rounded-full border border-ink/10 bg-base px-3.5 py-1.5 font-mono text-xs text-ink-soft transition-colors hover:border-ink/25 hover:text-ink data-[active=true]:border-ink data-[active=true]:bg-ink data-[active=true]:text-base"
+              data-filter={cat}
+              data-active={cat === "All" ? "true" : "false"}
+            >
+              {cat}
+            </button>
+          ))
+        }
       </div>
 
-      <!-- Result count -->
       <div class="ml-auto hidden sm:block">
         <span id="result-count" class="font-mono text-xs text-ink-soft">
-          {from}–{to} of {total}
+          {from ?? 0}-{to ?? 0} of {total}
         </span>
       </div>
     </div>

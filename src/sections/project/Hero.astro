@@ -6,49 +6,25 @@ interface Props {
   total: number;
 }
 
-const { projects = [], total = 0 } = Astro.props;
-const techStacks = new Set(
-  projects.flatMap((p) => p.tech_stacks.map((t) => t.name)),
-);
-const statuses = new Set(projects.map((p) => p.status));
+const { total = 0 } = Astro.props;
 ---
-<section class="relative scroll-mt-20 overflow-hidden bg-base" aria-label="Selected work">
-  <!-- Ambient color field -->
-  <div class="pointer-events-none absolute inset-0" aria-hidden="true">
-    <div class="absolute -left-24 -top-24 h-96 w-96 rounded-full bg-folio-tint blur-3xl"></div>
-    <div class="absolute right-[-6rem] top-10 h-80 w-80 rounded-full bg-exp-tint blur-3xl"></div>
-    <div class="absolute bottom-[-8rem] left-1/3 h-96 w-96 rounded-full bg-article-tint blur-3xl"></div>
-  </div>
 
-  <div class="relative mx-auto max-w-6xl px-6 pb-20 pt-16 sm:px-8 sm:pt-24 lg:pt-28">
-    <p class="font-mono text-sm uppercase tracking-[0.3em] text-ink-soft">
-      Selected Work
-    </p>
+<section
+  id="top"
+  class="scroll-mt-20 border-b border-ink/10 bg-base"
+  aria-label="Selected work"
+>
+  <div class="mx-auto max-w-6xl px-6 pb-12 pt-16 sm:px-8 sm:pb-16 sm:pt-20">
+    <p class="font-mono text-sm uppercase tracking-[0.3em] text-ink-soft">Selected work</p>
 
-    <h1 class="mt-4 max-w-3xl font-display text-5xl font-semibold leading-[1.1] text-ink sm:text-6xl">
-      Things I've <em class="italic text-folio-deep">shipped</em>
+    <h1
+      class="mt-4 max-w-3xl font-display text-5xl font-semibold leading-[1.05] tracking-tight text-ink sm:text-6xl"
+    >
+      Things I've shipped
     </h1>
 
-    <div class="mt-6 max-w-xl">
-      <p class="text-lg leading-relaxed text-ink-soft">
-        A collection of products, tools, and systems I've built professionally and as personal projects. Total {total} projects featured.
-      </p>
-    </div>
-
-    <!-- Stats row -->
-    <div class="mt-12 flex flex-wrap items-center gap-x-10 gap-y-6 border-t border-ink/10 pt-8">
-      {
-        [
-          [String(total) + "+", "Projects"],
-          [String(statuses.size), "Statuses"],
-          [String(techStacks.size) + "+", "Tech Stack"],
-        ].map(([num, label]) => (
-          <div class="flex items-baseline gap-2.5">
-            <span class="font-display text-3xl font-semibold text-ink">{num}</span>
-            <span class="font-mono text-xs uppercase tracking-widest text-ink-soft">{label}</span>
-          </div>
-        ))
-      }
-    </div>
+    <p class="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">
+      Products, tools, and systems I've built professionally and on my own time. {total} projects listed.
+    </p>
   </div>
 </section>

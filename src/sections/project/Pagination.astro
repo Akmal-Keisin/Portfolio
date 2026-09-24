@@ -1,5 +1,6 @@
 ---
 import type { PaginatedResource } from "@lib/api";
+import Icon from "../../components/ui/Icon.astro";
 
 interface Props {
   meta: PaginatedResource<any>["meta"];
@@ -8,39 +9,42 @@ interface Props {
 
 const { meta, links } = Astro.props;
 ---
+
 <section class="mx-auto max-w-6xl px-6 pb-24 sm:px-8">
   <div class="flex flex-wrap items-center justify-between gap-4 border-t border-ink/10 pt-8">
     <span class="font-mono text-xs uppercase tracking-widest text-ink-soft">
-      Page {meta.current_page} of {meta.last_page} · {meta.total} total
+      Page {meta.current_page} of {meta.last_page}, {meta.total} total
     </span>
 
     <div class="flex items-center gap-1.5">
       <a
         href={links.prev ?? undefined}
-        class={`inline-flex h-10 w-10 items-center justify-center rounded-xl border transition-colors no-underline ${links.prev ? "border-ink/10 bg-base text-ink hover:border-ink/25 hover:bg-surface" : "cursor-not-allowed border-ink/5 text-ink-soft/40 pointer-events-none"}`}
+        class={`inline-flex h-10 w-10 items-center justify-center rounded-lg border transition-colors no-underline ${links.prev ? "border-ink/10 bg-base text-ink hover:border-ink/25 hover:bg-surface" : "pointer-events-none cursor-not-allowed border-ink/5 text-ink-soft/40"}`}
         aria-disabled={links.prev === null}
         aria-label="Previous page"
       >
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3L4 7l4 4" /></svg>
+        <Icon name="chevron-left" class="h-4 w-4" />
       </a>
 
-      {Array.from({ length: meta.last_page }, (_, i) => i + 1).map((p) => (
-        <a
-          href={`${meta.path}?page=${p}`}
-          class={`inline-flex h-10 w-10 items-center justify-center rounded-xl border font-mono text-xs transition-colors no-underline ${p === meta.current_page ? "border-ink bg-ink text-base" : "border-ink/10 bg-base text-ink-soft hover:border-ink/25 hover:text-ink"}`}
-          aria-current={p === meta.current_page ? "page" : undefined}
-        >
-          {p}
-        </a>
-      ))}
+      {
+        Array.from({ length: meta.last_page }, (_, i) => i + 1).map((p) => (
+          <a
+            href={`${meta.path}?page=${p}`}
+            class={`inline-flex h-10 w-10 items-center justify-center rounded-lg border font-mono text-xs transition-colors no-underline ${p === meta.current_page ? "border-ink bg-ink text-base" : "border-ink/10 bg-base text-ink-soft hover:border-ink/25 hover:text-ink"}`}
+            aria-current={p === meta.current_page ? "page" : undefined}
+          >
+            {p}
+          </a>
+        ))
+      }
 
       <a
         href={links.next ?? undefined}
-        class={`inline-flex h-10 w-10 items-center justify-center rounded-xl border transition-colors no-underline ${links.next ? "border-ink/10 bg-base text-ink hover:border-ink/25 hover:bg-surface" : "cursor-not-allowed border-ink/5 text-ink-soft/40 pointer-events-none"}`}
+        class={`inline-flex h-10 w-10 items-center justify-center rounded-lg border transition-colors no-underline ${links.next ? "border-ink/10 bg-base text-ink hover:border-ink/25 hover:bg-surface" : "pointer-events-none cursor-not-allowed border-ink/5 text-ink-soft/40"}`}
         aria-disabled={links.next === null}
         aria-label="Next page"
       >
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3l4 4-4 4" /></svg>
+        <Icon name="chevron-right" class="h-4 w-4" />
       </a>
     </div>
 

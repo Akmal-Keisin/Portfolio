@@ -15,76 +15,72 @@ import SectionHeading from "../../components/layout/SectionHeading.astro";
 const detailedSkills = [
   {
     category: "Languages",
-    description: "The core foundations of my technical stack. I prioritize type safety, performance, and clean syntax.",
+    description: "The foundation of everything I ship. I care about type safety, performance, and clean syntax.",
     items: [
-      { name: "PHP", logo: PHPLogo, level: "Advanced", years: "4+ years", detail: "Expertise in modern PHP (8.x+), focusing on performance and robust backend systems." },
-      { name: "Go", logo: GoLogo, level: "Advanced", years: "2+ years", detail: "Building high-concurrency microservices and fast API gateways with Go." },
-      { name: "JavaScript", logo: JavascriptLogo, level: "Advanced", years: "4+ years", detail: "Proficient in modern ES6+, TypeScript, and building interactive frontend experiences." },
+      { name: "PHP", logo: PHPLogo, level: "Advanced", years: "4+ years", detail: "Modern PHP 8 and up, focused on performance and robust backend systems." },
+      { name: "Go", logo: GoLogo, level: "Advanced", years: "2+ years", detail: "High-concurrency services and fast API gateways." },
+      { name: "JavaScript", logo: JavascriptLogo, level: "Advanced", years: "4+ years", detail: "Modern ES6+, TypeScript, and interactive frontend work." },
     ],
   },
   {
     category: "Frameworks",
     description: "Tools that help me build scalable applications faster without compromising on quality.",
     items: [
-      { name: "Laravel", logo: LaravelLogo, level: "Expert", years: "4+ years", detail: "Deep understanding of the Laravel ecosystem, including Eloquent, Queues, and Service Containers." },
-      { name: "Go Fiber", logo: GoFiberLogo, level: "Advanced", years: "2+ years", detail: "Building lightweight, high-performance web applications and REST APIs." },
-      { name: "Vue.js", logo: VueJSLogo, level: "Advanced", years: "3+ years", detail: "Creating reactive and component-based user interfaces with Vue 3 and Composition API." },
-      { name: "Astro", logo: AstroLogo, level: "Advanced", years: "1+ year", detail: "Building content-driven websites with modern island architecture for optimal performance." },
+      { name: "Laravel", logo: LaravelLogo, level: "Expert", years: "4+ years", detail: "Deep working knowledge of Eloquent, queues, and the service container." },
+      { name: "Go Fiber", logo: GoFiberLogo, level: "Advanced", years: "2+ years", detail: "Lightweight, high-performance web applications and REST APIs." },
+      { name: "Vue.js", logo: VueJSLogo, level: "Advanced", years: "3+ years", detail: "Reactive, component-based interfaces with Vue 3 and the Composition API." },
+      { name: "Astro", logo: AstroLogo, level: "Advanced", years: "1+ year", detail: "Content-driven sites using island architecture for fast page loads." },
     ],
   },
   {
     category: "Databases",
-    description: "Relational database management systems I use to ensure data integrity and high-performance querying.",
+    description: "Relational systems I use to keep data consistent and queries fast.",
     items: [
-      { name: "PostgreSQL", logo: PostgreSQLLogo, level: "Advanced", years: "3+ years", detail: "Experience with complex indexing, JSONB usage, and advanced performance tuning." },
-      { name: "MySQL", logo: MySQLLogo, level: "Advanced", years: "4+ years", detail: "Robust experience in architecting and managing relational schemas for enterprise applications." },
+      { name: "PostgreSQL", logo: PostgreSQLLogo, level: "Advanced", years: "3+ years", detail: "Complex indexing, JSONB usage, and query performance tuning." },
+      { name: "MySQL", logo: MySQLLogo, level: "Advanced", years: "4+ years", detail: "Architecting and maintaining relational schemas for enterprise applications." },
     ],
   },
 ];
 ---
 
-<SectionContainer bg="base">
+<SectionContainer id="stack" bg="base">
   <SectionHeading
-    eyebrow="The stack"
-    title="Tools I ship with"
-    description="Languages, frameworks, and databases I reach for in production — ranked by how deeply I've worked with them."
-    accent="exp"
+    title="What I work with"
+    description="Ranked by how much production time I have spent with each tool."
   />
 
-  {detailedSkills.map((cat) => (
-    <div class="mt-16">
-      <!-- Category header -->
-      <div class="flex flex-col gap-4 border-t border-ink/10 pt-10 md:flex-row md:items-start md:justify-between md:gap-16">
-        <div class="flex items-center gap-3">
-          <span class="h-2 w-2 rounded-full bg-exp" aria-hidden="true"></span>
-          <h2 class="font-display text-2xl font-semibold text-ink sm:text-3xl">{cat.category}</h2>
-        </div>
-        <p class="max-w-xl text-sm leading-relaxed text-ink-soft md:text-right">{cat.description}</p>
-      </div>
-
-      <!-- Skill cards -->
-      <div class={`mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 ${cat.items.length > 3 ? "lg:grid-cols-4" : "lg:grid-cols-3"}`}>
-        {cat.items.map((item) => (
-          <div class="group flex flex-col rounded-3xl border border-ink/10 bg-base p-6 transition-all hover:-translate-y-1 hover:border-exp/40 hover:shadow-lg">
-            <div class="flex items-center justify-between gap-3">
-              <div class="flex h-12 w-12 items-center justify-center rounded-2xl border border-ink/10 bg-surface transition-transform duration-300 group-hover:scale-110">
-                <Image src={item.logo} alt={item.name} class="h-7 w-7 object-contain" />
-              </div>
-              <span class="rounded-full bg-exp-tint px-3 py-1 font-mono text-xs text-exp-deep">{item.level}</span>
-            </div>
-
-            <h3 class="mt-5 font-display text-lg font-semibold text-ink">{item.name}</h3>
-            <p class="mt-2 flex-1 text-sm leading-relaxed text-ink-soft">{item.detail}</p>
-
-            <div class="mt-6 flex items-center justify-between border-t border-ink/10 pt-4">
-              <span class="font-mono text-xs text-ink-soft">{item.years}</span>
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" class="text-exp opacity-40" aria-hidden="true">
-                <path d="M7 1l1.8 4.2L13 5.2 9.6 7.8 10.9 12 7 9.4 3.1 12 4.4 7.8 1 5.2h5.2z" fill="currentColor" />
-              </svg>
-            </div>
+  <div class="mt-12">
+    {
+      detailedSkills.map((cat) => (
+        <section class="border-t border-ink/15 py-10 first:border-t-0 first:pt-0">
+          <div class="flex items-baseline justify-between gap-6">
+            <h2 class="font-display text-2xl font-semibold text-ink">{cat.category}</h2>
+            <span class="font-mono text-xs uppercase tracking-widest text-ink-soft">
+              {cat.items.length} tools
+            </span>
           </div>
-        ))}
-      </div>
-    </div>
-  ))}
+          <p class="mt-2 max-w-2xl text-sm leading-relaxed text-ink-soft">{cat.description}</p>
+
+          <ul class="mt-6 divide-y divide-ink/10 border-t border-ink/10">
+            {cat.items.map((item) => (
+              <li class="flex items-start gap-4 py-5">
+                <span class="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-ink/10 bg-surface">
+                  <Image src={item.logo} alt="" class="h-6 w-6 object-contain" />
+                </span>
+                <div class="flex-1">
+                  <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                    <h3 class="font-display text-base font-semibold text-ink">{item.name}</h3>
+                    <span class="font-mono text-xs text-ink-soft">
+                      {item.level} / {item.years}
+                    </span>
+                  </div>
+                  <p class="mt-1 max-w-xl text-sm leading-relaxed text-ink-soft">{item.detail}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+  </div>
 </SectionContainer>

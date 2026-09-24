@@ -18,27 +18,22 @@ try {
 <SectionContainer id="portfolio" bg="surface">
   <div class="flex flex-wrap items-end justify-between gap-6">
     <SectionHeading
-      eyebrow="Selected Work"
-      title="Things I've shipped"
-      description="A few projects that show how I think through a problem, end to end."
-      accent="folio"
+      title="Projects"
+      description="A few things I have designed, built, and kept running."
     />
-    <Button href="/project" variant="ghost">All projects →</Button>
+    <Button href="/project" variant="ghost">All projects</Button>
   </div>
 
-  {projects.length > 0 ? (
-    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {projects.map((project) => <PortfolioCard project={project} />)}
-    </div>
-  ) : (
-    <div class="mt-12 flex flex-col items-center rounded-3xl border border-dashed border-ink/15 bg-base px-6 py-20 text-center">
-      <span class="font-mono text-xs uppercase tracking-[0.2em] text-folio-deep">Coming soon</span>
-      <p class="mt-4 max-w-md font-display text-2xl font-semibold text-ink">
-        Projects are on their way
+  {
+    projects.length > 0 ? (
+      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {projects.slice(0, 3).map((project) => <PortfolioCard project={project} />)}
+      </div>
+    ) : (
+      <p class="mt-12 max-w-2xl rounded-2xl border border-dashed border-ink/15 bg-base p-10 text-sm leading-relaxed text-ink-soft">
+        No projects are published yet. They will appear here as soon as they are
+        ready.
       </p>
-      <p class="mt-2 max-w-md text-sm leading-relaxed text-ink-soft">
-        I'm still polishing the details. Check back soon.
-      </p>
-    </div>
-  )}
+    )
+  }
 </SectionContainer>
