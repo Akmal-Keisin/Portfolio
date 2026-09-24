@@ -23,7 +23,7 @@ const isEmpty = projects.length === 0;
       >
         <div
           class:list={[
-            "group grid overflow-hidden rounded-2xl border border-ink/10 bg-base transition-colors hover:border-folio/40",
+            "group grid overflow-hidden rounded-2xl border border-ink/10 bg-canvas transition-colors hover:border-folio/40",
             featured.thumbnail && "lg:grid-cols-2",
           ]}
         >
@@ -45,7 +45,7 @@ const isEmpty = projects.length === 0;
                   <Icon name="star" class="h-3 w-3" />
                   Featured
                 </span>
-                <span class="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-base px-3 py-1 font-mono text-xs capitalize text-ink-soft">
+                <span class="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-canvas px-3 py-1 font-mono text-xs capitalize text-ink-soft">
                   <span class:list={["h-2 w-2 rounded-full", STATUS_COLORS[featured.status]]} />
                   {featured.status}
                 </span>
@@ -112,7 +112,7 @@ const isEmpty = projects.length === 0;
       {
         rest.map((project) => (
           <div
-            class="group flex flex-col rounded-xl border border-ink/10 bg-base p-6 transition-colors hover:border-folio/40"
+            class="group flex flex-col rounded-xl border border-ink/10 bg-canvas p-6 transition-colors hover:border-folio/40"
             data-tech-stacks={project.tech_stacks.map((t) => t.name).join(",")}
             data-title={project.title.toLowerCase()}
           >

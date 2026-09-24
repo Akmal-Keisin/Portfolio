@@ -48,7 +48,7 @@ const groups = [
       <div class="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
         {
           frameworks.map((item) => (
-            <div class="flex flex-col items-center gap-3 rounded-xl border border-ink/10 bg-base px-4 py-5">
+            <div class="flex flex-col items-center gap-3 rounded-xl border border-ink/10 bg-canvas px-4 py-5">
               <Image
                 src={item.logo}
                 alt={item.label}
@@ -69,7 +69,7 @@ const groups = [
           </h3>
           <div class="mt-5 flex flex-wrap gap-3">
             {group.items.map((item) => (
-              <div class="flex items-center gap-3 rounded-xl border border-ink/10 bg-base px-4 py-3">
+              <div class="flex items-center gap-3 rounded-xl border border-ink/10 bg-canvas px-4 py-3">
                 <Image
                   src={item.logo}
                   alt={item.label}

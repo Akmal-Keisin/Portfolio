@@ -2,7 +2,7 @@
 import Icon from "../../components/ui/Icon.astro";
 ---
 
-<section class="rounded-2xl border border-ink/10 bg-base p-6 sm:p-10">
+<section class="rounded-2xl border border-ink/10 bg-canvas p-6 sm:p-10">
   <h2 class="font-display text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
     Tell me about your project
   </h2>
@@ -22,7 +22,7 @@ import Icon from "../../components/ui/Icon.astro";
           name="name"
           required
           placeholder="Your full name"
-          class="w-full rounded-lg border border-ink/15 bg-base px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft focus:border-accent"
+          class="w-full rounded-lg border border-ink/15 bg-canvas px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft focus:border-accent"
         />
       </div>
       <div>
@@ -33,7 +33,7 @@ import Icon from "../../components/ui/Icon.astro";
           name="email"
           required
           placeholder="you@example.com"
-          class="w-full rounded-lg border border-ink/15 bg-base px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft focus:border-accent"
+          class="w-full rounded-lg border border-ink/15 bg-canvas px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft focus:border-accent"
         />
       </div>
     </div>
@@ -46,7 +46,7 @@ import Icon from "../../components/ui/Icon.astro";
         name="subject"
         required
         placeholder="Project inquiry"
-        class="w-full rounded-lg border border-ink/15 bg-base px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft focus:border-accent"
+        class="w-full rounded-lg border border-ink/15 bg-canvas px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft focus:border-accent"
       />
     </div>
 
@@ -58,7 +58,7 @@ import Icon from "../../components/ui/Icon.astro";
         rows="6"
         required
         placeholder="What are you building, and what do you need from me?"
-        class="w-full resize-none rounded-lg border border-ink/15 bg-base px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft focus:border-accent"
+        class="w-full resize-none rounded-lg border border-ink/15 bg-canvas px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft focus:border-accent"
       ></textarea>
     </div>
 
@@ -69,7 +69,7 @@ import Icon from "../../components/ui/Icon.astro";
 
     <button
       type="submit"
-      class="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-accent px-6 py-3 text-sm font-semibold text-base shadow-[0_3px_0_0_var(--color-ink)] transition-all duration-200 hover:translate-y-[2px] hover:bg-accent-hover hover:shadow-[0_1px_0_0_var(--color-ink)] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:hover:translate-y-0 disabled:hover:bg-accent disabled:hover:shadow-none"
+      class="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-accent px-6 py-3 text-sm font-semibold text-on-accent shadow-[0_3px_0_0_var(--color-ink)] transition-all duration-200 hover:translate-y-[2px] hover:bg-accent-hover hover:shadow-[0_1px_0_0_var(--color-ink)] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:hover:translate-y-0 disabled:hover:bg-accent disabled:hover:shadow-none"
     >
       <span class="submit-text">Send message</span>
       <Icon name="send" class="h-4 w-4" />

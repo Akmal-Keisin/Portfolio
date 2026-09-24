@@ -12,7 +12,7 @@ const { categories, from, to, total } = Astro.props;
 const allCategories = ["All", ...categories];
 ---
 
-<section class="sticky top-[69px] z-40 border-b border-ink/10 bg-base/90 backdrop-blur">
+<section class="sticky top-[69px] z-40 border-b border-ink/10 bg-canvas/90 backdrop-blur">
   <div class="mx-auto max-w-6xl px-6 py-3 sm:px-8">
     <div class="flex flex-wrap items-center gap-3">
       <div class="relative min-w-[200px] max-w-[300px] flex-1">
@@ -24,7 +24,7 @@ const allCategories = ["All", ...categories];
           type="text"
           id="search-input"
           placeholder="Search articles"
-          class="w-full rounded-full border border-ink/15 bg-base py-2 pl-8 pr-3 font-mono text-xs text-ink placeholder:text-ink-soft focus:border-accent"
+          class="w-full rounded-full border border-ink/15 bg-canvas py-2 pl-8 pr-3 font-mono text-xs text-ink placeholder:text-ink-soft focus:border-accent"
         />
       </div>
 
@@ -32,7 +32,7 @@ const allCategories = ["All", ...categories];
         {
           allCategories.map((cat) => (
             <button
-              class="filter-btn cursor-pointer rounded-full border border-ink/10 bg-base px-3.5 py-1.5 font-mono text-xs text-ink-soft transition-colors hover:border-ink/25 hover:text-ink data-[active=true]:border-ink data-[active=true]:bg-ink data-[active=true]:text-base"
+              class="filter-btn cursor-pointer rounded-full border border-ink/10 bg-canvas px-3.5 py-1.5 font-mono text-xs text-ink-soft transition-colors hover:border-ink/25 hover:text-ink data-[active=true]:border-ink data-[active=true]:bg-ink data-[active=true]:text-canvas"
               data-filter={cat}
               data-active={cat === "All" ? "true" : "false"}
             >

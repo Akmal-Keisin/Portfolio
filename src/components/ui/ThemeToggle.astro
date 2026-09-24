@@ -1,0 +1,36 @@
+---
+import Icon from "./Icon.astro";
+
+interface Props {
+  variant?: "icon" | "menu";
+}
+
+const { variant = "icon" } = Astro.props;
+---
+
+{
+  variant === "icon" ? (
+    <button
+      type="button"
+      data-theme-toggle
+      class="theme-toggle inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink/15 text-ink-soft transition-colors hover:border-ink/30 hover:text-ink"
+      aria-label="Switch theme"
+    >
+      <Icon name="sun" class="icon-sun h-4 w-4" />
+      <Icon name="moon" class="icon-moon h-4 w-4" />
+    </button>
+  ) : (
+    <button
+      type="button"
+      data-theme-toggle
+      class="theme-toggle flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-left font-mono text-sm text-ink-soft transition-colors hover:bg-surface hover:text-ink"
+      aria-label="Switch theme"
+    >
+      <span>Appearance</span>
+      <span class="inline-flex h-5 w-5 items-center justify-center">
+        <Icon name="sun" class="icon-sun h-4 w-4" />
+        <Icon name="moon" class="icon-moon h-4 w-4" />
+      </span>
+    </button>
+  )
+}

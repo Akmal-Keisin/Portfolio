@@ -26,8 +26,22 @@ const {
     <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
     <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#fafaf8" />
     <title>{title}</title>
     <meta name="description" content={description} />
+
+    <script is:inline>
+      // Apply a stored theme before first paint so there is no flash. With no
+      // stored choice we leave [data-theme] unset and color-scheme follows the OS.
+      (function () {
+        try {
+          var stored = localStorage.getItem("theme");
+          if (stored === "light" || stored === "dark") {
+            document.documentElement.dataset.theme = stored;
+          }
+        } catch (e) {}
+      })();
+    </script>
 
     <script is:inline>
       (function () {
@@ -56,7 +70,7 @@ const {
       })();
     </script>
   </head>
-  <body class="bg-base text-ink antialiased">
+  <body class="bg-canvas text-ink antialiased">
     <Navbar />
     <slot />
     <Footer />

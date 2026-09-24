@@ -4,21 +4,19 @@
 /*
   Design tokens.
 
-  The site has one action accent: --color-accent (deep green). Every button
-  and the focus ring use it, so the interactive color never changes from
-  section to section.
+  Every color below is declared once with light-dark(): the first value is the
+  light theme, the second is dark. Which branch applies is decided by the
+  document's color-scheme, set at the bottom of this file. That means:
+    - default (no explicit choice) follows the visitor's OS setting
+    - picking a theme in the header pins color-scheme to light or dark
+  No token is duplicated across two blocks, so the two themes cannot drift.
 
-  Four hue families are content keys, not decoration. They appear only where
-  they label real content:
-    amber  -> Education
-    green  -> Experience
-    iris   -> Portfolio
-    clay   -> Articles
-  Badges, timeline markers, and card edges use these. They are never used as
-  competing button colors.
-
-  Surface/ink tokens flip under prefers-color-scheme: dark so the whole page
-  changes theme together; no section inverts on its own.
+  Color roles:
+    --color-accent  one action color for every button and the focus ring.
+    amber / green / iris / clay are content keys (Education, Experience,
+    Portfolio, Articles) used only on badges, timeline markers and card edges.
+    --color-band is the deliberate dark band (footer, CTA sections) and stays
+    dark in both themes.
 */
 @theme {
   --font-display: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
@@ -26,62 +24,50 @@
   --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
 
   /* Surfaces and text */
-  --color-base: #fafaf8;
-  --color-surface: #f1efe8;
-  --color-ink: #2c2c2a;
-  --color-ink-soft: #5b5b56;
+  --color-canvas: light-dark(#fafaf8, #171613);
+  --color-surface: light-dark(#f1efe8, #201d19);
+  --color-ink: light-dark(#2c2c2a, #f3f0e8);
+  --color-ink-soft: light-dark(#5b5b56, #b0a99d);
 
-  /* Action accent (Experience green) */
-  --color-accent: #0b6b4f;
-  --color-accent-hover: #085041;
+  /* Deliberate dark band (footer, CTA) and the text that sits on it */
+  --color-band: light-dark(#2c2c2a, #221f1a);
+  --color-band-ink: light-dark(#fafaf8, #f3f0e8);
+
+  /* Action accent (Experience green) and text placed on it */
+  --color-accent: light-dark(#085041, #1d9e75);
+  --color-accent-hover: light-dark(#063f2f, #2fb98b);
+  --color-on-accent: light-dark(#fafaf8, #171613);
 
   /* Education - amber */
-  --color-edu-tint: #faeeda;
-  --color-edu: #ef9f27;
-  --color-edu-deep: #8a5200;
+  --color-edu-tint: light-dark(#faeeda, #2b2113);
+  --color-edu: light-dark(#ef9f27, #ef9f27);
+  --color-edu-deep: light-dark(#9a5c00, #f0b968);
 
   /* Experience - green */
-  --color-exp-tint: #e1f5ee;
-  --color-exp: #1d9e75;
-  --color-exp-deep: #085041;
+  --color-exp-tint: light-dark(#e1f5ee, #0f241c);
+  --color-exp: light-dark(#1d9e75, #1d9e75);
+  --color-exp-deep: light-dark(#085041, #4fc79a);
 
   /* Portfolio - iris */
-  --color-folio-tint: #e8e7f6;
-  --color-folio: #6b5cc4;
-  --color-folio-deep: #3f367f;
+  --color-folio-tint: light-dark(#eeedfe, #1e1b33);
+  --color-folio: light-dark(#857dff, #857dff);
+  --color-folio-deep: light-dark(#5d58ad, #b3adff);
 
   /* Articles - clay */
-  --color-article-tint: #faece7;
-  --color-article: #d85a30;
-  --color-article-deep: #712b13;
+  --color-article-tint: light-dark(#faece7, #2b1a12);
+  --color-article: light-dark(#d85a30, #d85a30);
+  --color-article-deep: light-dark(#712b13, #f0a184);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-base: #161513;
-    --color-surface: #201f1c;
-    --color-ink: #f2f0ea;
-    --color-ink-soft: #a8a69e;
-
-    --color-accent: #2fa87e;
-    --color-accent-hover: #3fbf95;
-
-    --color-edu-tint: #2e2314;
-    --color-edu: #e0a341;
-    --color-edu-deep: #f0c88a;
-
-    --color-exp-tint: #10261f;
-    --color-exp: #3fbf95;
-    --color-exp-deep: #9fe3cb;
-
-    --color-folio-tint: #1c1a33;
-    --color-folio: #8d80e0;
-    --color-folio-deep: #c3bcf2;
-
-    --color-article-tint: #2b1a12;
-    --color-article: #e07a55;
-    --color-article-deep: #f0b39c;
-  }
+/* Default: follow the OS. A stored choice pins one theme via [data-theme]. */
+:root {
+  color-scheme: light dark;
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
 }
 
 html {
@@ -103,7 +89,7 @@ html {
 }
 
 body {
-  background-color: var(--color-base);
+  background-color: var(--color-canvas);
   color: var(--color-ink);
   font-family: var(--font-body);
 }
@@ -117,6 +103,28 @@ select:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 3px;
   border-radius: 4px;
+}
+
+/*
+  Theme toggle icons. Pure CSS decides which glyph shows, so the correct icon
+  is painted before any JavaScript runs (no flash of the wrong icon).
+*/
+.theme-toggle .icon-sun {
+  display: none;
+}
+:root[data-theme="dark"] .theme-toggle .icon-sun {
+  display: inline-flex;
+}
+:root[data-theme="dark"] .theme-toggle .icon-moon {
+  display: none;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .theme-toggle .icon-sun {
+    display: inline-flex;
+  }
+  :root:not([data-theme]) .theme-toggle .icon-moon {
+    display: none;
+  }
 }
 
 /*

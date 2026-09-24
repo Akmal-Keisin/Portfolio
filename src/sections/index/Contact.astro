@@ -15,7 +15,7 @@ import Icon from "@components/ui/Icon.astro";
 
   <div class="mt-14 grid items-start gap-10 lg:grid-cols-2">
     <div class="space-y-6">
-      <div class="rounded-2xl border border-ink/10 bg-base p-8">
+      <div class="rounded-2xl border border-ink/10 bg-canvas p-8">
         <h3 class="font-display text-lg font-semibold text-ink">Contact details</h3>
         <div class="mt-6 space-y-5">
           <a href={`mailto:${profile.email}`} class="group flex items-center gap-4">
@@ -63,7 +63,7 @@ import Icon from "@components/ui/Icon.astro";
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  class="flex h-9 w-9 items-center justify-center rounded-full border border-ink/10 bg-base text-ink-soft transition-colors hover:border-accent/40 hover:text-accent"
+                  class="flex h-9 w-9 items-center justify-center rounded-full border border-ink/10 bg-canvas text-ink-soft transition-colors hover:border-accent/40 hover:text-accent"
                 >
                   <SocialIcon icon={social.icon as any} class="h-4 w-4" />
                 </a>
@@ -73,7 +73,7 @@ import Icon from "@components/ui/Icon.astro";
       </div>
     </div>
 
-    <div class="rounded-2xl border border-ink/10 bg-base p-6 sm:p-8">
+    <div class="rounded-2xl border border-ink/10 bg-canvas p-6 sm:p-8">
       <h3 class="font-display text-xl font-semibold text-ink">Tell me about your project</h3>
       <p class="mt-2 text-sm text-ink-soft">
         I read every message myself.
@@ -93,7 +93,7 @@ import Icon from "@components/ui/Icon.astro";
               name="name"
               required
               placeholder="Your full name"
-              class="w-full rounded-lg border border-ink/15 bg-base px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft focus:border-accent"
+              class="w-full rounded-lg border border-ink/15 bg-canvas px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft focus:border-accent"
             />
           </div>
           <div>
@@ -106,7 +106,7 @@ import Icon from "@components/ui/Icon.astro";
               name="email"
               required
               placeholder="you@example.com"
-              class="w-full rounded-lg border border-ink/15 bg-base px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft focus:border-accent"
+              class="w-full rounded-lg border border-ink/15 bg-canvas px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft focus:border-accent"
             />
           </div>
         </div>
@@ -121,7 +121,7 @@ import Icon from "@components/ui/Icon.astro";
             name="subject"
             required
             placeholder="Project inquiry"
-            class="w-full rounded-lg border border-ink/15 bg-base px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft focus:border-accent"
+            class="w-full rounded-lg border border-ink/15 bg-canvas px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft focus:border-accent"
           />
         </div>
 
@@ -135,7 +135,7 @@ import Icon from "@components/ui/Icon.astro";
             rows="6"
             required
             placeholder="What are you building, and what do you need from me?"
-            class="w-full resize-none rounded-lg border border-ink/15 bg-base px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft focus:border-accent"
+            class="w-full resize-none rounded-lg border border-ink/15 bg-canvas px-4 py-2.5 text-sm text-ink placeholder:text-ink-soft focus:border-accent"
           ></textarea>
         </div>
 
@@ -146,7 +146,7 @@ import Icon from "@components/ui/Icon.astro";
 
         <button
           type="submit"
-          class="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-accent px-6 py-3 text-sm font-semibold text-base shadow-[0_3px_0_0_var(--color-ink)] transition-all duration-200 hover:translate-y-[2px] hover:bg-accent-hover hover:shadow-[0_1px_0_0_var(--color-ink)] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:hover:translate-y-0"
+          class="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-accent px-6 py-3 text-sm font-semibold text-on-accent shadow-[0_3px_0_0_var(--color-ink)] transition-all duration-200 hover:translate-y-[2px] hover:bg-accent-hover hover:shadow-[0_1px_0_0_var(--color-ink)] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:hover:translate-y-0"
         >
           <span class="submit-text">Send message</span>
           <Icon name="send" class="h-4 w-4" />

@@ -8,9 +8,9 @@ interface Props {
 const { id, bg = "base", class: className = "" } = Astro.props;
 
 const bgClasses: Record<string, string> = {
-  base: "bg-base",
+  base: "bg-canvas",
   surface: "bg-surface",
-  ink: "bg-ink text-base",
+  ink: "bg-band text-band-ink",
 };
 ---
 

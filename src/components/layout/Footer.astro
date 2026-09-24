@@ -13,14 +13,14 @@ const links = [
 ];
 ---
 
-<footer class="border-t border-ink/10 bg-ink text-base/90">
+<footer class="border-t border-ink/10 bg-band text-band-ink/90">
   <div class="mx-auto max-w-6xl px-6 py-14 sm:px-8">
     <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
       <div class="lg:col-span-2">
-        <a href="/" class="font-display text-2xl font-semibold tracking-tight text-base">
+        <a href="/" class="font-display text-2xl font-semibold tracking-tight text-band-ink">
           {profile.name}
         </a>
-        <p class="mt-3 max-w-xs text-sm leading-relaxed text-base/60">
+        <p class="mt-3 max-w-xs text-sm leading-relaxed text-band-ink/60">
           {profile.tagline}
         </p>
         <div class="mt-5 flex gap-3">
@@ -29,7 +29,7 @@ const links = [
               <a
                 href={social.href}
                 aria-label={social.label}
-                class="flex h-9 w-9 items-center justify-center rounded-full bg-base/10 text-base/70 transition-colors hover:bg-accent hover:text-base"
+                class="flex h-9 w-9 items-center justify-center rounded-full bg-band-ink/10 text-band-ink/70 transition-colors hover:bg-accent hover:text-on-accent"
               >
                 <SocialIcon icon={social.icon as any} class="h-4 w-4" />
               </a>
@@ -39,14 +39,14 @@ const links = [
       </div>
 
       <div>
-        <h3 class="font-mono text-xs uppercase tracking-widest text-base/40">
+        <h3 class="font-mono text-xs uppercase tracking-widest text-band-ink/40">
           Navigate
         </h3>
         <ul class="mt-4 space-y-2.5 text-sm">
           {
             links.map((link) => (
               <li>
-                <a href={link.href} class="text-base/70 hover:text-base">
+                <a href={link.href} class="text-band-ink/70 hover:text-band-ink">
                   {link.label}
                 </a>
               </li>
@@ -56,13 +56,13 @@ const links = [
       </div>
 
       <div>
-        <h3 class="font-mono text-xs uppercase tracking-widest text-base/40">
+        <h3 class="font-mono text-xs uppercase tracking-widest text-band-ink/40">
           Get in touch
         </h3>
-        <ul class="mt-4 space-y-2.5 text-sm text-base/70">
+        <ul class="mt-4 space-y-2.5 text-sm text-band-ink/70">
           <li>{profile.location}</li>
           <li>
-            <a href={`mailto:${profile.email}`} class="hover:text-base">
+            <a href={`mailto:${profile.email}`} class="hover:text-band-ink">
               {profile.email}
             </a>
           </li>
@@ -70,7 +70,7 @@ const links = [
       </div>
     </div>
 
-    <div class="mt-12 border-t border-base/10 pt-6 text-xs text-base/40">
+    <div class="mt-12 border-t border-band-ink/10 pt-6 text-xs text-band-ink/40">
       <p>© {year} {profile.name}. Built with Astro &amp; Tailwind CSS.</p>
     </div>
   </div>

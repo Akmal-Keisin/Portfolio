@@ -18,7 +18,7 @@ const isEmpty = articles.meta.total === 0;
       rest.map((article) => (
         <a
           href={`/article/${article.slug}`}
-          class="group flex flex-col rounded-xl border border-ink/10 bg-base p-6 transition-colors hover:border-article/40 no-underline"
+          class="group flex flex-col rounded-xl border border-ink/10 bg-canvas p-6 transition-colors hover:border-article/40 no-underline"
           data-category={article.category.name}
           data-title={article.title.toLowerCase()}
           aria-label={`Read article: ${article.title}`}

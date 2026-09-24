@@ -2,6 +2,7 @@
 import { profile } from "../../data/profile";
 import { Image } from "astro:assets";
 import PersonalLogo from "@assets/logos/personal-logo.webp";
+import ThemeToggle from "../ui/ThemeToggle.astro";
 
 const links = [
   { href: "/about", label: "About" },
@@ -15,8 +16,8 @@ const path = Astro.url.pathname;
 const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
 ---
 
-<header class="sticky top-0 z-50 border-b border-ink/10 bg-base/85 backdrop-blur">
-  <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 sm:px-8">
+<header class="sticky top-0 z-50 border-b border-ink/10 bg-canvas/85 backdrop-blur">
+  <nav class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4 sm:px-8">
     <a
       href="/"
       class="flex items-center gap-2.5 font-display text-lg font-semibold tracking-tight text-ink"
@@ -27,7 +28,7 @@ const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
       {profile.name}
     </a>
 
-    <ul class="hidden items-center gap-7 font-mono text-sm md:flex">
+    <ul class="hidden items-center gap-6 font-mono text-sm lg:flex xl:gap-7">
       {
         links.map((link) => (
           <li>
@@ -46,28 +47,32 @@ const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
       }
     </ul>
 
-    <a
-      href="/contact"
-      class="hidden rounded-full bg-accent px-5 py-2.5 font-mono text-sm font-medium text-base transition-colors hover:bg-accent-hover md:inline-flex"
-    >
-      Get in touch
-    </a>
+    <div class="flex items-center gap-2">
+      <ThemeToggle />
 
-    <button
-      id="menu-toggle"
-      type="button"
-      class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink/15 md:hidden"
-      aria-expanded="false"
-      aria-controls="mobile-menu"
-      aria-label="Toggle navigation menu"
-    >
-      <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round" />
-      </svg>
-    </button>
+      <a
+        href="/contact"
+        class="hidden rounded-full bg-accent px-5 py-2.5 font-mono text-sm font-medium text-on-accent transition-colors hover:bg-accent-hover lg:inline-flex"
+      >
+        Get in touch
+      </a>
+
+      <button
+        id="menu-toggle"
+        type="button"
+        class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink/15 lg:hidden"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        aria-label="Toggle navigation menu"
+      >
+        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round" />
+        </svg>
+      </button>
+    </div>
   </nav>
 
-  <div id="mobile-menu" class="hidden border-t border-ink/10 bg-base md:hidden">
+  <div id="mobile-menu" class="hidden border-t border-ink/10 bg-canvas lg:hidden">
     <ul class="flex flex-col gap-1 px-6 py-4 font-mono text-sm">
       {
         links.map((link) => (
@@ -85,6 +90,9 @@ const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
           </li>
         ))
       }
+      <li class="mt-2 border-t border-ink/10 pt-2">
+        <ThemeToggle variant="menu" />
+      </li>
     </ul>
   </div>
 </header>
@@ -104,4 +112,36 @@ const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
       toggle?.setAttribute("aria-expanded", "false");
     });
   });
+
+  // Theme switching. No stored choice means we follow the OS and keep following
+  // it live; once the visitor picks a theme it is pinned and remembered.
+  const root = document.documentElement;
+  const mq = window.matchMedia("(prefers-color-scheme: dark)");
+  const toggles = document.querySelectorAll("[data-theme-toggle]");
+
+  const effectiveTheme = () => root.dataset.theme || (mq.matches ? "dark" : "light");
+
+  const syncTheme = () => {
+    const dark = effectiveTheme() === "dark";
+    toggles.forEach((el) => {
+      el.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
+      el.setAttribute("aria-pressed", String(dark));
+    });
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute("content", dark ? "#171613" : "#fafaf8");
+  };
+
+  toggles.forEach((el) => {
+    el.addEventListener("click", () => {
+      const next = effectiveTheme() === "dark" ? "light" : "dark";
+      root.dataset.theme = next;
+      try {
+        localStorage.setItem("theme", next);
+      } catch (e) {}
+      syncTheme();
+    });
+  });
+
+  mq.addEventListener("change", syncTheme);
+  syncTheme();
 </script>
