@@ -1,5 +1,16 @@
 # Design System
 
+The site uses an editorial layout with warm paper, copper actions drawn from
+the original monogram, and hairline rules. The homepage opens with a split
+introduction and brand image, then leads into work and writing. Archive pages
+use a compact introduction and a grid or list, while detail pages give the
+content the heading hierarchy and space it needs.
+
+Display headings pair Georgia with the existing Geist body text. IBM Plex Mono
+is reserved for small labels and dates. Interaction uses short color transitions
+and native controls. The OS theme is the default and visitors can pin light or
+dark mode.
+
 How this portfolio is built and why. Keep this file in sync when you change
 tokens, type, or component patterns.
 
@@ -20,7 +31,7 @@ Self-hosted through Fontsource. No Google Fonts `<link>`.
 
 | Role | Family | Notes |
 | --- | --- | --- |
-| Display | Geist Variable | Headings only (`font-display`) |
+| Display | Georgia | Headings only (`font-display`) |
 | Body | Geist Variable | Default body (`font-body`) |
 | Mono | IBM Plex Mono | Labels, meta, dates, numbers (`font-mono`) |
 
@@ -30,7 +41,6 @@ Imports live in `src/layouts/Layout.astro`:
 import "@fontsource-variable/geist";
 import "@fontsource/ibm-plex-mono/400.css";
 import "@fontsource/ibm-plex-mono/500.css";
-import "@fontsource/ibm-plex-mono/600.css";
 ```
 
 Rules:
@@ -44,7 +54,7 @@ Rules:
 
 Two roles, strictly separated.
 
-**Action color.** `--color-accent` (deep green). Every button, link emphasis,
+**Action color.** `--color-accent` (copper). Every button, link emphasis,
 and the global focus ring use it. It does not change from section to section.
 
 **Content keys.** Four hue families label content types. They appear only where
@@ -116,20 +126,14 @@ placeholders, no hand-rolled decorative SVGs.
 - When a thumbnail is missing, cards degrade to a plain `bg-surface` panel with
   a tech label. They never fake a screenshot.
 - Icons come from `ui/Icon.astro`. Do not add hand-drawn SVG paths inline.
-- A portrait asset is not yet available. The hero and about sections are
-  intentionally type-led until a real photo is added.
+- The homepage hero uses the existing personal monogram as its visual anchor.
+  On smaller screens it sits beside location and availability.
 
 ## Motion
 
 Restrained. Motion is opt-in and honest.
 
-- `MOTION` intent is low: hover color transitions, and a single scroll reveal.
-- Reveal markup: add `class="reveal"`; a tiny inline script in `Layout.astro`
-  adds `.reveal-ready` to `<html>` only when JS is on and motion is allowed,
-  then an `IntersectionObserver` adds `.is-visible`.
-- All animation is disabled under `prefers-reduced-motion: reduce` and renders
-  fully visible without JavaScript.
-- Animate `transform` and `opacity` only. No `window.addEventListener("scroll")`.
+- Motion is limited to short interaction transitions. Reduced-motion settings disable them.
 
 ## Accessibility
 

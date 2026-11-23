@@ -18,7 +18,7 @@ try {
 <SectionContainer id="portfolio" bg="surface">
   <div class="flex flex-wrap items-end justify-between gap-6">
     <SectionHeading
-      title="Projects"
+      title="Selected projects"
       description="A few things I have designed, built, and kept running."
     />
     <Button href="/project" variant="ghost">All projects</Button>
@@ -26,8 +26,8 @@ try {
 
   {
     projects.length > 0 ? (
-      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {projects.slice(0, 3).map((project) => <PortfolioCard project={project} />)}
+      <div class="mt-12 grid gap-6 sm:grid-cols-2">
+        {projects.slice(0, 2).map((project) => <PortfolioCard project={project} />)}
       </div>
     ) : (
       <p class="mt-12 max-w-2xl rounded-2xl border border-dashed border-ink/15 bg-canvas p-10 text-sm leading-relaxed text-ink-soft">

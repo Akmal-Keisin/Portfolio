@@ -28,18 +28,18 @@ const latest = articles.slice(0, 4);
 
   {
     latest.length > 0 ? (
-      <ul class="mt-10 max-w-3xl divide-y divide-ink/10 border-y border-ink/10">
+      <ul class="mt-10 divide-y divide-ink/10 border-y border-ink/10">
         {latest.map((article) => (
           <li>
             <a
               href={`/article/${article.slug}`}
-              class="group grid gap-2 py-6 sm:grid-cols-[7rem_1fr] sm:items-baseline sm:gap-6"
+              class="group grid gap-2 py-6 sm:grid-cols-[9rem_1fr] sm:items-baseline sm:gap-6"
             >
-              <span class="font-mono text-xs text-ink-soft">
+              <time datetime={article.createdAt} class="font-mono text-xs text-ink-soft">
                 {formatDate(article.createdAt)}
-              </span>
+              </time>
               <div>
-                <h3 class="font-display text-lg font-semibold text-ink transition-colors group-hover:text-article-deep">
+                <h3 class="font-display text-2xl font-normal text-ink transition-colors group-hover:text-article-deep">
                   {article.title}
                 </h3>
                 <p class="mt-2 line-clamp-2 max-w-prose text-sm leading-relaxed text-ink-soft">

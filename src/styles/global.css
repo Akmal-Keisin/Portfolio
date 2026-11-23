@@ -19,24 +19,24 @@
     dark in both themes.
 */
 @theme {
-  --font-display: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: Georgia, "Times New Roman", serif;
   --font-body: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
 
   /* Surfaces and text */
-  --color-canvas: light-dark(#fafaf8, #171613);
-  --color-surface: light-dark(#f1efe8, #201d19);
-  --color-ink: light-dark(#2c2c2a, #f3f0e8);
-  --color-ink-soft: light-dark(#5b5b56, #b0a99d);
+  --color-canvas: light-dark(#fcf8f1, #1c1815);
+  --color-surface: light-dark(#f2e9dd, #27201b);
+  --color-ink: light-dark(#261d18, #f5eadc);
+  --color-ink-soft: light-dark(#67594f, #c4b3a5);
 
   /* Deliberate dark band (footer, CTA) and the text that sits on it */
-  --color-band: light-dark(#2c2c2a, #221f1a);
+  --color-band: light-dark(#2e211b, #241b16);
   --color-band-ink: light-dark(#fafaf8, #f3f0e8);
 
-  /* Action accent (Experience green) and text placed on it */
-  --color-accent: light-dark(#085041, #1d9e75);
-  --color-accent-hover: light-dark(#063f2f, #2fb98b);
-  --color-on-accent: light-dark(#fafaf8, #171613);
+  /* Action accent (copper) and text placed on it */
+  --color-accent: light-dark(#9b3c1d, #f2a27f);
+  --color-accent-hover: light-dark(#783019, #ffc0a3);
+  --color-on-accent: light-dark(#fff8f0, #261810);
 
   /* Education - amber */
   --color-edu-tint: light-dark(#faeeda, #2b2113);
@@ -127,21 +127,28 @@ select:focus-visible {
   }
 }
 
-/*
-  Scroll reveal. The hidden state is opt-in via .reveal-ready on <html>, which
-  a tiny inline script only adds when JS is on and motion is allowed. Without
-  JS, or with reduced motion, content renders fully visible.
-*/
-.reveal-ready .reveal {
-  opacity: 0;
-  transform: translateY(16px);
-  transition:
-    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+h1,
+h2 {
+  text-wrap: balance;
+  overflow-wrap: anywhere;
 }
 
-.reveal-ready .reveal.is-visible {
-  opacity: 1;
+main {
+  min-width: 0;
+  scroll-margin-top: 6rem;
+}
+
+.skip-link {
+  position: fixed;
+  inset: 0.75rem auto auto 0.75rem;
+  z-index: 60;
+  transform: translateY(-200%);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  padding: 0.75rem 1rem;
+}
+
+.skip-link:focus {
   transform: none;
 }
 

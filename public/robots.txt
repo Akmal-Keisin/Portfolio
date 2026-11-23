@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://akmalkeisin.com/sitemap-index.xml
+Sitemap: https://akmalkeisin.com/content-sitemap.xml

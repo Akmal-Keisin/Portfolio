@@ -1,58 +1,53 @@
 ---
+import { Image } from "astro:assets";
+import PersonalLogo from "@assets/logos/personal-logo.webp";
 import { profile } from "@data/profile";
 import Button from "@components/ui/Button.astro";
-
-const sections = [
-  { href: "#about", label: "About" },
-  { href: "#experience", label: "Experience" },
-  { href: "#skills", label: "Skills" },
-  { href: "#portfolio", label: "Projects" },
-  { href: "#article", label: "Articles" },
-];
+import Icon from "@components/ui/Icon.astro";
 ---
 
-<section id="top" class="border-b border-ink/10 bg-canvas">
-  <div class="mx-auto max-w-6xl px-6 pb-16 pt-16 sm:px-8 sm:pb-20 sm:pt-20">
-    <p class="inline-flex items-center gap-2.5 font-mono text-xs text-ink-soft">
-      <span class="relative flex h-2 w-2">
-        <span
-          class="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60"
-        ></span>
-        <span class="relative inline-flex h-2 w-2 rounded-full bg-accent"></span>
-      </span>
-      {profile.availability}
-    </p>
+<section id="top" class="border-b border-ink/10">
+  <div class="mx-auto grid max-w-6xl items-center gap-10 px-6 py-12 sm:px-8 sm:py-18 md:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)] lg:gap-20 lg:py-24">
+    <div>
+      <p class="font-mono text-xs font-medium uppercase tracking-[0.14em] text-accent sm:text-sm">
+        {profile.role}
+      </p>
+      <h1 class="mt-5 font-display text-[clamp(3.65rem,8vw,7.5rem)] leading-[0.94] tracking-[-0.065em]">
+        {profile.name}
+      </h1>
+      <p class="mt-7 max-w-[34ch] text-lg leading-relaxed text-ink-soft sm:text-xl">
+        I build and maintain web software, from database design to the interface.
+      </p>
 
-    <h1
-      class="mt-8 max-w-4xl font-display text-5xl font-semibold tracking-tight text-ink sm:text-6xl lg:text-7xl"
-    >
-      {profile.name}
-    </h1>
-
-    <p class="mt-6 max-w-2xl font-display text-2xl leading-snug tracking-tight text-ink-soft sm:text-3xl">
-      Full-stack developer building and maintaining web software, from database
-      design to the interface.
-    </p>
-
-    <div class="mt-10 flex flex-wrap gap-3">
-      <Button href="#portfolio">View my work</Button>
-      <Button href="/contact" variant="secondary">Get in touch</Button>
+      <div class="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2">
+        <Button href="#portfolio">
+          Explore my work <Icon name="arrow-right" class="h-4 w-4" />
+        </Button>
+        <Button href="/contact" variant="ghost">Get in touch</Button>
+      </div>
     </div>
 
-    <nav
-      class="mt-14 flex flex-wrap items-center gap-x-7 gap-y-2 border-t border-ink/10 pt-6 font-mono text-sm"
-      aria-label="Page sections"
-    >
-      {
-        sections.map((section) => (
-          <a
-            href={section.href}
-            class="text-ink-soft transition-colors hover:text-ink"
-          >
-            {section.label}
-          </a>
-        ))
-      }
-    </nav>
+    <div class="grid min-w-0 grid-cols-[minmax(0,8.5rem)_minmax(0,1fr)] items-center gap-4 md:block">
+      <div class="border border-ink/15 bg-surface p-2 md:p-4">
+        <Image
+          src={PersonalLogo}
+          widths={[360, 540, 840]}
+          sizes="(min-width: 1200px) 410px, (min-width: 768px) 36vw, 136px"
+          width={540}
+          height={540}
+          alt=""
+          loading="eager"
+          fetchpriority="high"
+          class="aspect-square w-full object-cover"
+        />
+      </div>
+      <div class="flex flex-col items-start gap-2 font-mono text-xs text-ink-soft md:mt-4 md:flex-row md:flex-wrap md:items-center md:justify-between">
+        <span>{profile.location}</span>
+        <span class="inline-flex items-baseline gap-2">
+          <span class="size-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true"></span>
+          {profile.availability}
+        </span>
+      </div>
+    </div>
   </div>
 </section>

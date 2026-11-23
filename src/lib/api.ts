@@ -31,15 +31,16 @@ export interface Project {
 export async function getArticles(
   page: number = 1,
 ): Promise<PaginatedResource<Article>> {
-  const response = await fetch(`${API_URL}/articles?page=${page}`);
+  const response = await fetch(`${API_URL}/articles?page=${page}`, { signal: AbortSignal.timeout(5000) });
   if (!response.ok) {
     throw new Error(`Failed to fetch articles: ${response.statusText}`);
   }
   return response.json();
 }
 
-export async function getArticleBySlug(slug: string): Promise<Article> {
-  const response = await fetch(`${API_URL}/articles/${slug}`);
+export async function getArticleBySlug(slug: string): Promise<Article | null> {
+  const response = await fetch(`${API_URL}/articles/${encodeURIComponent(slug)}`, { signal: AbortSignal.timeout(5000) });
+  if (response.status === 404) return null;
   if (!response.ok) {
     throw new Error(`Failed to fetch article: ${response.statusText}`);
   }
@@ -49,15 +50,16 @@ export async function getArticleBySlug(slug: string): Promise<Article> {
 export async function getProjects(
   page: number = 1,
 ): Promise<PaginatedResource<Project>> {
-  const response = await fetch(`${API_URL}/projects?page=${page}`);
+  const response = await fetch(`${API_URL}/projects?page=${page}`, { signal: AbortSignal.timeout(5000) });
   if (!response.ok) {
     throw new Error(`Failed to fetch projects: ${response.statusText}`);
   }
   return response.json();
 }
 
-export async function getProjectBySlug(slug: string): Promise<Project> {
-  const response = await fetch(`${API_URL}/projects/${slug}`);
+export async function getProjectBySlug(slug: string): Promise<Project | null> {
+  const response = await fetch(`${API_URL}/projects/${encodeURIComponent(slug)}`, { signal: AbortSignal.timeout(5000) });
+  if (response.status === 404) return null;
   if (!response.ok) {
     throw new Error(`Failed to fetch project: ${response.statusText}`);
   }
@@ -65,7 +67,7 @@ export async function getProjectBySlug(slug: string): Promise<Project> {
 }
 
 export async function getCategories(): Promise<PaginatedResource<any>> {
-  const response = await fetch(`${API_URL}/categories`);
+  const response = await fetch(`${API_URL}/categories`, { signal: AbortSignal.timeout(5000) });
   if (!response.ok) {
     throw new Error(`Failed to fetch categories: ${response.statusText}`);
   }

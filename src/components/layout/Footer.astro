@@ -1,77 +1,28 @@
 ---
-import { profile } from "../../data/profile";
-import SocialIcon from "../ui/SocialIcon.astro";
+import { profile } from "@data/profile";
 
 const year = new Date().getFullYear();
-
-const links = [
-  { href: "/about", label: "About" },
-  { href: "/skills", label: "Skills" },
-  { href: "/project", label: "Projects" },
-  { href: "/article", label: "Articles" },
-  { href: "/contact", label: "Contact" },
-];
 ---
 
-<footer class="border-t border-ink/10 bg-band text-band-ink/90">
-  <div class="mx-auto max-w-6xl px-6 py-14 sm:px-8">
-    <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-      <div class="lg:col-span-2">
-        <a href="/" class="font-display text-2xl font-semibold tracking-tight text-band-ink">
-          {profile.name}
-        </a>
-        <p class="mt-3 max-w-xs text-sm leading-relaxed text-band-ink/60">
-          {profile.tagline}
-        </p>
-        <div class="mt-5 flex gap-3">
-          {
-            profile.socials.map((social) => (
-              <a
-                href={social.href}
-                aria-label={social.label}
-                class="flex h-9 w-9 items-center justify-center rounded-full bg-band-ink/10 text-band-ink/70 transition-colors hover:bg-accent hover:text-on-accent"
-              >
-                <SocialIcon icon={social.icon as any} class="h-4 w-4" />
-              </a>
-            ))
-          }
-        </div>
-      </div>
-
+<footer class="border-t border-ink/10 bg-surface">
+  <div class="mx-auto max-w-6xl px-6 pt-12 pb-6 sm:px-8">
+    <div class="flex flex-wrap items-start justify-between gap-8">
       <div>
-        <h3 class="font-mono text-xs uppercase tracking-widest text-band-ink/40">
-          Navigate
-        </h3>
-        <ul class="mt-4 space-y-2.5 text-sm">
-          {
-            links.map((link) => (
-              <li>
-                <a href={link.href} class="text-band-ink/70 hover:text-band-ink">
-                  {link.label}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
+        <a href="/" class="font-display text-3xl">{profile.name}</a>
+        <p class="mt-2 text-sm text-ink-soft">{profile.role} · {profile.location}</p>
       </div>
-
       <div>
-        <h3 class="font-mono text-xs uppercase tracking-widest text-band-ink/40">
-          Get in touch
-        </h3>
-        <ul class="mt-4 space-y-2.5 text-sm text-band-ink/70">
-          <li>{profile.location}</li>
-          <li>
-            <a href={`mailto:${profile.email}`} class="hover:text-band-ink">
-              {profile.email}
-            </a>
-          </li>
+        <a href={`mailto:${profile.email}`} class="break-all text-sm text-accent underline underline-offset-4">{profile.email}</a>
+        <ul class="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+          {profile.socials.filter(({ icon }) => icon !== "mail").map((social) => (
+            <li><a href={social.href} class="text-ink-soft hover:text-accent">{social.label}</a></li>
+          ))}
         </ul>
       </div>
     </div>
-
-    <div class="mt-12 border-t border-band-ink/10 pt-6 text-xs text-band-ink/40">
-      <p>© {year} {profile.name}. Built with Astro &amp; Tailwind CSS.</p>
+    <div class="mt-9 flex flex-wrap justify-between gap-4 border-t border-ink/10 pt-5 text-xs text-ink-soft">
+      <p>© {year} {profile.name}</p>
+      <a href="/rss.xml" class="underline underline-offset-4 hover:text-accent">RSS feed</a>
     </div>
   </div>
 </footer>

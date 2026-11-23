@@ -7,27 +7,16 @@ import { getProjectBySlug } from "@lib/api";
 
 const { slug } = Astro.params;
 
-let project;
-
-if (slug) {
-  try {
-    project = await getProjectBySlug(slug);
-  } catch (error) {
-    console.error(`Failed to fetch project with slug: ${slug}`, error);
-  }
-}
-
-if (!project) {
-  return Astro.redirect("/404");
-}
+const project = slug ? await getProjectBySlug(slug) : null;
+if (!project) return Astro.rewrite("/404");
 
 const statusVariant = (
   { completed: "exp", ongoing: "folio", archived: "neutral" } as const
 )[project.status as "completed" | "ongoing" | "archived"] ?? "neutral";
 ---
 
-<Layout title={`${project.title} | Akmal Keisin`}>
-  <main class="py-16 sm:py-20">
+<Layout title={`${project.title} | Akmal Keisin`} description={project.excerpt || undefined} image={project.thumbnail}>
+  <div class="py-16 sm:py-20">
     <div class="mx-auto max-w-6xl px-6 sm:px-8">
       <a
         href="/project"
@@ -109,5 +98,5 @@ const statusVariant = (
         }
       </div>
     </div>
-  </main>
+  </div>
 </Layout>

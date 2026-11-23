@@ -10,7 +10,7 @@ import Icon from "../../components/ui/Icon.astro";
     I read every message myself and usually reply within a day or two.
   </p>
 
-  <div id="form-feedback" class="mt-6 hidden rounded-xl p-4 text-sm"></div>
+  <div id="form-feedback" role="status" class="mt-6 hidden rounded-xl p-4 text-sm"></div>
 
   <form id="contact-form" class="mt-8 space-y-5">
     <div class="grid gap-5 sm:grid-cols-2">
@@ -69,7 +69,7 @@ import Icon from "../../components/ui/Icon.astro";
 
     <button
       type="submit"
-      class="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-accent px-6 py-3 text-sm font-semibold text-on-accent shadow-[0_3px_0_0_var(--color-ink)] transition-all duration-200 hover:translate-y-[2px] hover:bg-accent-hover hover:shadow-[0_1px_0_0_var(--color-ink)] disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:hover:translate-y-0 disabled:hover:bg-accent disabled:hover:shadow-none"
+      class="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-md bg-accent px-6 py-3 text-sm font-semibold text-on-accent transition-colors duration-200 hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-accent"
     >
       <span class="submit-text">Send message</span>
       <Icon name="send" class="h-4 w-4" />

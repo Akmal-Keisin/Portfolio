@@ -8,6 +8,7 @@ interface Props {
 }
 
 const { meta, links } = Astro.props;
+const pageHref = (page: number) => page === 1 ? "/project" : `/project?page=${page}`;
 ---
 
 <section class="mx-auto max-w-6xl px-6 pb-24 sm:px-8">
@@ -16,9 +17,9 @@ const { meta, links } = Astro.props;
       Page {meta.current_page} of {meta.last_page}, {meta.total} total
     </span>
 
-    <div class="flex items-center gap-1.5">
+    <div class="flex flex-wrap items-center gap-1.5">
       <a
-        href={links.prev ?? undefined}
+        href={links.prev ? pageHref(meta.current_page - 1) : undefined}
         class={`inline-flex h-10 w-10 items-center justify-center rounded-lg border transition-colors no-underline ${links.prev ? "border-ink/10 bg-canvas text-ink hover:border-ink/25 hover:bg-surface" : "pointer-events-none cursor-not-allowed border-ink/5 text-ink-soft/40"}`}
         aria-disabled={links.prev === null}
         aria-label="Previous page"
@@ -29,7 +30,7 @@ const { meta, links } = Astro.props;
       {
         Array.from({ length: meta.last_page }, (_, i) => i + 1).map((p) => (
           <a
-            href={`${meta.path}?page=${p}`}
+            href={pageHref(p)}
             class={`inline-flex h-10 w-10 items-center justify-center rounded-lg border font-mono text-xs transition-colors no-underline ${p === meta.current_page ? "border-ink bg-ink text-canvas" : "border-ink/10 bg-canvas text-ink-soft hover:border-ink/25 hover:text-ink"}`}
             aria-current={p === meta.current_page ? "page" : undefined}
           >
@@ -39,7 +40,7 @@ const { meta, links } = Astro.props;
       }
 
       <a
-        href={links.next ?? undefined}
+        href={links.next ? pageHref(meta.current_page + 1) : undefined}
         class={`inline-flex h-10 w-10 items-center justify-center rounded-lg border transition-colors no-underline ${links.next ? "border-ink/10 bg-canvas text-ink hover:border-ink/25 hover:bg-surface" : "pointer-events-none cursor-not-allowed border-ink/5 text-ink-soft/40"}`}
         aria-disabled={links.next === null}
         aria-label="Next page"

@@ -5,36 +5,21 @@ import Icon from "@components/ui/Icon.astro";
 import { getArticleBySlug } from "@lib/api";
 import { formatDate, CATEGORY_COLORS } from "@sections/article/data";
 
-import { generateHTML } from "@tiptap/html";
+import { generateHTML } from "@tiptap/html/server";
 import StarterKit from "@tiptap/starter-kit";
 
 const { slug } = Astro.params;
+const article = slug ? await getArticleBySlug(slug) : null;
+if (!article) return Astro.rewrite("/404");
 
-let article;
-let contentHtml = "";
-
-if (slug) {
-  try {
-    article = await getArticleBySlug(slug);
-
-    if (article.content) {
-      contentHtml = generateHTML(article.content, [StarterKit]);
-    }
-  } catch (error) {
-    console.error(`Failed to fetch article with slug: ${slug}`, error);
-  }
-}
-
-if (!article) {
-  return Astro.redirect("/404");
-}
+const contentHtml = article.content ? generateHTML(article.content, [StarterKit]) : "";
 
 const categoryClass =
   CATEGORY_COLORS[article.category.name] ?? "bg-surface text-ink-soft border-ink/10";
 ---
 
-<Layout title={`${article.title} | Akmal Keisin`}>
-  <main class="py-20 sm:py-24">
+<Layout title={`${article.title} | Akmal Keisin`} description={article.excerpt || undefined} type="article">
+  <div class="py-20 sm:py-24">
     <div class="mx-auto max-w-2xl px-6">
       <a
         href="/article"
@@ -76,5 +61,5 @@ const categoryClass =
         ) : null
       }
     </div>
-  </main>
+  </div>
 </Layout>

@@ -8,8 +8,8 @@ import Pagination from "@sections/article/Pagination.astro";
 import { getArticles, getCategories } from "@lib/api";
 import type { Article, PaginatedResource } from "@sections/article/data";
 
-const url = new URL(Astro.request.url);
-const page = parseInt(url.searchParams.get("page") || "1");
+const requestedPage = Number(Astro.url.searchParams.get("page") ?? 1);
+const page = Number.isSafeInteger(requestedPage) && requestedPage > 0 ? requestedPage : 1;
 
 let articles: PaginatedResource<Article> = {
   data: [],
@@ -53,7 +53,7 @@ try {
 const featured = articles.data.length > 0 ? articles.data[0] : null;
 ---
 
-<Layout title="Articles | Akmal Keisin">
+<Layout page={page} title="Articles | Akmal Keisin" description="Read Akmal Keisin’s notes on backend engineering, databases, and full-stack web development.">
   <Hero
     total={articles.meta.total}
     totalPages={articles.meta.last_page}
@@ -103,13 +103,15 @@ const featured = articles.data.length > 0 ? articles.data[0] : null;
     });
 
     emptyState.style.display = visible === 0 ? "block" : "none";
-    resultCount.textContent = `${visible} SHOWN`;
+    resultCount.textContent = `${visible} shown`;
   }
 
   filterBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
-      filterBtns.forEach((b) => b.setAttribute("data-active", "false"));
-      btn.setAttribute("data-active", "true");
+      filterBtns.forEach((b) => {
+        b.setAttribute("data-active", String(b === btn));
+        b.setAttribute("aria-pressed", String(b === btn));
+      });
       activeCategory = btn.getAttribute("data-filter") ?? "All";
       applyFilters();
     });

@@ -3,19 +3,49 @@ import "../styles/global.css";
 import "@fontsource-variable/geist";
 import "@fontsource/ibm-plex-mono/400.css";
 import "@fontsource/ibm-plex-mono/500.css";
-import "@fontsource/ibm-plex-mono/600.css";
 import Navbar from "../components/layout/Navbar.astro";
 import Footer from "../components/layout/Footer.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
+import { profile } from "@data/profile";
+import { getImage } from "astro:assets";
+import PersonalLogo from "@assets/logos/personal-logo.webp";
 
 interface Props {
   title?: string;
   description?: string;
+  image?: string | null;
+  type?: "website" | "article";
+  page?: number;
+  noindex?: boolean;
 }
 
 const {
-  title = "Akmal Keisin, Full-Stack Developer",
-  description = "Personal site of Akmal Keisin: work, writing, and projects.",
+  title = `${SITE_TITLE} | Full-Stack Developer`,
+  description = SITE_DESCRIPTION,
+  image,
+  type = "website",
+  page = 1,
+  noindex = (Astro.response.status ?? 200) >= 400,
 } = Astro.props;
+const site = Astro.site ?? Astro.url;
+const canonical = new URL(Astro.url.pathname.replace(/\/+$/, "") || "/", site);
+if (page > 1) canonical.searchParams.set("page", String(page));
+const suppliedImage = image ? URL.parse(image, site) : null;
+const socialImage = suppliedImage && ["http:", "https:"].includes(suppliedImage.protocol)
+  ? suppliedImage
+  : new URL((await getImage({ src: PersonalLogo, width: 720, format: "png" })).src, site);
+const pageTitle = page > 1 ? `Page ${page} · ${title}` : title;
+const profileSchema = canonical.pathname === "/" && !noindex ? {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  mainEntity: {
+    "@type": "Person",
+    name: profile.name,
+    jobTitle: profile.role,
+    url: canonical.href,
+    sameAs: profile.socials.filter(({ icon }) => icon !== "mail").map(({ href }) => href),
+  },
+} : null;
 ---
 
 <!doctype html>
@@ -23,56 +53,37 @@ const {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
-    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href="/rss.xml" />
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#fafaf8" />
-    <title>{title}</title>
+    <meta name="theme-color" content="#fcf8f1" />
+    <title>{pageTitle}</title>
     <meta name="description" content={description} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical.href} />}
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={SITE_TITLE} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical.href} />
+    <meta property="og:image" content={socialImage.href} />
+    <meta name="twitter:card" content="summary" />
+    {profileSchema && <script is:inline type="application/ld+json" set:html={JSON.stringify(profileSchema).replace(/</g, "\\u003c")} />}
 
     <script is:inline>
-      // Apply a stored theme before first paint so there is no flash. With no
-      // stored choice we leave [data-theme] unset and color-scheme follows the OS.
-      (function () {
-        try {
-          var stored = localStorage.getItem("theme");
-          if (stored === "light" || stored === "dark") {
-            document.documentElement.dataset.theme = stored;
-          }
-        } catch (e) {}
-      })();
-    </script>
-
-    <script is:inline>
-      (function () {
-        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-        document.documentElement.classList.add("reveal-ready");
-        document.addEventListener("DOMContentLoaded", function () {
-          if (!("IntersectionObserver" in window)) {
-            document.documentElement.classList.remove("reveal-ready");
-            return;
-          }
-          var io = new IntersectionObserver(
-            function (entries) {
-              entries.forEach(function (entry) {
-                if (entry.isIntersecting) {
-                  entry.target.classList.add("is-visible");
-                  io.unobserve(entry.target);
-                }
-              });
-            },
-            { rootMargin: "0px 0px -8% 0px", threshold: 0.08 }
-          );
-          document.querySelectorAll(".reveal").forEach(function (el) {
-            io.observe(el);
-          });
-        });
-      })();
+      try {
+        const stored = localStorage.getItem("theme");
+        if (stored === "light" || stored === "dark") {
+          document.documentElement.dataset.theme = stored;
+        }
+      } catch {}
     </script>
   </head>
   <body class="bg-canvas text-ink antialiased">
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <Navbar />
-    <slot />
+    <main id="main-content" tabindex="-1">
+      <slot />
+    </main>
     <Footer />
   </body>
 </html>

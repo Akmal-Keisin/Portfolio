@@ -12,7 +12,9 @@ import node from "@astrojs/node";
 export default defineConfig({
   output: "server",
   site: "https://akmalkeisin.com",
-  integrations: [mdx(), sitemap()],
+  integrations: [mdx(), sitemap({
+    serialize: (item) => ({ ...item, url: item.url.replace(/([^/])\/$/, "$1") }),
+  })],
 
   vite: {
     plugins: [tailwindcss()],

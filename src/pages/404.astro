@@ -2,25 +2,24 @@
 import Layout from "../layouts/Layout.astro";
 import SectionContainer from "../components/layout/SectionContainer.astro";
 import Button from "../components/ui/Button.astro";
+Astro.response.status = 404;
 ---
 
-<Layout title="Page not found | Akmal Keisin">
-  <main>
-    <SectionContainer class="flex min-h-[55vh] flex-col justify-center">
-      <p class="font-mono text-xs uppercase tracking-[0.18em] text-ink-soft">Error 404</p>
-      <h1
-        class="mt-4 font-display text-4xl font-semibold tracking-tight text-ink sm:text-5xl"
-      >
-        This page doesn't exist.
-      </h1>
-      <p class="mt-4 max-w-md text-base leading-relaxed text-ink-soft">
-        The link may be broken, or the page may have moved. Head back home, or
-        browse the writing.
-      </p>
-      <div class="mt-8 flex flex-wrap gap-3">
-        <Button href="/">Back home</Button>
-        <Button href="/article" variant="secondary">Read the writing</Button>
-      </div>
-    </SectionContainer>
-  </main>
+<Layout title="Page not found | Akmal Keisin" noindex>
+  <SectionContainer class="flex min-h-[55vh] flex-col justify-center">
+    <p class="font-mono text-xs uppercase tracking-[0.18em] text-ink-soft">Error 404</p>
+    <h1
+      class="mt-4 font-display text-4xl font-semibold tracking-tight text-ink sm:text-5xl"
+    >
+      This page doesn't exist.
+    </h1>
+    <p class="mt-4 max-w-md text-base leading-relaxed text-ink-soft">
+      The link may be broken, or the page may have moved. Head back home, or
+      browse the writing.
+    </p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <Button href="/">Back home</Button>
+      <Button href="/article" variant="secondary">Read the writing</Button>
+    </div>
+  </SectionContainer>
 </Layout>
