@@ -1,17 +1,14 @@
 ---
-import type { Project } from "@lib/api";
-
 interface Props {
-  projects: Project[];
-  total: number;
+  total?: number;
 }
 
-const { total = 0 } = Astro.props;
+const { total } = Astro.props;
 ---
 
 <section
   id="top"
-  class="scroll-mt-20 border-b border-ink/10 bg-canvas"
+  class="masthead scroll-mt-20 border-b border-ink/10 bg-canvas"
   aria-label="Selected work"
 >
   <div class="mx-auto max-w-6xl px-6 pb-12 pt-16 sm:px-8 sm:pb-16 sm:pt-20">
@@ -24,7 +21,7 @@ const { total = 0 } = Astro.props;
     </h1>
 
     <p class="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">
-      Products, tools, and systems I've built professionally and on my own time. {total} projects listed.
+      Products, tools, and systems I've built professionally and on my own time. {total !== undefined && `${total} projects listed.`}
     </p>
   </div>
 </section>

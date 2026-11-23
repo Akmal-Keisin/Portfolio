@@ -1,18 +1,10 @@
 # Design System
 
-The site uses an editorial layout with warm paper, copper actions drawn from
-the original monogram, and hairline rules. The homepage opens with a split
-introduction and brand image, then leads into work and writing. Archive pages
-use a compact introduction and a grid or list, while detail pages give the
-content the heading hierarchy and space it needs.
-
-Display headings pair Georgia with the existing Geist body text. IBM Plex Mono
-is reserved for small labels and dates. Interaction uses short color transitions
-and native controls. The OS theme is the default and visitors can pin light or
-dark mode.
-
-How this portfolio is built and why. Keep this file in sync when you change
-tokens, type, or component patterns.
+The portfolio pairs Geist headings with IBM Plex Mono labels and a graphite,
+paper and lime palette. The homepage leads with an interactive three-layer
+diagram of Akmal’s stack. A technology strip leads into selected work.
+Project and article archives, detail pages and the contact form share the same
+type, color and navigation system.
 
 ## Stack
 
@@ -31,7 +23,7 @@ Self-hosted through Fontsource. No Google Fonts `<link>`.
 
 | Role | Family | Notes |
 | --- | --- | --- |
-| Display | Georgia | Headings only (`font-display`) |
+| Display | Geist Variable | Headings only (`font-display`) |
 | Body | Geist Variable | Default body (`font-body`) |
 | Mono | IBM Plex Mono | Labels, meta, dates, numbers (`font-mono`) |
 
@@ -54,8 +46,8 @@ Rules:
 
 Two roles, strictly separated.
 
-**Action color.** `--color-accent` (copper). Every button, link emphasis,
-and the global focus ring use it. It does not change from section to section.
+**Action colors.** Forest green emphasizes links on light surfaces. Lime emphasizes
+links on dark surfaces and fills primary navigation actions in both themes.
 
 **Content keys.** Four hue families label content types. They appear only where
 they identify real content (badges, timeline markers, card edges, category
@@ -65,7 +57,7 @@ pills). They are never used as competing button colors.
 | --- | --- | --- |
 | Amber | Education | `edu-tint` / `edu` / `edu-deep` |
 | Green | Experience | `exp-tint` / `exp` / `exp-deep` |
-| Iris | Portfolio | `folio-tint` / `folio` / `folio-deep` |
+| Leaf | Portfolio | `folio-tint` / `folio` / `folio-deep` |
 | Clay | Articles | `article-tint` / `article` / `article-deep` |
 
 Surfaces: `base` (page), `surface` (alternating bands / cards), `ink` (text,
@@ -73,7 +65,7 @@ and the dark CTA band), `ink-soft` (secondary text).
 
 **One page, one theme.** All tokens flip together under
 `prefers-color-scheme: dark` in `global.css`. No section inverts on its own.
-Do not use pure black or pure white.
+The stack explorer has its own dark instrument panel in both themes.
 
 ## Shape and spacing
 
@@ -81,7 +73,7 @@ One radius scale, applied consistently:
 
 - Cards, panels, media: `rounded-2xl` (smaller inline cards `rounded-xl`)
 - Inputs, skeleton blocks: `rounded-lg`
-- Buttons, pills, badges: `rounded-full`
+- Buttons and content badges: small radii. Filter chips: `rounded-full`
 
 Repeated but non-decorative: status and timeline dots exist only where they
 carry real state (availability, content type). No dots for decoration.
@@ -89,7 +81,7 @@ carry real state (availability, content type). No dots for decoration.
 ## Layout
 
 - Page width: `mx-auto max-w-6xl px-6 sm:px-8`.
-- Sections: `scroll-mt-20 py-20 sm:py-28` via `SectionContainer`.
+- Sections: `scroll-mt-20 py-14 sm:py-20` via `SectionContainer`.
 - Hero top padding is capped at `pt-20` so the hero sits in the first viewport.
 - Full-height areas use `min-h-[100dvh]`, never `h-screen`.
 - Breakpoints, spacing, and columns come from Tailwind defaults.
@@ -114,7 +106,7 @@ section; use a kicker only where it adds meaning.
 | `cards/PortfolioCard.astro` | Project card (real thumbnail when available) |
 | `cards/ArticleCard.astro` | Article card |
 
-`Button` variants: `primary` (accent + hard ink shadow), `secondary`
+`Button` variants: `primary` (lime surface with dark text), `secondary`
 (bordered), `ghost` (text link), `inverted` (for use on the `ink` band).
 
 ## Imagery
@@ -126,14 +118,14 @@ placeholders, no hand-rolled decorative SVGs.
 - When a thumbnail is missing, cards degrade to a plain `bg-surface` panel with
   a tech label. They never fake a screenshot.
 - Icons come from `ui/Icon.astro`. Do not add hand-drawn SVG paths inline.
-- The homepage hero uses the existing personal monogram as its visual anchor.
-  On smaller screens it sits beside location and availability.
+- The interactive stack diagram is drawn with CSS. Its three buttons select
+  frontend, backend and database tools. The original monogram appears in the
+  footer and in social previews.
 
 ## Motion
 
-Restrained. Motion is opt-in and honest.
-
-- Motion is limited to short interaction transitions. Reduced-motion settings disable them.
+Changing the selected layer highlights and lifts the corresponding board.
+The system reduced-motion setting makes these changes immediate.
 
 ## Accessibility
 

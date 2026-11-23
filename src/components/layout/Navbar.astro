@@ -1,10 +1,10 @@
 ---
 import { profile } from "../../data/profile";
-import { Image } from "astro:assets";
-import PersonalLogo from "@assets/logos/personal-logo.webp";
+import Icon from "../ui/Icon.astro";
 import ThemeToggle from "../ui/ThemeToggle.astro";
 
 const links = [
+  { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/skills", label: "Skills" },
   { href: "/project", label: "Projects" },
@@ -17,15 +17,14 @@ const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
 ---
 
 <header class="sticky top-0 z-50 border-b border-ink/10 bg-canvas/95 backdrop-blur">
-  <nav aria-label="Main navigation" class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4 sm:px-8">
+  <nav aria-label="Main navigation" class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-3 sm:px-8">
     <a
       href="/"
-      class="flex items-center gap-2.5 font-display text-xl tracking-tight text-ink"
+      aria-label={`${profile.name}, home`}
+      class="flex items-center gap-2.5 font-display text-lg font-bold tracking-tight"
     >
-      <span class="h-9 w-9 overflow-hidden rounded-full" aria-hidden="true">
-        <Image src={PersonalLogo} width={36} height={36} alt="" />
-      </span>
-      {profile.name}
+      <span class="flex size-9 items-center justify-center rounded-[.3rem] bg-signal font-mono text-lg font-bold text-[#19230d]" aria-hidden="true">&gt;_</span>
+      <span>akmal<span class="text-accent">.</span>keisin</span>
     </a>
 
     <ul class="hidden items-center gap-6 text-sm lg:flex xl:gap-7">
@@ -37,7 +36,7 @@ const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
               aria-current={isActive(link.href) ? "page" : undefined}
               class:list={[
                 "inline-flex min-h-11 items-center transition-colors hover:text-accent",
-                isActive(link.href) ? "text-accent underline underline-offset-8" : "text-ink-soft",
+                isActive(link.href) ? "text-ink font-semibold underline decoration-accent decoration-2 underline-offset-8" : "text-ink-soft",
               ]}
             >
               {link.label}
@@ -49,11 +48,12 @@ const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
 
     <div class="flex items-center gap-2">
       <ThemeToggle />
+      <a href={profile.socials[0].href} aria-label="Akmal on GitHub" class="hidden size-11 items-center justify-center rounded-md border border-ink/15 text-ink-soft hover:text-accent lg:flex"><Icon name="github" class="size-4" /></a>
 
       <button
         id="menu-toggle"
         type="button"
-        class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-ink/15 lg:hidden"
+        class="inline-flex h-11 w-11 items-center justify-center rounded-md border border-ink/15 lg:hidden"
         aria-expanded="false"
         aria-controls="mobile-menu"
         aria-label="Toggle navigation menu"
@@ -75,7 +75,7 @@ const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
               aria-current={isActive(link.href) ? "page" : undefined}
               class:list={[
                 "mobile-link block rounded-lg px-3 py-2.5 hover:bg-surface hover:text-ink",
-                isActive(link.href) ? "text-accent underline underline-offset-8" : "text-ink-soft",
+                isActive(link.href) ? "text-ink font-semibold underline decoration-accent decoration-2 underline-offset-8" : "text-ink-soft",
               ]}
             >
               {link.label}
@@ -126,7 +126,7 @@ const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
       el.setAttribute("aria-pressed", String(dark));
     });
     const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute("content", dark ? "#1c1815" : "#fcf8f1");
+    if (meta) meta.setAttribute("content", dark ? "#10130f" : "#f8f9f4");
   };
 
   toggles.forEach((el) => {

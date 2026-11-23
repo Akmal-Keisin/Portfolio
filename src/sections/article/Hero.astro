@@ -1,14 +1,13 @@
 ---
 interface Props {
-  total: number;
-  totalPages: number;
-  categoriesCount: number;
+  total?: number;
+  categoriesCount?: number;
 }
 
 const { total, categoriesCount } = Astro.props;
 ---
 
-<section id="article" class="scroll-mt-20 border-b border-ink/10 bg-canvas">
+<section id="article" class="masthead scroll-mt-20 border-b border-ink/10 bg-canvas">
   <div class="mx-auto max-w-6xl px-6 pb-12 pt-16 sm:px-8 sm:pb-16 sm:pt-20">
     <p class="font-mono text-sm uppercase tracking-[0.3em] text-ink-soft">Writing</p>
 
@@ -22,8 +21,8 @@ const { total, categoriesCount } = Astro.props;
       Notes and deep dives on backend engineering, databases, and the web stack.
     </p>
 
-    <p class="mt-4 font-mono text-xs uppercase tracking-widest text-ink-soft">
-      {total} articles across {categoriesCount} categories
-    </p>
+    {total !== undefined && <p class="mt-4 font-mono text-xs uppercase tracking-widest text-ink-soft">
+      {total} articles{categoriesCount !== undefined && ` across ${categoriesCount} categories`}
+    </p>}
   </div>
 </section>

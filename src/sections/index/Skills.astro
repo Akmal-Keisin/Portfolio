@@ -1,86 +1,25 @@
 ---
+import Laravel from "@assets/logos/laravel-logo.svg";
+import Vue from "@assets/logos/vue-js-logo.svg";
+import Go from "@assets/logos/go-logo.svg";
+import PostgreSQL from "@assets/logos/postgresql-logo.svg";
 import AstroLogo from "@assets/logos/astro-logo-light-gradient.svg";
-import PHPLogo from "@assets/logos/php-logo.svg";
-import GoLogo from "@assets/logos/go-logo.svg";
-import GoFiberLogo from "@assets/logos/go-fiber-logo.svg";
-import JavascriptLogo from "@assets/logos/javascript-logo.svg";
-import VueJSLogo from "@assets/logos/vue-js-logo.svg";
-import LaravelLogo from "@assets/logos/laravel-logo.svg";
-import PostgreSQLLogo from "@assets/logos/postgresql-logo.svg";
-import MySQLLogo from "@assets/logos/mysql-logo.svg";
+import PHP from "@assets/logos/php-logo.svg";
 import { Image } from "astro:assets";
-import SectionContainer from "@components/layout/SectionContainer.astro";
-import SectionHeading from "@components/layout/SectionHeading.astro";
+import Icon from "@components/ui/Icon.astro";
 
-const frameworks = [
-  { label: "Laravel", logo: LaravelLogo },
-  { label: "Go Fiber", logo: GoFiberLogo },
-  { label: "Vue.js", logo: VueJSLogo },
-  { label: "Astro", logo: AstroLogo },
-];
-
-const languages = [
-  { label: "PHP", logo: PHPLogo },
-  { label: "Go", logo: GoLogo },
-  { label: "JavaScript", logo: JavascriptLogo },
-];
-
-const databases = [
-  { label: "PostgreSQL", logo: PostgreSQLLogo },
-  { label: "MySQL", logo: MySQLLogo },
-];
-
-const groups = [
-  { label: "Languages", items: languages },
-  { label: "Databases", items: databases },
+const tools = [
+  { name: "Laravel", logo: Laravel }, { name: "Vue.js", logo: Vue },
+  { name: "Go", logo: Go }, { name: "PostgreSQL", logo: PostgreSQL },
+  { name: "Astro", logo: AstroLogo }, { name: "PHP", logo: PHP },
 ];
 ---
 
-<SectionContainer id="skills" bg="base">
-  <SectionHeading
-    title="Skills"
-    description="The tools I reach for in production, not just the ones I have tried once."
-  />
-
-  <div class="mt-12 grid gap-6 md:grid-cols-2">
-    <div class="rounded-2xl border border-ink/10 bg-surface p-7 md:col-span-2">
-      <h3 class="font-display text-lg font-semibold text-ink">Frameworks</h3>
-      <div class="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
-        {
-          frameworks.map((item) => (
-            <div class="flex flex-col items-center gap-3 rounded-xl border border-ink/10 bg-canvas px-4 py-5">
-              <Image
-                src={item.logo}
-                alt={item.label}
-                class="h-9 w-auto object-contain"
-              />
-              <span class="font-mono text-xs text-ink-soft">{item.label}</span>
-            </div>
-          ))
-        }
-      </div>
-    </div>
-
-    {
-      groups.map((group) => (
-        <div class="rounded-2xl border border-ink/10 bg-surface p-7">
-          <h3 class="font-display text-lg font-semibold text-ink">
-            {group.label}
-          </h3>
-          <div class="mt-5 flex flex-wrap gap-3">
-            {group.items.map((item) => (
-              <div class="flex items-center gap-3 rounded-xl border border-ink/10 bg-canvas px-4 py-3">
-                <Image
-                  src={item.logo}
-                  alt={item.label}
-                  class="h-7 w-auto object-contain"
-                />
-                <span class="font-mono text-xs text-ink-soft">{item.label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      ))
-    }
+<section id="skills" aria-label="Technology stack" class="border-b border-ink/15 bg-surface">
+  <div class="mx-auto flex max-w-6xl flex-wrap items-center gap-x-8 gap-y-4 px-6 py-5 sm:px-8 lg:justify-between">
+    <a href="/skills" class="inline-flex min-h-11 items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-ink-soft hover:text-accent">My stack <Icon name="arrow-up-right" class="size-3.5" /></a>
+    <ul class="flex flex-1 flex-wrap items-center gap-x-6 gap-y-4 sm:justify-between lg:border-l lg:border-ink/15 lg:pl-10">
+      {tools.map((tool) => <li class="flex items-center gap-2 text-sm font-semibold tracking-tight text-ink-soft"><Image src={tool.logo} alt="" class:list={["size-6 object-contain", tool.name === "Astro" && "rounded-sm bg-[#252c23] p-0.5"]} />{tool.name}</li>)}
+    </ul>
   </div>
-</SectionContainer>
+</section>

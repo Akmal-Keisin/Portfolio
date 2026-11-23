@@ -1,0 +1,151 @@
+---
+const layers = [
+  { name: "Frontend", tools: "Vue · TypeScript · Astro", mark: "</>", label: "UI" },
+  { name: "Backend", tools: "PHP · Laravel · Go", mark: "{ }", label: "API" },
+  { name: "Database", tools: "MySQL · PostgreSQL", mark: "DB", label: "SQL" },
+];
+---
+
+<figure class="explorer" aria-label="Interactive diagram of my technology stack" data-layer="0">
+  <div class="chrome">
+    <span class="flex items-center gap-2.5"><span class="window-icon" aria-hidden="true"></span>stack.explorer</span>
+    <span class="text-[.64rem] text-[#aebba7]">{layers.length} layers</span>
+  </div>
+  <div class="viewport" aria-hidden="true">
+    <div class="axis"></div>
+    {layers.map((layer, index) => (
+      <div class="slice" style={`--layer: ${index}`} data-board={index}>
+        <div class="board">
+          <span class="tracks horizontal"></span><span class="tracks vertical"></span>
+          <span class="die">{layer.mark}</span>
+          <span class="contacts"></span>
+          <b class="via a"></b><b class="via b"></b><b class="via c"></b><b class="via d"></b>
+        </div>
+      </div>
+    ))}
+    {layers.map((layer, index) => <span class="layer-label" style={`--layer: ${index}`}>{layer.label}</span>)}
+  </div>
+  <figcaption>
+    <div class="layer-options" role="group" aria-label="Explore stack layers">
+      {layers.map((layer, index) => (
+        <button type="button" aria-pressed={index === 0 ? "true" : "false"} data-select={index} data-tools={layer.tools}>
+          {layer.name}
+        </button>
+      ))}
+    </div>
+    <output class="layer-tools">{layers[0].tools}</output>
+  </figcaption>
+</figure>
+
+<script>
+  document.querySelectorAll<HTMLElement>(".explorer").forEach((explorer) => {
+    const controls = explorer.querySelectorAll<HTMLButtonElement>("[data-select]");
+    const output = explorer.querySelector("output");
+    controls.forEach((button) => button.addEventListener("click", () => {
+      explorer.dataset.layer = button.dataset.select;
+      controls.forEach((control) => control.setAttribute("aria-pressed", String(control === button)));
+      if (output) output.textContent = button.dataset.tools ?? "";
+    }));
+  });
+</script>
+
+<style>
+  .explorer {
+    --lit: #b9ec73;
+    color: #d8dfd3;
+    background: #191e19;
+    border: 1px solid #3b443a;
+    border-radius: .65rem;
+    overflow: hidden;
+    position: relative;
+    font-family: var(--font-mono);
+    box-shadow: 0 14px 36px -24px rgb(12 24 8 / .55);
+  }
+  .chrome, figcaption {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+    padding: 0 1.15rem;
+  }
+  .chrome { height: 2.55rem; border-bottom: 1px solid #394236; font-size: .72rem; }
+  .window-icon { width: 14px; height: 11px; border: 1px solid #9dab93; border-radius: 2px; background: linear-gradient(to bottom, transparent 2px, #9dab93 2px 3px, transparent 3px); }
+  .viewport {
+    container-type: inline-size;
+    height: auto;
+    aspect-ratio: 1.62;
+    overflow: hidden;
+    position: relative;
+    isolation: isolate;
+    background-color: #151a15;
+    background-image: radial-gradient(ellipse at 50% 50%, #7ba45018, transparent 69%), radial-gradient(#76856b51 .8px, transparent 1px);
+    background-size: auto, 14px 14px;
+  }
+  .axis {
+    position: absolute; inset: 50% 6% auto; height: 1px;
+    background: repeating-linear-gradient(90deg,#9dab9042 0 4px,transparent 4px 9px);
+  }
+  .axis::after { content: ""; position: absolute; width: 62%; left: 19%; transform: rotate(90deg); height: 1px; background: inherit; }
+  .layer-label {
+    position: absolute; left: 76%; top: calc(29% + var(--layer) * 18%);
+    display: flex; align-items: center; gap: .35rem; transform: translateY(-50%);
+    font-size: clamp(.55rem, 2cqw, .65rem); letter-spacing: .07em; color: #adbea4;
+  }
+  .layer-label::before { content: ""; width: 4cqw; border-top: 1px solid #7c8e70; }
+  .slice {
+    --edge: #9cae84; --face: #384335; --side: #293425; --trace: #869977;
+    position: absolute;
+    z-index: calc(3 - var(--layer));
+    width: 37%; aspect-ratio: 1;
+    left: 50%; top: calc(31% + var(--layer) * 18%);
+    transform: translate(-50%, -50%);
+    transition: top .38s ease, filter .38s ease;
+  }
+  .slice[data-board="2"] { --face: #2b352a; --edge: #789069; }
+  [data-layer="0"] [data-board="0"],
+  [data-layer="1"] [data-board="1"],
+  [data-layer="2"] [data-board="2"] {
+    --edge: #c9f99c; --face: #91bd60; --side: #557a39; --trace: #364e29;
+    top: calc(29% + var(--layer) * 18%);
+    filter: drop-shadow(0 0 8px #b7ef7225);
+  }
+  .board {
+    width: 100%; height: 100%; position: relative;
+    transform: scaleY(.54) rotate(-45deg);
+    border-radius: 7%; border: 2px solid var(--edge);
+    background: linear-gradient(125deg, #ffffff12,transparent 40%,#101b131e),var(--face);
+    box-shadow: -2px 2px var(--side), -4px 4px var(--side), -6px 6px var(--edge), -7px 7px #121910, -12px 12px 8px #060c0759;
+  }
+  .board::before {
+    content: ""; position: absolute; inset: 6%; border: 1px solid var(--trace); opacity: .8; border-radius: 5%;
+    background-image: radial-gradient(var(--trace) 1px,transparent 1.1px); background-size: 7px 7px;
+  }
+  .tracks { position: absolute; inset: 29% 8%; border-block: 1px solid var(--trace);
+    background: repeating-linear-gradient(0deg,transparent 0 4%,var(--trace) 4% 5.5%,transparent 5.5% 10%);
+    clip-path: polygon(0 0,20% 0,29% 20%,71% 20%,80% 0,100% 0,100% 100%,80% 100%,70% 80%,30% 80%,20% 100%,0 100%);
+  }
+  .vertical { transform: rotate(90deg); }
+  .die {
+    position: absolute; inset: 30%; display: grid; place-items: center;
+    border: 2px solid var(--edge); border-radius: 9%; color: var(--edge);
+    background: #243021; font: 600 5cqw/1 var(--font-mono);
+    box-shadow: 0 0 0 3px #34462b, 0 0 0 5px var(--trace), -5px 7px 0 3px #263023;
+    transform: translate(2px,-2px);
+  }
+  .contacts { position: absolute; bottom: 1%; left: 27%; width: 46%; height: 3%; background: repeating-linear-gradient(90deg,var(--edge) 0 2px,transparent 2px 6px); }
+  .via { position: absolute; width: 4%; height: 4%; background: #283223; border-radius: 50%; border: 1px solid var(--edge); box-shadow: 0 0 0 1px var(--trace); }
+  .a,.b { top: 9%; } .c,.d { bottom: 9%; } .a,.c { left: 9%; } .b,.d { right: 9%; }
+  figcaption { justify-content: flex-start; align-items: flex-start; flex-direction: column; gap: .15rem; padding-block: .5rem .85rem; border-top: 1px solid #394236; }
+  .layer-options { display: flex; gap: 1rem; }
+  .layer-options button { min-height: 2.35rem; cursor: pointer; font-size: .72rem; color: #b8c3b2; }
+  .layer-options button::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: .4rem; border: 1px solid currentColor; }
+  .layer-options button[aria-pressed="true"] { color: var(--lit); }
+  .layer-options button[aria-pressed="true"]::before { background: currentColor; }
+  .layer-options button:hover { color: white; }
+  .layer-options button:focus-visible { outline-color: var(--lit); }
+  .layer-tools { color: #aebba7; font-size: .68rem; }
+  @media (prefers-reduced-motion: no-preference) {
+    .viewport { animation: power-on .5s ease-out both; }
+    @keyframes power-on { from { opacity: .3; } to { opacity: 1; } }
+  }
+</style>

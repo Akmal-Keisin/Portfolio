@@ -18,11 +18,11 @@ const {
 } = Astro.props;
 
 const base =
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap min-h-11 rounded-md px-5 py-3 text-sm font-semibold transition-colors duration-200";
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap min-h-11 rounded-[0.3rem] px-5 py-3 text-sm font-semibold transition-colors duration-200";
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    "bg-accent text-on-accent hover:bg-accent-hover",
+    "bg-signal text-[#18220c] hover:bg-[#c9fc7e]",
   secondary:
     "border border-ink/25 bg-transparent text-ink hover:border-ink hover:bg-ink hover:text-canvas",
   ghost: "bg-transparent px-0 text-accent underline decoration-accent/40 underline-offset-4 hover:decoration-accent",

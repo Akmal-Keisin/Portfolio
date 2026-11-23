@@ -11,6 +11,7 @@ const requestedPage = Number(Astro.url.searchParams.get("page") ?? 1);
 const page = Number.isSafeInteger(requestedPage) && requestedPage > 0 ? requestedPage : 1;
 
 let projects: Project[] = [];
+let unavailable = false;
 let meta: PaginatedResource<Project>["meta"] = {
   current_page: 1,
   last_page: 1,
@@ -35,15 +36,25 @@ try {
     links = response.links;
   }
 } catch (error) {
+  unavailable = true;
   console.error("Failed to fetch projects:", error);
 }
 ---
 
 <Layout page={page} title="Projects | Akmal Keisin" description="Explore web software projects by Akmal Keisin, including the technologies used and links to live projects and source code where available.">
-  <Hero projects={projects} total={meta.total} />
-  <Toolbar projects={projects} />
-  <ProjectGrid projects={projects} />
-  <Pagination meta={meta} links={links} />
+  <Hero total={unavailable ? undefined : meta.total} />
+  {unavailable ? (
+    <div class="mx-auto max-w-6xl px-6 py-16 sm:px-8">
+      <p class="text-ink-soft">The project archive is temporarily unavailable.</p>
+      <a class="mt-4 inline-block text-accent underline underline-offset-4" href="/about#experience">Explore my professional work</a>
+    </div>
+  ) : (
+    <>
+      <Toolbar projects={projects} />
+      <ProjectGrid projects={projects} />
+      <Pagination meta={meta} links={links} />
+    </>
+  )}
 </Layout>
 
 <script>

@@ -16,6 +16,7 @@ import { experience } from "../../data/experience";
       {
         experience.map((item, index) => (
           <TimelineItem
+            id={item.slug}
             variant="exp"
             title={item.role}
             subtitle={item.company}

@@ -1,62 +1,32 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-/*
-  Design tokens.
-
-  Every color below is declared once with light-dark(): the first value is the
-  light theme, the second is dark. Which branch applies is decided by the
-  document's color-scheme, set at the bottom of this file. That means:
-    - default (no explicit choice) follows the visitor's OS setting
-    - picking a theme in the header pins color-scheme to light or dark
-  No token is duplicated across two blocks, so the two themes cannot drift.
-
-  Color roles:
-    --color-accent  one action color for every button and the focus ring.
-    amber / green / iris / clay are content keys (Education, Experience,
-    Portfolio, Articles) used only on badges, timeline markers and card edges.
-    --color-band is the deliberate dark band (footer, CTA sections) and stays
-    dark in both themes.
-*/
 @theme {
-  --font-display: Georgia, "Times New Roman", serif;
   --font-body: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
-
-  /* Surfaces and text */
-  --color-canvas: light-dark(#fcf8f1, #1c1815);
-  --color-surface: light-dark(#f2e9dd, #27201b);
-  --color-ink: light-dark(#261d18, #f5eadc);
-  --color-ink-soft: light-dark(#67594f, #c4b3a5);
-
-  /* Deliberate dark band (footer, CTA) and the text that sits on it */
-  --color-band: light-dark(#2e211b, #241b16);
-  --color-band-ink: light-dark(#fafaf8, #f3f0e8);
-
-  /* Action accent (copper) and text placed on it */
-  --color-accent: light-dark(#9b3c1d, #f2a27f);
-  --color-accent-hover: light-dark(#783019, #ffc0a3);
-  --color-on-accent: light-dark(#fff8f0, #261810);
-
-  /* Education - amber */
-  --color-edu-tint: light-dark(#faeeda, #2b2113);
-  --color-edu: light-dark(#ef9f27, #ef9f27);
-  --color-edu-deep: light-dark(#9a5c00, #f0b968);
-
-  /* Experience - green */
-  --color-exp-tint: light-dark(#e1f5ee, #0f241c);
-  --color-exp: light-dark(#1d9e75, #1d9e75);
-  --color-exp-deep: light-dark(#085041, #4fc79a);
-
-  /* Portfolio - iris */
-  --color-folio-tint: light-dark(#eeedfe, #1e1b33);
-  --color-folio: light-dark(#857dff, #857dff);
-  --color-folio-deep: light-dark(#5d58ad, #b3adff);
-
-  /* Articles - clay */
-  --color-article-tint: light-dark(#faece7, #2b1a12);
-  --color-article: light-dark(#d85a30, #d85a30);
-  --color-article-deep: light-dark(#712b13, #f0a184);
+  --font-display: var(--font-body);
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --color-canvas: light-dark(#f8f9f4, #10130f);
+  --color-surface: light-dark(#eef1e8, #191d17);
+  --color-ink: light-dark(#191e18, #f2f5eb);
+  --color-ink-soft: light-dark(#515c50, #b3bdac);
+  --color-band: #171c16;
+  --color-band-ink: #f0f4e9;
+  --color-accent: light-dark(#41650d, #b8ed65);
+  --color-accent-hover: light-dark(#314d08, #ceff85);
+  --color-on-accent: light-dark(#ffffff, #19220d);
+  --color-signal: #b9ed6a;
+  --color-edu-tint: light-dark(#f7eed1, #342c16);
+  --color-edu: #bd8e23;
+  --color-edu-deep: light-dark(#715000, #f0c96e);
+  --color-exp-tint: light-dark(#e4efda, #23321c);
+  --color-exp: light-dark(#487331, #9bcb80);
+  --color-exp-deep: light-dark(#3a6222, #b0d99a);
+  --color-folio-tint: light-dark(#e4eed9, #29341f);
+  --color-folio: light-dark(#628442, #a0ce76);
+  --color-folio-deep: light-dark(#436526, #b8dd91);
+  --color-article-tint: light-dark(#efe7dd, #352b21);
+  --color-article: #bc895b;
+  --color-article-deep: light-dark(#7f4e25, #e5b98d);
 }
 
 /* Default: follow the OS. A stored choice pins one theme via [data-theme]. */
@@ -158,4 +128,44 @@ main {
   background-repeat: no-repeat;
   background-position: 0 92%;
   background-size: 100% 0.4em;
+}
+
+::selection {
+  background: var(--color-signal);
+  color: #182112;
+}
+
+.masthead {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.masthead::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background-image: radial-gradient(color-mix(in srgb, var(--color-ink) 20%, transparent) 1px, transparent 1px);
+  background-size: 16px 16px;
+  mask-image: linear-gradient(110deg, transparent 28%, #000 130%);
+}
+.masthead h1 {
+  letter-spacing: -.065em;
+}
+.masthead p:first-child {
+  color: var(--color-accent);
+  font-size: .75rem;
+  letter-spacing: .14em;
+}
+
+.prose {
+  --tw-prose-body: var(--color-ink-soft);
+  --tw-prose-headings: var(--color-ink);
+  --tw-prose-bold: var(--color-ink);
+  --tw-prose-counters: var(--color-ink-soft);
+  --tw-prose-bullets: var(--color-accent);
+  --tw-prose-quotes: var(--color-ink);
+  --tw-prose-code: var(--color-ink);
+  --tw-prose-th-borders: color-mix(in srgb, var(--color-ink) 30%, transparent);
+  --tw-prose-td-borders: color-mix(in srgb, var(--color-ink) 15%, transparent);
 }

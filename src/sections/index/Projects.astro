@@ -5,6 +5,13 @@ import SectionContainer from "@components/layout/SectionContainer.astro";
 import SectionHeading from "@components/layout/SectionHeading.astro";
 import PortfolioCard from "@components/cards/PortfolioCard.astro";
 import Button from "@components/ui/Button.astro";
+import Icon from "@components/ui/Icon.astro";
+import { experience } from "@data/experience";
+
+const highlights = [
+  { role: experience.find((entry) => entry.slug === "reprime-web-developer")!, title: "Core product development", summary: "Building the next version of Reprime ID’s core product, with a focus on backend architecture and performance." },
+  { role: experience.find((entry) => entry.slug === "crocodic-web-developer")!, title: "Factory HR software", summary: "Payroll logic and shift scheduling for a factory HR system used by thousands of people each day." },
+];
 
 let projects: Project[] = [];
 try {
@@ -15,13 +22,13 @@ try {
 }
 ---
 
-<SectionContainer id="portfolio" bg="surface">
+<SectionContainer id="portfolio" bg="base">
   <div class="flex flex-wrap items-end justify-between gap-6">
     <SectionHeading
-      title="Selected projects"
-      description="A few things I have designed, built, and kept running."
+      title="Selected work"
+      description={projects.length ? "Web applications and tools I’ve built and maintained." : "Highlights from my work as a developer at Reprime ID and Crocodic."}
     />
-    <Button href="/project" variant="ghost">All projects</Button>
+    <Button href="/project" variant="ghost">All projects <Icon name="arrow-up-right" class="size-4" /></Button>
   </div>
 
   {
@@ -30,10 +37,24 @@ try {
         {projects.slice(0, 2).map((project) => <PortfolioCard project={project} />)}
       </div>
     ) : (
-      <p class="mt-12 max-w-2xl rounded-2xl border border-dashed border-ink/15 bg-canvas p-10 text-sm leading-relaxed text-ink-soft">
-        No projects are published yet. They will appear here as soon as they are
-        ready.
-      </p>
+      <div class="mt-9 grid gap-5 sm:grid-cols-2">
+        {highlights.map(({ role, title, summary }) => (
+          <article class="work-note group flex flex-col rounded-lg border border-ink/15 bg-surface p-6 sm:p-8">
+            <div class="flex flex-wrap items-center justify-between gap-2 font-mono text-xs text-ink-soft">
+              <span class="font-medium text-accent">{role.company}</span>
+              <span>{role.period}</span>
+            </div>
+            <h3 class="mt-6 text-2xl font-semibold tracking-tight">{title}</h3>
+            <p class="mt-3 max-w-[43ch] flex-1 text-sm leading-relaxed text-ink-soft">{summary}</p>
+            <div class="mt-6 flex items-center justify-between gap-4 border-t border-ink/15 pt-3">
+              <span class="font-mono text-xs text-ink-soft">{role.tags.slice(0, 3).join(" / ")}</span>
+              <a href={`/about#${role.slug}`} aria-label={`Read about the role at ${role.company}`} class="flex size-11 items-center justify-center rounded-md border border-ink/15 hover:bg-ink hover:text-canvas">
+                <Icon name="arrow-up-right" class="size-4" />
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
     )
   }
 </SectionContainer>

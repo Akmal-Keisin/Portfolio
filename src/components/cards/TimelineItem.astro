@@ -3,6 +3,7 @@ import Badge from "../ui/Badge.astro";
 import type { BadgeVariant } from "../ui/Badge.astro";
 
 interface Props {
+  id?: string;
   variant: Extract<BadgeVariant, "edu" | "exp">;
   title: string;
   subtitle: string;
@@ -15,6 +16,7 @@ interface Props {
 }
 
 const {
+  id,
   variant,
   title,
   subtitle,
@@ -30,7 +32,7 @@ const dotClass = variant === "edu" ? "bg-edu" : "bg-exp";
 const lineClass = variant === "edu" ? "bg-edu-tint" : "bg-exp-tint";
 ---
 
-<div class="relative flex gap-6 pb-10 last:pb-0">
+<div id={id} class="relative flex scroll-mt-24 gap-6 pb-10 last:pb-0">
   <div class="flex flex-col items-center">
     <span class:list={["mt-1.5 h-3.5 w-3.5 shrink-0 rounded-full ring-4 ring-canvas", dotClass]}></span>
     {!isLast && <span class:list={["mt-2 w-px flex-1", lineClass]}></span>}

@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets";
+import PersonalLogo from "@assets/logos/personal-logo.webp";
 import { profile } from "@data/profile";
 
 const year = new Date().getFullYear();
@@ -8,7 +10,7 @@ const year = new Date().getFullYear();
   <div class="mx-auto max-w-6xl px-6 pt-12 pb-6 sm:px-8">
     <div class="flex flex-wrap items-start justify-between gap-8">
       <div>
-        <a href="/" class="font-display text-3xl">{profile.name}</a>
+        <a href="/" class="inline-flex items-center gap-3 font-display text-3xl font-semibold tracking-tight"><Image src={PersonalLogo} alt="" width={36} height={36} class="rounded-md" />{profile.name}</a>
         <p class="mt-2 text-sm text-ink-soft">{profile.role} · {profile.location}</p>
       </div>
       <div>

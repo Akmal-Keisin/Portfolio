@@ -11,6 +11,7 @@ import type { Article, PaginatedResource } from "@sections/article/data";
 const requestedPage = Number(Astro.url.searchParams.get("page") ?? 1);
 const page = Number.isSafeInteger(requestedPage) && requestedPage > 0 ? requestedPage : 1;
 
+let unavailable = false;
 let articles: PaginatedResource<Article> = {
   data: [],
   meta: {
@@ -39,35 +40,41 @@ let categories: PaginatedResource<any> = {
   links: { first: "", last: "", prev: null, next: null },
 };
 
-try {
-  const [articlesRes, categoriesRes] = await Promise.all([
-    getArticles(page),
-    getCategories(),
-  ]);
-  if (articlesRes) articles = articlesRes;
-  if (categoriesRes) categories = categoriesRes;
-} catch (error) {
-  console.error("Failed to fetch articles or categories:", error);
+const [articleResult, categoryResult] = await Promise.allSettled([getArticles(page), getCategories()]);
+if (articleResult.status === "fulfilled") {
+  articles = articleResult.value;
+} else {
+  unavailable = true;
+  console.error("Failed to fetch articles:", articleResult.reason);
 }
+if (categoryResult.status === "fulfilled") categories = categoryResult.value;
 
 const featured = articles.data.length > 0 ? articles.data[0] : null;
 ---
 
 <Layout page={page} title="Articles | Akmal Keisin" description="Read Akmal Keisin’s notes on backend engineering, databases, and full-stack web development.">
   <Hero
-    total={articles.meta.total}
-    totalPages={articles.meta.last_page}
-    categoriesCount={categories.meta.total}
+    total={unavailable ? undefined : articles.meta.total}
+    categoriesCount={categoryResult.status === "fulfilled" ? categories.meta.total : undefined}
   />
-  <Toolbar
-    categories={categories.data.map((c: any) => c.name)}
-    from={articles.meta.from}
-    to={articles.meta.to}
-    total={articles.meta.total}
-  />
-  {featured && <FeaturedArticle featured={featured} />}
-  <ArticleGrid articles={articles} />
-  <Pagination articles={articles} />
+  {unavailable ? (
+    <div class="mx-auto max-w-6xl px-6 py-16 sm:px-8">
+      <p class="text-ink-soft">The article archive is temporarily unavailable.</p>
+      <a class="mt-4 inline-block text-accent underline underline-offset-4" href="/skills">Explore my technology stack</a>
+    </div>
+  ) : (
+    <>
+      <Toolbar
+        categories={categories.data.map((c: any) => c.name)}
+        from={articles.meta.from}
+        to={articles.meta.to}
+        total={articles.meta.total}
+      />
+      {featured && <FeaturedArticle featured={featured} />}
+      <ArticleGrid articles={articles} />
+      <Pagination articles={articles} />
+    </>
+  )}
 </Layout>
 
 <script>

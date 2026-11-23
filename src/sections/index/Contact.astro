@@ -13,14 +13,14 @@ import Icon from "@components/ui/Icon.astro";
     description="Open to new projects and collaborations. Tell me what you are working on and I will reply within a day or two."
   />
 
-  <div class="mt-14 grid items-start gap-10 lg:grid-cols-2">
+  <div class="mt-14 grid grid-cols-1 items-start gap-10 lg:grid-cols-2">
     <div class="space-y-6">
-      <div class="rounded-2xl border border-ink/10 bg-canvas p-8">
+      <div class="rounded-2xl border border-ink/10 bg-canvas p-5 sm:p-8">
         <h3 class="font-display text-lg font-semibold text-ink">Contact details</h3>
         <div class="mt-6 space-y-5">
           <a href={`mailto:${profile.email}`} class="group flex items-center gap-4">
             <span
-              class="flex h-11 w-11 items-center justify-center rounded-full bg-exp-tint text-exp-deep"
+              class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-exp-tint text-exp-deep"
             >
               <SocialIcon icon="mail" class="h-5 w-5" />
             </span>
@@ -28,14 +28,14 @@ import Icon from "@components/ui/Icon.astro";
               <span class="block font-mono text-xs uppercase tracking-[0.18em] text-ink-soft">
                 Email
               </span>
-              <span class="text-sm font-medium text-ink transition-colors group-hover:text-accent">
+              <span class="break-all text-sm font-medium text-ink transition-colors group-hover:text-accent">
                 {profile.email}
               </span>
             </span>
           </a>
           <div class="flex items-center gap-4">
             <span
-              class="flex h-11 w-11 items-center justify-center rounded-full bg-surface text-ink-soft"
+              class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-surface text-ink-soft"
             >
               <Icon name="map-pin" class="h-5 w-5" />
             </span>

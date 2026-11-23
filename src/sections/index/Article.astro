@@ -7,10 +7,12 @@ import SectionHeading from "@components/layout/SectionHeading.astro";
 import Button from "@components/ui/Button.astro";
 
 let articles: Article[] = [];
+let unavailable = false;
 try {
   const res = await getArticles(1);
   articles = res?.data ?? [];
 } catch (error) {
+  unavailable = true;
   console.error("Failed to fetch articles:", error);
 }
 
@@ -51,8 +53,8 @@ const latest = articles.slice(0, 4);
         ))}
       </ul>
     ) : (
-      <p class="mt-10 max-w-3xl rounded-2xl border border-dashed border-ink/15 bg-surface p-10 text-sm leading-relaxed text-ink-soft">
-        Nothing is published yet. New notes will appear here first.
+      <p class="mt-8 border-l-2 border-article bg-surface px-5 py-4 text-sm leading-relaxed text-ink-soft">
+        {unavailable ? "The article archive is temporarily unavailable." : "New notes will appear here when published."}
       </p>
     )
   }
