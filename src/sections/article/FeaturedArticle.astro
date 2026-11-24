@@ -12,7 +12,7 @@ const { featured } = Astro.props;
 
 {
   featured && (
-    <section class="mx-auto max-w-6xl px-6 pb-16 sm:px-8" data-category={featured.category.name} data-title={featured.title.toLowerCase()}>
+    <section class="mx-auto max-w-6xl px-6 pb-16 sm:px-8">
       <a
         href={`/article/${featured.slug}`}
         class="group block rounded-2xl border border-article/30 bg-article-tint/40 p-8 transition-colors hover:border-article no-underline sm:p-12"

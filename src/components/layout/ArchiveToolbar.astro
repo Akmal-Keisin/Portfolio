@@ -1,0 +1,26 @@
+---
+interface Props {
+  kind: "article" | "project";
+  field: "category" | "stack";
+  options: string[];
+  query: string;
+  filter: string;
+  total: number;
+}
+
+const { kind, field, options, query, filter, total } = Astro.props;
+const label = field === "category" ? "category" : "tech stack";
+---
+<section class="border-b border-ink/10 bg-surface">
+  <form action={Astro.url.pathname} method="get" role="search" class="mx-auto flex max-w-6xl flex-wrap items-center gap-3 px-6 py-3 sm:px-8">
+    <input type="search" name="q" value={query} aria-label={`Search all ${kind}s`} placeholder={`Search all ${kind}s`}
+      class="rounded-full border border-ink/15 bg-canvas px-4 py-2 text-sm" />
+    <select name={field} aria-label={`Filter by ${label}`} class="rounded-full border border-ink/15 bg-canvas px-3 py-2 text-sm">
+      <option value="">All {field === "category" ? "categories" : "tech stacks"}</option>
+      {[...new Set([...options, ...(filter ? [filter] : [])])].map((name) => <option value={name} selected={name === filter}>{name}</option>)}
+    </select>
+    <button type="submit" class="rounded-full bg-ink px-4 py-2 text-sm text-canvas">Search</button>
+    {(query || filter) && <a href={Astro.url.pathname} class="text-sm underline">Clear filters</a>}
+    <span class="ml-auto font-mono text-xs text-ink-soft">{total} {total === 1 ? "result" : "results"}</span>
+  </form>
+</section>

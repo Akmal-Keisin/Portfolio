@@ -30,8 +30,10 @@ export interface Project {
 
 export async function getArticles(
   page: number = 1,
+  filters: Record<string, string> = {},
 ): Promise<PaginatedResource<Article>> {
-  const response = await fetch(`${API_URL}/articles?page=${page}`, { signal: AbortSignal.timeout(5000) });
+  const params = new URLSearchParams({ ...filters, page: String(page) });
+  const response = await fetch(`${API_URL}/articles?${params}`, { signal: AbortSignal.timeout(5000) });
   if (!response.ok) {
     throw new Error(`Failed to fetch articles: ${response.statusText}`);
   }
@@ -49,8 +51,10 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
 
 export async function getProjects(
   page: number = 1,
+  filters: Record<string, string> = {},
 ): Promise<PaginatedResource<Project>> {
-  const response = await fetch(`${API_URL}/projects?page=${page}`, { signal: AbortSignal.timeout(5000) });
+  const params = new URLSearchParams({ ...filters, page: String(page) });
+  const response = await fetch(`${API_URL}/projects?${params}`, { signal: AbortSignal.timeout(5000) });
   if (!response.ok) {
     throw new Error(`Failed to fetch projects: ${response.statusText}`);
   }

@@ -4,10 +4,11 @@ import type { Article, PaginatedResource } from "./data";
 import Icon from "../../components/ui/Icon.astro";
 
 interface Props {
+  filtered: boolean;
   articles: PaginatedResource<Article>;
 }
 
-const { articles } = Astro.props;
+const { filtered, articles } = Astro.props;
 const rest = Array.isArray(articles?.data) ? articles.data.slice(1) : [];
 const isEmpty = articles.meta.total === 0;
 ---
@@ -19,8 +20,6 @@ const isEmpty = articles.meta.total === 0;
         <a
           href={`/article/${article.slug}`}
           class="group flex flex-col rounded-xl border border-ink/10 bg-canvas p-6 transition-colors hover:border-article/40 no-underline"
-          data-category={article.category.name}
-          data-title={article.title.toLowerCase()}
           aria-label={`Read article: ${article.title}`}
         >
           <div class="flex items-center justify-between gap-3">
@@ -68,11 +67,11 @@ const isEmpty = articles.meta.total === 0;
       <Icon name="search" class="h-6 w-6 text-article-deep" />
     </div>
     <h3 class="font-display text-2xl font-semibold text-ink">
-      {isEmpty ? "No articles yet" : "No matches found"}
+      {!filtered ? "No articles yet" : "No matches found"}
     </h3>
     <p class="mt-2 text-sm text-ink-soft">
       {
-        isEmpty
+        !filtered
           ? "New writing is on the way. Check back soon."
           : "Try a different search term or category."
       }

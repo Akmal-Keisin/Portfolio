@@ -1,15 +1,19 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import Hero from "@sections/project/Hero.astro";
-import Toolbar from "@sections/project/Toolbar.astro";
+import Toolbar from "@components/layout/ArchiveToolbar.astro";
 import ProjectGrid from "@sections/project/ProjectGrid.astro";
 import Pagination from "@sections/project/Pagination.astro";
 import { getProjects } from "@lib/api";
 import type { PaginatedResource, Project } from "@lib/api";
 
+const query = Astro.url.searchParams.get("q")?.trim() ?? "";
+const filter = Astro.url.searchParams.get("stack") ?? "";
+const filtered = Boolean(query || filter);
 const requestedPage = Number(Astro.url.searchParams.get("page") ?? 1);
 const page = Number.isSafeInteger(requestedPage) && requestedPage > 0 ? requestedPage : 1;
 
+let options: string[] = [];
 let projects: Project[] = [];
 let unavailable = false;
 let meta: PaginatedResource<Project>["meta"] = {
@@ -29,8 +33,9 @@ let links: PaginatedResource<Project>["links"] = {
 };
 
 try {
-  const response = await getProjects(page);
+  const response = await getProjects(page, { q: query, stack: filter, include_filters: "1" });
   if (response && response.data) {
+    options = response.filters ?? [];
     projects = response.data;
     meta = response.meta;
     links = response.links;
@@ -50,65 +55,9 @@ try {
     </div>
   ) : (
     <>
-      <Toolbar projects={projects} />
-      <ProjectGrid projects={projects} />
+      <Toolbar kind="project" field="stack" options={options} query={query} filter={filter} total={meta.total} />
+      <ProjectGrid filtered={filtered} projects={projects} />
       <Pagination meta={meta} links={links} />
     </>
   )}
 </Layout>
-
-<script>
-  const searchInput = document.getElementById(
-    "search-input",
-  ) as HTMLInputElement | null;
-  const filterBtns =
-    document.querySelectorAll<HTMLButtonElement>(".filter-btn");
-  const grid = document.getElementById("grid-container");
-  const emptyState = document.getElementById("empty-state");
-  const resultCount = document.getElementById("result-count");
-
-  let activeCategory = "All";
-  let searchQuery = "";
-
-  function applyFilters() {
-    if (!grid || !emptyState || !resultCount) return;
-    const cards = document.querySelectorAll<HTMLElement>("[data-tech-stacks]");
-    let visible = 0;
-
-    cards.forEach((card) => {
-      const stacks = card.getAttribute("data-tech-stacks") ?? "";
-      const title = card.getAttribute("data-title") ?? "";
-      const stackList = stacks.split(",");
-
-      const matchCat =
-        activeCategory === "All" || stackList.includes(activeCategory);
-      const matchSearch = !searchQuery || title.includes(searchQuery);
-      const show = matchCat && matchSearch;
-
-      card.style.display = show ? "" : "none";
-      if (show) {
-        visible++;
-        card.classList.add("visible");
-      }
-    });
-
-    emptyState.style.display = visible === 0 ? "block" : "none";
-    resultCount.textContent = `${visible} shown`;
-  }
-
-  filterBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      filterBtns.forEach((b) => {
-        b.setAttribute("data-active", String(b === btn));
-        b.setAttribute("aria-pressed", String(b === btn));
-      });
-      activeCategory = btn.getAttribute("data-filter") ?? "All";
-      applyFilters();
-    });
-  });
-
-  searchInput?.addEventListener("input", (e) => {
-    searchQuery = (e.target as HTMLInputElement).value.toLowerCase().trim();
-    applyFilters();
-  });
-</script>

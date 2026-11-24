@@ -45,6 +45,10 @@ Returns a paginated list of completed projects, ordered by newest first.
 *   **Method:** `GET`
 *   **Query Params:** 
     *   `page` (optional, integer) - Page number for pagination.
+    *   `q` searches titles across all pages.
+    *   `stack` filters by exact name before pagination.
+    *   `include_filters=1` adds a `filters` array of available names across the public archive.
+    *   `sort=featured` puts featured projects first, newest first within each group.
 
 **Response Example (200 OK):**
 ```json
@@ -128,6 +132,9 @@ Returns a paginated list of published articles, ordered by newest first.
 *   **Method:** `GET`
 *   **Query Params:** 
     *   `page` (optional, integer)
+    *   `q` searches titles across all pages.
+    *   `category` filters by exact name before pagination.
+    *   `include_filters=1` adds a `filters` array of available names across the public archive.
 
 **Response Example (200 OK):**
 ```json
@@ -173,7 +180,7 @@ Returns a paginated list of published articles, ordered by newest first.
 ```
 
 ### Article Detail
-Returns a single article based on its slug.
+Returns a published article by slug. Draft and archived articles return 404.
 
 *   **URL:** `/api/articles/{slug}`
 *   **Method:** `GET`
@@ -370,7 +377,7 @@ Returns a single tech stack based on its slug.
 Send contact form messages from the portfolio website.
 
 ### Send Message
-Submit a new contact message.
+Submit a new contact message. Each visitor IP can make five requests per minute. Further requests return 429.
 
 *   **URL:** `/api/messages`
 *   **Method:** `POST`

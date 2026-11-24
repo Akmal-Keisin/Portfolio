@@ -8,7 +8,12 @@ interface Props {
 
 const { articles } = Astro.props;
 
-const pageHref = (page: number) => page === 1 ? "/article" : `/article?page=${page}`;
+function pageHref(page: number) {
+  const url = new URL(Astro.url);
+  if (page === 1) url.searchParams.delete("page");
+  else url.searchParams.set("page", String(page));
+  return url.pathname + url.search;
+}
 ---
 
 <section class="mx-auto max-w-6xl px-6 pb-24 sm:px-8">

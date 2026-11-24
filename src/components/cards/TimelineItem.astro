@@ -46,7 +46,7 @@ const lineClass = variant === "edu" ? "bg-edu-tint" : "bg-exp-tint";
       <span class="font-mono text-xs text-ink-soft">{period}</span>
     </div>
     <p class="mt-1 text-sm font-medium text-ink-soft">{subtitle}{location && <> · {location}</>}</p>
-    <p class="mt-3 max-w-2xl text-sm leading-relaxed text-ink-soft">{summary}</p>
+    <slot><p class="mt-3 max-w-2xl text-sm leading-relaxed text-ink-soft">{summary}</p></slot>
     {
       tags && tags.length > 0 && (
         <div class="mt-4 flex flex-wrap gap-2">

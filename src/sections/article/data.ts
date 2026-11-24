@@ -1,5 +1,6 @@
 export interface PaginatedResource<T> {
   data: T[];
+  filters?: string[];
   links: {
     first: string;
     last: string;

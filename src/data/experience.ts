@@ -6,6 +6,7 @@ export interface ExperienceEntry {
   location: string;
   summary: string;
   tags: string[];
+  project?: { title: string; context: string; contribution: string };
 }
 
 // Each `slug` is meant to back a future /experience/[slug] detail page.
@@ -27,7 +28,12 @@ export const experience: ExperienceEntry[] = [
     period: "Oct 2023 - Jun 2024",
     location: "Semarang, Indonesia",
     summary:
-      "Engineered a complex HR project for a large factory client with thousands of active daily users. Managed intricate payroll logic and shift scheduling systems.",
+      "Built payroll and shift scheduling software for a factory HR system used by thousands of people each day.",
+    project: {
+      title: "Modernizing attendance and payroll reporting",
+      context: "The factory’s HR team relied on a system that was more than 20 years old. Its payroll rules needed updating to reflect changes in government policy.",
+      contribution: "I built software that turned employee attendance records into attendance and payroll reports for HR. That work included updating the payroll calculations and managing shift scheduling for a system used by thousands of people each day.",
+    },
     tags: ["PHP", "Laravel", "MySQL", "TypeScript"],
   },
   {

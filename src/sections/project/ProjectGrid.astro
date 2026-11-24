@@ -4,10 +4,11 @@ import { STATUS_COLORS } from "./data";
 import Icon from "../../components/ui/Icon.astro";
 
 interface Props {
+  filtered: boolean;
   projects: Project[];
 }
 
-const { projects = [] } = Astro.props;
+const { filtered, projects = [] } = Astro.props;
 const featured = projects.find((p) => p.featured);
 const rest = projects.filter((p) => p !== featured);
 const isEmpty = projects.length === 0;
@@ -18,8 +19,6 @@ const isEmpty = projects.length === 0;
     featured && (
       <section
         class="mb-16"
-        data-tech-stacks={featured.tech_stacks.map((t) => t.name).join(",")}
-        data-title={featured.title.toLowerCase()}
       >
         <div
           class:list={[
@@ -113,8 +112,6 @@ const isEmpty = projects.length === 0;
         rest.map((project) => (
           <div
             class="group flex flex-col rounded-xl border border-ink/10 bg-canvas p-6 transition-colors hover:border-folio/40"
-            data-tech-stacks={project.tech_stacks.map((t) => t.name).join(",")}
-            data-title={project.title.toLowerCase()}
           >
             <div class="flex flex-1 flex-col">
               <div class="flex items-center justify-between gap-3">
@@ -173,11 +170,11 @@ const isEmpty = projects.length === 0;
         <Icon name="search" class="h-6 w-6 text-folio-deep" />
       </div>
       <h3 class="font-display text-2xl font-semibold text-ink">
-        {isEmpty ? "No projects yet" : "No projects found"}
+        {!filtered ? "No projects yet" : "No projects found"}
       </h3>
       <p class="mt-2 text-sm text-ink-soft">
         {
-          isEmpty
+          !filtered
             ? "New work is on the way. Check back soon."
             : "Try a different search term or tech-stack filter."
         }

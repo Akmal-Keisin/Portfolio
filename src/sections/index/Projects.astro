@@ -10,12 +10,12 @@ import { experience } from "@data/experience";
 
 const highlights = [
   { role: experience.find((entry) => entry.slug === "reprime-web-developer")!, title: "Core product development", summary: "Building the next version of Reprime ID’s core product, with a focus on backend architecture and performance." },
-  { role: experience.find((entry) => entry.slug === "crocodic-web-developer")!, title: "Factory HR software", summary: "Payroll logic and shift scheduling for a factory HR system used by thousands of people each day." },
+  { role: experience.find((entry) => entry.slug === "crocodic-web-developer")!, title: "Factory HR software", summary: "Turning employee attendance records into HR reports and updating payroll rules in a factory system more than 20 years old." },
 ];
 
 let projects: Project[] = [];
 try {
-  const res = await getProjects(1);
+  const res = await getProjects(1, { sort: "featured" });
   projects = res?.data ?? [];
 } catch (error) {
   console.error("Failed to fetch projects:", error);
